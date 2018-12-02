@@ -45,6 +45,7 @@ DynArr* AStar::findPath(DynArr* passes, cordScr targetCords) {
 
 
 AStar::~AStar() {
+	printf("HELLO");
 
 }
 
