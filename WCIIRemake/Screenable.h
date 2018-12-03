@@ -4,6 +4,7 @@
 
 class MScreen;
 
+// структура данных для хранения координат
 struct cordScr : private Obj {
 	int x;
 	int y;
@@ -11,6 +12,7 @@ struct cordScr : private Obj {
 	cordScr() : x(0), y(0) {}
 };
 
+// Класс для всех елементов, которые будут рисоваться на екране (наследовать от него)
 class Screenable : public Obj {
 	protected:
 		cordScr cords;
@@ -21,9 +23,9 @@ class Screenable : public Obj {
 		Screenable(cordScr cords, int width, int heigth, MScreen* scr);
 		Screenable();
 		virtual ~Screenable();
-		cordScr getCord();
-		int setCord(cordScr cords);
-		int setup(cordScr cords, int width, int heigth, MScreen* scr);
-		virtual void render();
+		cordScr getCord(); //возвращает координаты 
+		int setCord(cordScr cords); // установить координаты
+		int setup(cordScr cords, int width, int heigth, MScreen* scr); // инициализировать елемент (передаем координаты, куда залепить елемент, его ширину и высоту и указатель на екран, где он будет отрисовываться)
+		virtual void render(); // отрисоваться(просчитаться)
 };
 

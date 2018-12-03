@@ -7,6 +7,7 @@ AStar::AStar() {
 }
 
 DynArr* AStar::Dejkstra(Unit* unit) {
+/*
 	Queue* bunch = new Queue();
 	DynArr* passes = new DynArr();
 
@@ -28,9 +29,12 @@ DynArr* AStar::Dejkstra(Unit* unit) {
 	}
 	delete bunch;
 	return passes;
+*/
+	return 0;
 }
 
 DynArr* AStar::findPath(DynArr* passes, cordScr targetCords) {
+/*
 	AStarNode* temp;
 	int i = passes->count();
 	do {
@@ -41,6 +45,8 @@ DynArr* AStar::findPath(DynArr* passes, cordScr targetCords) {
 
 
 	} while
+*/
+	return 0;
 }
 
 

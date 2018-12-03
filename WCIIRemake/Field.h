@@ -11,13 +11,13 @@ class Field : public Screenable {
 	protected:
 		DynArr* members;
 	public:
-		Field(int width, int heigth);
+		Field(int width, int heigth); 
 		Field();
 		virtual ~Field();
-		void freeElements();
-		int setCell(cordScr cordsNew, Unit * target);
-		int changeCell(cordScr cords, Unit * target);
-		virtual void render();
-		bool checkFree(cordScr cords, int type);
+		void freeElements(); // Удалить всех детей поля(из пямяти, указатели осстанутся, но будут указывать в небо)
+		int setCell(cordScr cordsNew, Unit * target); // установить на клетку с данными координатам данный юнит
+		int changeCell(cordScr cords, Unit * target); // поменять клетку(прыгнуть в клетку с данными координатами)
+		virtual void render(); // отрисоваться(просчитаться)
+		bool checkFree(cordScr cords, int type); // проверить клетку на наличие юнита даного типа (вернет истину если нету и ложь если есть)
 };
 

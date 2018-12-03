@@ -18,16 +18,12 @@ public:
 	Unit(char value, int type, Field* field) : Unit(cordScr(0, 0), value, type, field) {}
 	Unit(char value, Field* field) : Unit(cordScr(0, 0), value, 1, field) {}
 	Unit() : Unit(cordScr(0, 0), NULL) {}
-
-
-
-	char getValue();
 	virtual ~Unit();
-	int getType();
-	//1-up,2-down,3-rigth,4-left
-	int move(int direction);
-	virtual void render();
+	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
+	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
+	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left
+	virtual void render(); // отрисоваться(просчитаться)
 private:
-	int findPath(cordScr destC);
+	int findPath(cordScr destC); // запустить поиск пути(в процессе)
 };
 

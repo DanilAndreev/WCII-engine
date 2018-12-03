@@ -6,8 +6,8 @@ class Obj {
 		Obj();
 		Obj(const char* className);
 		virtual ~Obj();
-		const char* getClassName();
+		const char* getClassName(); // возвращает имя класса
 	protected:
-		void setClassName(const char* className);
+		void setClassName(const char* className); // записать имя класса(для наследования)
 };
 
