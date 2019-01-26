@@ -13,11 +13,12 @@
 // TODO: add headers that you want to pre-compile here
 
 #include <iostream>
+#include <list>
+#include <algorithm>
 #include <windows.h>
 #include <stdlib.h>
-#include <string.h>
+#include <cstring>
 #include <tchar.h>
-#include <iostream>
 #include <stdio.h>
 #include "Obj.h"
 #include "Screenable.h"
