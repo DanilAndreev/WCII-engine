@@ -1,120 +1,105 @@
 #include "pch.h"
 #include "AStar.h"
 
-AStar::AStar() {
-	neighbours[0] = point(-1, -1); neighbours[1] = point(1, -1);
-	neighbours[2] = point(-1, 1); neighbours[3] = point(1, 1);
-	neighbours[4] = point(0, -1); neighbours[5] = point(-1, 0);
-	neighbours[6] = point(0, 1); neighbours[7] = point(1, 0);
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
+// the top of the priority queue is the greatest element by default,
+// but we want the smallest, so flip the sign
+bool operator<(const Node &n1, const Node &n2) {
+	return n1.cost > n2.cost;
 }
 
-int AStar::calcDist(point& p) {
-	// с помощью дедушки Ёвклида определаем лучшую дистанцию, если нет преград
-	int x = end.x - p.x, y = end.y - p.y;
-	return(x * x + y * y);
+bool operator==(const Node &n1, const Node &n2) {
+	return n1.idx == n2.idx;
 }
 
-bool AStar::isValid(point& p) {
-	return (p.x > -1 && p.y > -1 && p.x < m.w && p.y < m.h);
+float linf_norm(int i0, int j0, int i1, int j1) {
+	return max(std::abs(i0 - i1), std::abs(j0 - j1));
 }
 
-bool AStar::existPoint(point& p, int cost) {
-		std::list<node>::iterator i;
-		i = std::find(closed.begin(), closed.end(), p);
-		if (i != closed.end()) {
-			if ((*i).cost + (*i).dist < cost) return true;
-			else { closed.erase(i); return false; }
+// L_1 norm (manhattan distance)
+float l1_norm(int i0, int j0, int i1, int j1) {
+	return std::abs(i0 - i1) + std::abs(j0 - j1);
+}
+
+// weights:        flattened h x w grid of costs
+// h, w:           height and width of grid
+// start, goal:    index of start/goal in flattened grid
+// diag_ok:        if true, allows diagonal moves (8-conn.)
+// paths (output): for each node, stores previous node in path
+bool AStar::aStar(
+	const float* weights, const int h, const int w,
+	const int start, const int goal, bool diag_ok,
+	int* paths) {
+
+	const float INF = std::numeric_limits<float>::infinity();
+
+	Node start_node(start, 0.);
+	Node goal_node(goal, 0.);
+
+	float* costs = new float[h * w];
+	for (int i = 0; i < h * w; ++i)
+		costs[i] = INF;
+	costs[start] = 0.;
+
+	std::priority_queue<Node> nodes_to_visit;
+	nodes_to_visit.push(start_node);
+
+	int* nbrs = new int[8];
+
+	bool solution_found = false;
+	while (!nodes_to_visit.empty()) {
+		// .top() doesn't actually remove the node
+		Node cur = nodes_to_visit.top();
+
+		if (cur == goal_node) {
+			solution_found = true;
+			break;
 		}
-		i = std::find(open.begin(), open.end(), p);
-		if (i != open.end()) {
-			if ((*i).cost + (*i).dist < cost) return true;
-			else { open.erase(i); return false; }
-		}
-		return false;
-}
 
-bool AStar::fillOpen(node& n) {
-		int stepCost, nc, dist;
-		point neighbour;
+		nodes_to_visit.pop();
 
-		for (int x = 0; x < 8; x++) {
-			// one can make diagonals have different cost
-			stepCost = x < 4 ? 1 : 1;
-			neighbour = n.pos + neighbours[x];
-			if (neighbour == end) return true;
+		int row = cur.idx / w;
+		int col = cur.idx % w;
+		// check bounds and find up to eight neighbors: top to bottom, left to right
+		nbrs[0] = (diag_ok && row > 0 && col > 0) ? cur.idx - w - 1 : -1;
+		nbrs[1] = (row > 0) ? cur.idx - w : -1;
+		nbrs[2] = (diag_ok && row > 0 && col + 1 < w) ? cur.idx - w + 1 : -1;
+		nbrs[3] = (col > 0) ? cur.idx - 1 : -1;
+		nbrs[4] = (col + 1 < w) ? cur.idx + 1 : -1;
+		nbrs[5] = (diag_ok && row + 1 < h && col > 0) ? cur.idx + w - 1 : -1;
+		nbrs[6] = (row + 1 < h) ? cur.idx + w : -1;
+		nbrs[7] = (diag_ok && row + 1 < h && col + 1 < w) ? cur.idx + w + 1 : -1;
 
-			if (isValid(neighbour) && m(neighbour.x, neighbour.y) != 1) {
-				nc = stepCost + n.cost;
-				dist = calcDist(neighbour);
-				if (!existPoint(neighbour, nc + dist)) {
-					node m;
-					m.cost = nc; m.dist = dist;
-					m.pos = neighbour;
-					m.parent = n.pos;
-					open.push_back(m);
+		float heuristic_cost;
+		for (int i = 0; i < 8; ++i) {
+			if (nbrs[i] >= 0) {
+				// the sum of the cost so far and the cost of this move
+				float new_cost = costs[cur.idx] + weights[nbrs[i]];
+				if (new_cost < costs[nbrs[i]]) {
+					// estimate the cost to the goal based on legal moves
+					if (diag_ok) {
+						heuristic_cost = linf_norm(nbrs[i] / w, nbrs[i] % w,
+							goal / w, goal    % w);
+					}
+					else {
+						heuristic_cost = l1_norm(nbrs[i] / w, nbrs[i] % w,
+							goal / w, goal    % w);
+					}
+
+					// paths with lower expected cost are explored first
+					float priority = new_cost + heuristic_cost;
+					nodes_to_visit.push(Node(nbrs[i], priority));
+
+					costs[nbrs[i]] = new_cost;
+					paths[nbrs[i]] = cur.idx;
 				}
 			}
-		}
-		return false;
-}
-
-bool AStar::search(point& s, point& e, map& mp) {
-		node n; end = e; start = s; m = mp;
-		n.cost = 0; n.pos = s; n.parent = 0; n.dist = calcDist(s);
-		open.push_back(n);
-		while (!open.empty()) {
-			//open.sort();
-			node n = open.front();
-			open.pop_front();
-			closed.push_back(n);
-			if (fillOpen(n)) return true;
-		}
-		return false;
-}
-
-int AStar::path(std::list<point>& path) {
-		path.push_front(end);
-		int cost = 1 + closed.back().cost;
-		path.push_front(closed.back().pos);
-		point parent = closed.back().parent;
-
-		for (std::list<node>::reverse_iterator i = closed.rbegin(); i != closed.rend(); i++) {
-			if ((*i).pos == parent && !((*i).pos == start)) {
-				path.push_front((*i).pos);
-				parent = (*i).parent;
-			}
-		}
-		path.push_front(start);
-		return cost;
-}
-
-void AStarSearchTest() {
-	map m;
-	point s, e(40, 20);
-	AStar as;
-	if (as.search(s, e, m)) {
-		std::list<point> path;
-		int c = as.path(path);
-		for (int y = -1; y < 9; y++) {
-			for (int x = -1; x < 9; x++) {
-				if (x < 0 || y < 0 || x > 7 || y > 7 || m(x, y) == 1)
-					std::cout << char(0xdb);
-				else {
-					if (std::find(path.begin(), path.end(), point(x, y)) != path.end())
-						std::cout << "x";
-					else std::cout << ".";
-				}
-			}
-			std::cout << "\n";
-		}
-
-		std::cout << "\nPath cost " << c << ": ";
-		for (std::list<point>::iterator i = path.begin(); i != path.end(); i++) {
-			std::cout << "(" << (*i).x << ", " << (*i).y << ") ";
 		}
 	}
-	std::cout << "\n\n";
-}
 
-AStar::~AStar() {
+	delete[] costs;
+	delete[] nbrs;
+
+	return solution_found;
 }
