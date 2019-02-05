@@ -28,12 +28,13 @@ struct cell{
 class AStar : public Obj {
 	private :
 		cell **cellDetails;
+		bool **closedList;
 		// Creating a shortcut for int, int pair type 
 		typedef pair<int, int> Pair;
 		// Creating a shortcut for pair<int, pair<int, int>> type 
 		typedef pair<double, pair<int, int>> pPair;
 	public:
-		bool **closedList;
+		
 		char ** path;
 		int **grid;
 		int rows;

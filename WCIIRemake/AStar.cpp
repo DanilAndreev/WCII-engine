@@ -4,6 +4,7 @@ using namespace std;
 
 
 void AStar::getMap(char * field, char type) {
+	// todo: connect field
 	int count = 0;
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
@@ -120,6 +121,7 @@ void AStar::tracePath(cell **cellDetails, cordScr finish, int **grid){
 			}
 		}
 		printf("%d %d\n", p.first, p.second);
+		// сюда нужно дописать чтобы юнит двигался в заданном направлении
 	}
 
 	return;

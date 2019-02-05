@@ -21,7 +21,7 @@ public:
 	virtual ~Unit();
 	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
-	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left
+	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left (нужно дописать еще 4 движения)
 	virtual void render(); // отрисоваться(просчитаться)
 private:
 	int findPath(cordScr destC); // запустить поиск пути(в процессе)
