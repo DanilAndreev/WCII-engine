@@ -2,37 +2,40 @@
 //
 #include "pch.h"
 
-
+using namespace std;
 int main()
 {
-
-	MScreen* scr = new MScreen(30,10);
-	Field* field = new Field(30,10);
+	MScreen* scr = new MScreen(9, 10);
+	Field* field = new Field(9, 10);
+	//float *weights = (float*)malloc(10*10*sizeof(float));
+	//int *paths = (int*)malloc(10 * 10 * sizeof(int));
 	scr->addElement(cordScr(2, 2), 1, 1, field);
-
 /*
 	cordScr cords;
 	cords.x = 2;
 	cords.y = 2;
 */
-	
-
-
 
 	Unit* unt1 = new Unit('a', 1, field);
 	Unit* unt2 = new Unit('b', field);
 	Unit* unt3 = new Unit('c', field);
-	Unit* unt4 = new Unit('T', 1, field);
+	Unit* unt4 = new Unit('d', 1, field);
+	Unit* obstacle1 = new Unit('u', field);
+	Unit* obstacle2 = new Unit('x', field);
+	Unit* obstacle3 = new Unit('y', field);
+	Unit* obstacle4 = new Unit('z', field);
 	field->setCell(cordScr(1, 4), unt1);
-	field->setCell(cordScr(1, 5), unt4);
 	field->setCell(cordScr(5, 8), unt2);
 	field->setCell(cordScr(4, 6), unt3);
-
+	field->setCell(cordScr(1, 5), unt4);
+	field->setCell(cordScr(5, 4), obstacle1);
+	field->setCell(cordScr(6, 4), obstacle2);
+	field->setCell(cordScr(6, 5), obstacle3);
+	field->setCell(cordScr(7, 4), obstacle4);
 
 
 	//scr->putToBuff(cordScr(1, 1), 'w');
 	scr->render();
-
 
 	unt4->move(1);
 
@@ -41,13 +44,23 @@ int main()
 	unt4->move(3);
 
 	scr->render();
+	//system("cls");
+	
+	/*1--> The cell is not blocked
+	0--> The cell is blocked    */
+	AStar* astar = new AStar(9, 10);
+	astar->getMap(scr->buff, 'a');
+	//astar->getPathMap();
+	//astar->BinMap();
+	
 
-
-
-
+	astar->aStarSearch(astar->grid, cordScr(0, 0), cordScr(8, 3));
+	
+	astar->getPathMap();
 	field->freeElements();
 	scr->freeElements();
 	delete scr;
+	delete astar;
 
 
 

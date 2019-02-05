@@ -9,10 +9,9 @@
 #ifndef PCH_H
 #define PCH_H
 
-
 // TODO: add headers that you want to pre-compile here
-
-#include <iostream>
+#include <stack> 
+#include <set>
 #include <list>
 #include <algorithm>
 #include <windows.h>
@@ -28,5 +27,7 @@
 #include "MScreen.h"
 #include "AStar.h"
 #include "Queue.h"
+#include <iostream>
+
 
 #endif //PCH_H
