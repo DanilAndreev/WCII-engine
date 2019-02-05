@@ -36,10 +36,13 @@
     <ClInclude Include="MScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AStar.h">
+    <ClInclude Include="Queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
+    <ClInclude Include="backup.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,16 +68,16 @@
     <ClCompile Include="Field.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="backup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AStar.cpp">
+    <ClCompile Include="Queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Queue.cpp">
+    <ClCompile Include="backup.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

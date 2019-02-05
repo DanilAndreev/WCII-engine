@@ -3,6 +3,8 @@
 
 #include "pch.h"
 
+using namespace std;
+
 //Global variavles
 
 //The main window class name
@@ -75,7 +77,7 @@ int CALLBACK WinMain(
 		100,        // Button height
 		hWnd,     // Parent window
 		NULL,       // No menu.
-		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+		(HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE),
 		NULL);      // Pointer not needed.
 
 

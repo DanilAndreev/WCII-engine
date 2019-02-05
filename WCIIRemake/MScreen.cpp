@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "MScreen.h"
 
-
 MScreen::MScreen(int width, int heigth) {
 	elements = new DynArr();
 	this->height = heigth;
@@ -75,7 +74,7 @@ void MScreen::draw() {
 		delete[] temp;
 		
 	}
-	printf("\n-------------------------------------------------------------");
+	printf("\n-------------------------------------------------------------\n");
 
 
 }

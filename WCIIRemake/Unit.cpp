@@ -22,7 +22,7 @@ Unit::Unit(cordScr cords, char value,int type, Field* field) {
 
 
 Unit::~Unit() {
-
+	
 }
 
 int Unit::getType() {

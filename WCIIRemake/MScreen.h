@@ -11,7 +11,7 @@ private:
 	int width;
 	int height;
 	int bufLen;
-	char *buff;
+	
 public:
 	MScreen(int width, int heigth);
 	MScreen() : MScreen(80, 25) {}
@@ -27,4 +27,5 @@ public:
 	void clear(); // очистить буфер екрана
 	void draw(); // отрисоваться (графически)
 	virtual void render(); // отрисоваться(просчитаться)
+	char *buff;
 };
