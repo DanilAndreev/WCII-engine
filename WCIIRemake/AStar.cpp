@@ -36,6 +36,9 @@ AStar::AStar(int h, int w) {
 		cellDetails[i] = new cell[columns];
 		grid[i] = new int[columns];
 		closedList[i] = new bool[columns];
+		for (int j = 0; j < columns; j++) {
+			closedList[i][j] = false;
+		}
 	}
 }
 
@@ -154,14 +157,12 @@ void AStar::aStarSearch(int **grid, cordScr start, cordScr dest)
 		printf("We are already at the destination\n");
 		return;
 	}
-	bool closedList[ROW][COL];
-	memset(closedList, false, sizeof(closedList));
 
 	int i, j;
 
-	for (i = 0; i < ROW; i++)
+	for (i = 0; i < rows; i++)
 	{
-		for (j = 0; j < COL; j++)
+		for (j = 0; j < columns; j++)
 		{
 			cellDetails[i][j].f = FLT_MAX;
 			cellDetails[i][j].g = FLT_MAX;
