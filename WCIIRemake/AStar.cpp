@@ -3,11 +3,11 @@
 using namespace std;
 
 
-void AStar::getMap(char * buff, int ** grid, char type) {
+void AStar::getMap(char * field, char type) {
 	int count = 0;
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
-			if (buff[i*count+j] == '.' || buff[i*count+j] == type) {
+			if (field[i*count+j] == '.' || field[i*count+j] == type) {
 				grid[i][j] = 1;
 			}
 			else grid[i][j] = 0;
@@ -15,17 +15,6 @@ void AStar::getMap(char * buff, int ** grid, char type) {
 		count++;
 	}
 }
-
-void AStar::BinMap() {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			if (rand() % 3 == 0)
-				grid[i][j] = 1;
-			else grid[i][j] = 0;
-		}
-	}
-}
-
 void AStar::getPathMap() {
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
