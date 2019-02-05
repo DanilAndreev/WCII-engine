@@ -31,18 +31,29 @@ struct cell{
 	double f, g, h;
 };
 
-class AStar : public Obj {
+class AStar : public Obj, public Screenable, public MScreen {
+	private :
+		cell **cellDetails;
+		bool **closedList;
 	public:
-		int row;
-		int col;
 		char ** path;
+		int **grid;
+		int rows;
+		int columns;
+		//void getMap(char **& buff, int ** grid, char type);
 		void getPathMap();
-		AStar();
+		AStar(int h, int w);
 		~AStar();
 		bool isValid(int row, int col);
-		bool isUnBlocked(int grid[][COL], int row, int col);
-		bool isDestination(int row, int col, Pair dest);
-		double calculateHValue(int row, int col, Pair dest);
-		void tracePath(cell cellDetails[][COL], Pair dest, int grid[][COL]);
-		void aStarSearch(int grid[][COL], Pair src, Pair dest);
+		//bool isUnBlocked(int grid[][COL], int row, int col);
+		bool isUnBlocked(int **grid, int row, int col);
+		bool isDestination(int row, int col, cordScr scr);
+		double calculateHValue(int row, int col, cordScr scr);
+		//void tracePath(cell cellDetails[][COL], cordScr finish, int grid[][COL]);
+		//void tracePath(cell ** cellDetails, cordScr finish, int grid[][COL]);
+		void tracePath(cell **cellDetails, cordScr scr, int **grid);
+		//void aStarSearch(int grid[][COL], cordScr start, cordScr finish);
+		void getMap(char * buff, int ** grid, char type);
+		void BinMap();
+		void aStarSearch(int **grid, cordScr start, cordScr scr);
 };
