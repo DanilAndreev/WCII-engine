@@ -29,12 +29,14 @@ class AStar : public Obj {
 	private :
 		cell **cellDetails;
 		bool **closedList;
-		// Creating a shortcut for int, int pair type 
 		typedef pair<int, int> Pair;
-		// Creating a shortcut for pair<int, pair<int, int>> type 
 		typedef pair<double, pair<int, int>> pPair;
+		bool isValid(int row, int col);
+		bool isUnBlocked(int **grid, int row, int col);
+		bool isDestination(int row, int col, cordScr scr);
+		double calculateHValue(int row, int col, cordScr scr);
+		void tracePath(cell **cellDetails, cordScr scr, int **grid);
 	public:
-		
 		char ** path;
 		int **grid;
 		int rows;
@@ -42,11 +44,6 @@ class AStar : public Obj {
 		void getPathMap();
 		AStar(int h, int w);
 		~AStar();
-		bool isValid(int row, int col);
-		bool isUnBlocked(int **grid, int row, int col);
-		bool isDestination(int row, int col, cordScr scr);
-		double calculateHValue(int row, int col, cordScr scr);
-		void tracePath(cell **cellDetails, cordScr scr, int **grid);
 		void getMap(char * field, char type);
 		void aStarSearch(int **grid, cordScr start, cordScr scr);
 };

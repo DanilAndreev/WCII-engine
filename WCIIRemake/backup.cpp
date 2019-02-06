@@ -7,8 +7,6 @@ int main()
 {
 	MScreen* scr = new MScreen(10, 9);
 	Field* field = new Field(10, 9);
-	//float *weights = (float*)malloc(10*10*sizeof(float));
-	//int *paths = (int*)malloc(10 * 10 * sizeof(int));
 	scr->addElement(cordScr(2, 2), 1, 1, field);
 /*
 	cordScr cords;
