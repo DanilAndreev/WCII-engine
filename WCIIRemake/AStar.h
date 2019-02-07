@@ -32,10 +32,10 @@ class AStar : public Obj {
 		typedef pair<int, int> Pair;
 		typedef pair<double, pair<int, int>> pPair;
 		bool isValid(int row, int col);
-		bool isUnBlocked(int **grid, int row, int col);
-		bool isDestination(int row, int col, cordScr scr);
-		double calculateHValue(int row, int col, cordScr scr);
-		void tracePath(cell **cellDetails, cordScr scr, int **grid);
+		bool isUnBlocked(int row, int col);
+		bool isDestination(int row, int col, cordScr dest);
+		double calculateHValue(int row, int col, cordScr dest);
+		void tracePath(cordScr dest);
 	public:
 		char ** path;
 		int **grid;
@@ -45,5 +45,6 @@ class AStar : public Obj {
 		AStar(int h, int w);
 		~AStar();
 		void getMap(char * field, char type);
-		void aStarSearch(int **grid, cordScr start, cordScr scr);
+		void Dijkstra(cordScr start, cordScr dest);
+		void aStarSearch(cordScr start, cordScr dest);
 };

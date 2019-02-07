@@ -47,14 +47,12 @@ int main()
 	/*1--> The cell is not blocked
 	0--> The cell is blocked    */
 	AStar* astar = new AStar(9, 10);
-	astar->getMap(scr->buff, 'a');
+	astar->getMap(scr->buff, 'd');
 	//astar->getPathMap();
-	//astar->BinMap();
 	
-
-	astar->aStarSearch(astar->grid, cordScr(0, 0), cordScr(8, 3));
-	
+	astar->aStarSearch(cordScr(0, 0), cordScr(8, 3));
 	astar->getPathMap();
+
 	field->freeElements();
 	scr->freeElements();
 	delete scr;
