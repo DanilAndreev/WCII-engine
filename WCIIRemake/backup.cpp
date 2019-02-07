@@ -50,7 +50,7 @@ int main()
 	astar->getMap(scr->buff, 'd');
 	//astar->getPathMap();
 	
-	astar->aStarSearch(cordScr(0, 0), cordScr(8, 3));
+	astar->aStarSearch(cordScr(0, 0), cordScr(8, 9));
 	astar->getPathMap();
 
 	field->freeElements();
