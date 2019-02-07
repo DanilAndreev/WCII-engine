@@ -469,8 +469,8 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 			}
 		}
 	}
-	//if (foundDest == false)
+	if (foundDest == false)
 		//printf("Failed to find the Destination Cell\n");
-		//if(isUnBlocked())
+	tracePath(dest);
 	return;
 }

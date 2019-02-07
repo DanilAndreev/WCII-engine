@@ -55,6 +55,26 @@ int Unit::move(int direction) {
 				return 1;
 			}
 			break;
+		case 5: // left
+			if (field->changeCell(cordScr(cords.x - 1, cords.y+1), this)) {
+				return 1;
+			}
+			break;
+		case 6: // left
+			if (field->changeCell(cordScr(cords.x - 1, cords.y - 1), this)) {
+				return 1;
+			}
+			break;
+		case 7: // left
+			if (field->changeCell(cordScr(cords.x + 1 , cords.y + 1), this)) {
+				return 1;
+			}
+			break;
+		case 8: // left
+			if (field->changeCell(cordScr(cords.x + 1, cords.y - 1), this)) {
+				return 1;
+			}
+			break;
 	}
 	return 0;
 }
