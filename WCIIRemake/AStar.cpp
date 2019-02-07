@@ -21,9 +21,9 @@ void AStar::Dijkstra(cordScr start, cordScr dest) {
 	return;
 }
 
-void getPath() {
-	
-	return;
+int AStar::getPath() {
+	//aStarSearch(start, finish)
+	return this->direction;
 }
 
 void AStar::getPathMap() {
@@ -221,6 +221,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i - 1][j].parent_i = i;
 				cellDetails[i - 1][j].parent_j = j;
 				printf("The destination cell is found\n");
+				direction = 1;
 				tracePath(dest);
 				foundDest = true;
 				return;
@@ -251,6 +252,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i + 1][j].parent_i = i;
 				cellDetails[i + 1][j].parent_j = j;
 				printf("The destination cell is found\n");
+				direction = 2;
 				tracePath(dest);
 				foundDest = true;
 				return;
@@ -282,6 +284,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i][j + 1].parent_j = j;
 				printf("The destination cell is found\n");
 				tracePath(dest);
+				direction = 3;
 				foundDest = true;
 				return;
 			}
@@ -312,6 +315,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i][j - 1].parent_j = j;
 				printf("The destination cell is found\n");
 				tracePath(dest);
+				direction = 4;
 				foundDest = true;
 				return;
 			}
@@ -343,6 +347,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i - 1][j + 1].parent_j = j;
 				printf("The destination cell is found\n");
 				tracePath(dest);
+				direction = 5;
 				foundDest = true;
 				return;
 			}
@@ -374,6 +379,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i - 1][j - 1].parent_j = j;
 				printf("The destination cell is found\n");
 				tracePath(dest);
+				direction = 6;
 				foundDest = true;
 				return;
 			}
@@ -405,6 +411,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i + 1][j + 1].parent_j = j;
 				printf("The destination cell is found\n");
 				tracePath(dest);
+				direction = 7;
 				foundDest = true;
 				return;
 			}
@@ -437,6 +444,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				cellDetails[i + 1][j - 1].parent_j = j;
 				printf("The destination cell is found\n");
 				tracePath(dest);
+				direction = 8;
 				foundDest = true;
 				return;
 			}

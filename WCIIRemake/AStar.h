@@ -36,15 +36,18 @@ class AStar : public Obj {
 		bool isDestination(int row, int col, cordScr dest);
 		double calculateHValue(int row, int col, cordScr dest);
 		void tracePath(cordScr dest);
-	public:
+	protected:
 		char ** path;
 		int **grid;
+		int direction;
+	public:
+		void getPathMap();
+		void getMap(char * field, char type);
 		int rows;
 		int columns;
-		void getPathMap();
 		AStar(int h, int w);
 		~AStar();
-		void getMap(char * field, char type);
 		void Dijkstra(cordScr start, cordScr dest);
+		int getPath();// возвращает 8 направлений 1 - up, 2 - down, 3 - right, 4 - left, 5 - north east, 6 - north west, 7 - south east, 8 - south west
 		void aStarSearch(cordScr start, cordScr dest);
 };
