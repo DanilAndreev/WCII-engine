@@ -46,13 +46,13 @@ int main()
 	
 	/*1--> The cell is not blocked
 	0--> The cell is blocked    */
-	AStar* astar = new AStar(9, 10);
-	astar->getMap(scr->buff, 'd');
+	AStar* astar = new AStar(20, 20);
+	astar->DebugMap();
 	//astar->getPathMap();
 	
-	astar->aStarSearch(cordScr(0, 0), cordScr(8, 9));
+	astar->aStarSearch(cordScr(0, 0), cordScr(18, 18));
 	astar->getPathMap();
-
+	cout << astar->getPath();
 	field->freeElements();
 	scr->freeElements();
 	delete scr;

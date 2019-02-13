@@ -17,6 +17,23 @@ void AStar::getMap(char * field, char type) {
 	}
 }
 
+void AStar::DebugMap() {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < columns; j++) {
+			if (i == 15/* && !(j == 9)*/) {
+				grid[i][j] = 0;
+			}
+			else grid[i][j] = 1;
+			if (grid[i][j] == 0) {
+				path[i][j] = char(0xdb);
+			}
+			else {
+				path[i][j] = '.';
+			}
+		}
+	}
+}
+
 void AStar::Dijkstra(cordScr start, cordScr dest) {
 	return;
 }
@@ -196,6 +213,8 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 	openList.insert(make_pair(0.0, make_pair(i, j)));
 	bool foundDest = false;
 
+	
+
 	while (!openList.empty())
 	{
 		pPair p = *openList.begin();
@@ -210,6 +229,8 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 
 		 // To store the 'g', 'h' and 'f' of the 8 successors 
 		double gNew, hNew, fNew;
+
+		// Check all 8 succesors of current node
 
 		if (isValid(i - 1, j) == true)
 		{
@@ -469,8 +490,31 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 			}
 		}
 	}
-	if (foundDest == false)
-		//printf("Failed to find the Destination Cell\n");
-	tracePath(dest);
+	if (foundDest == false) {
+		printf("Failed to find the Destination Cell\n");
+		//tracePath(dest);
+		double minHWalue = FLT_MAX;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				if (cellDetails[i][j].h < minHWalue && cellDetails[i][j].h > 0) {
+					minHWalue = cellDetails[i][j].h;
+				}
+			}
+		}
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				if (closedList[i][j] == true && cellDetails[i][j].h == minHWalue) {
+					//cellDetails[i][j].parent_i = i;
+					//cellDetails[i][j].parent_j = j;
+					dest.x = i;
+					dest.y = j;
+					tracePath(dest);
+					//cout << cellDetails[i][j].parent_i << ' ' << cellDetails[i][j].parent_j << " " << dest.x << " " << dest.y << " " << endl;
+					return;
+				}
+			}
+		}
+		//cout << minHWalue;
+	}
 	return;
 }

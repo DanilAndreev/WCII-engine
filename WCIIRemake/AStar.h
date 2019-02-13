@@ -7,9 +7,6 @@
 
 using namespace std;
 
-#define ROW 9 
-#define COL 10
-
 struct AStarNode : private Obj {
 	AStarNode* cameFrom;
 	//cordScr nodePosition;
@@ -43,6 +40,7 @@ class AStar : public Obj {
 	public:
 		void getPathMap(); //show path(debug)
 		void getMap(char * field, char type); // for transformation in bool map
+		void DebugMap();
 		int rows;
 		int columns;
 		AStar(int h, int w);
