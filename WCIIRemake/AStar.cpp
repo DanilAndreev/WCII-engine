@@ -507,7 +507,6 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 					dest.x = i;
 					dest.y = j;
 					tracePath(dest);
-					//cout << cellDetails[i][j].parent_i << ' ' << cellDetails[i][j].parent_j << " " << dest.x << " " << dest.y << " " << endl;
 					return;
 				}
 			}
