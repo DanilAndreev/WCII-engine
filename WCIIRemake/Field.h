@@ -11,6 +11,8 @@ class Field : public Screenable {
 	protected:
 		DynArr* members;
 	public:
+		DynArr** getField();
+		DynArr* getMembers();
 		Field(int width, int heigth); 
 		Field();
 		virtual ~Field();
@@ -19,5 +21,6 @@ class Field : public Screenable {
 		int changeCell(cordScr cords, Unit * target); // поменять клетку(прыгнуть в клетку с данными координатами)
 		virtual void render(); // отрисоваться(просчитаться)
 		bool checkFree(cordScr cords, int type); // проверить клетку на наличие юнита даного типа (вернет истину если нету и ложь если есть)
+		virtual void operateEvent(Command_c command);
 };
 
