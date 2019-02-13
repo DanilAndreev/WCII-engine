@@ -491,7 +491,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		}
 	}
 	if (foundDest == false) {
-		printf("Failed to find the Destination Cell\n");
+		//printf("Failed to find the Destination Cell\n");
 		//tracePath(dest);
 		double minHWalue = FLT_MAX;
 		for (int i = 0; i < rows; i++) {
@@ -504,8 +504,6 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				if (closedList[i][j] == true && cellDetails[i][j].h == minHWalue) {
-					//cellDetails[i][j].parent_i = i;
-					//cellDetails[i][j].parent_j = j;
 					dest.x = i;
 					dest.y = j;
 					tracePath(dest);
