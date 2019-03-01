@@ -16,6 +16,7 @@ Unit::Unit(cordScr cords, char value,int type, Field* field) {
 	this->value = value;
 	this->field = field;
 	this->type = type;
+	this->selected = false;
 }
 
 
@@ -90,4 +91,66 @@ void Unit::render() {
 	}
 }
 
+bool Unit::classifyEvent(Command_c command) {
+	if (command == "select") {
+		return selectEvent(command);
+	}
 
+
+	if (command == "echo" && this->selected) {
+		return echoEvent(command);
+	}
+
+	if (command == "tp" && this->selected) {
+		return tpEvent(command);
+	}
+
+
+
+	return false;
+}
+
+void Unit::operateEvent(Command_c command)
+{
+//	cout << "Unit '" << value << "' operating event" << endl;
+	classifyEvent(command);
+}
+
+
+//UNIT COMMANDS(EVENTS)
+bool Unit::selectEvent(Command_c command) {
+	if (command.args.size() > 1) {
+		for (int i = 1; i < command.args.size(); i++) {
+			if (command.args[i].first[0] == this->value) {
+				this->selected = true;
+				cout << "Selected unit " << value << endl;
+				return true;
+			}
+		}
+		this->selected = false;
+		return true;
+	}
+	return false;
+}
+
+bool Unit::echoEvent(Command_c command) {
+	if (command.args.size() > 1) {
+		string msg;
+		for (int i = 1; i < command.args.size(); i++) {
+			msg += command.args[i].first + " ";
+		}
+		cout << "Unit " << value << " say: " << msg << endl;
+		return true;
+	}
+	return false;
+}
+
+bool Unit::tpEvent(Command_c command) {
+	if (command.args.size() == 3) {
+		if (command.args[1].second == "number" && command.args[2].second == "number") {
+			cordScr cords(stoi(command.args[1].first), stoi(command.args[2].first));
+			return field->changeCell(cords, this);
+		}
+	}
+	return false;
+}

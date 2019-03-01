@@ -7,10 +7,11 @@ class Controller {
 private:
 	Console *console;
 	Field* field;
+	MScreen* screen;
 	DynArr* members;
 	int ParserPosition;
 public:
-	Controller(Field* ifield,/* MScreen* screen,*/ Console* ioconsole);
+	Controller(Field* ifield, MScreen* screen, Console* ioconsole);
 	~Controller();
 public: // change to private!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	bool readCondition(char character);

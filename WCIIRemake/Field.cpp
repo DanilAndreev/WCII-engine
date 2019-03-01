@@ -5,6 +5,8 @@
 
 Field::Field(int width, int heigth) {
 	fieldLen = width * heigth;
+	this->width = width;
+	this->height = heigth;
 	field = new DynArr*[fieldLen];
 	memset(field, 0, fieldLen*sizeof(Unit*));
 	for (int i = 0; i < fieldLen; i++) {
@@ -37,6 +39,10 @@ void Field::freeElements() {
 }
 
 bool Field::checkFree(cordScr cords, int type) {
+	if (cords.x >= this->width || cords.y >= this->height) {
+		return false;
+	}
+
 	DynArr* cell = field[cords.y*width + cords.x];
 	if (cell->count() == 0) {
 		return true;
@@ -51,12 +57,7 @@ bool Field::checkFree(cordScr cords, int type) {
 }
 
 
-void Field::operateEvent(Command_c command){
-	//TODO: operate for itself
-	for (int i = 0; i < members->count(); i++) {
-		members->get(i)->operateEvent(command);
-	}
-}
+
 
 
 int Field::setCell(cordScr cords, Unit* target) {
@@ -92,4 +93,18 @@ void Field::render() {
 	}
 
 
+}
+
+bool Field::classifyEvent(Command_c command) {
+	if (command == "select") {
+		
+	}
+	return false;
+}
+
+void Field::operateEvent(Command_c command) {
+	//TODO: operate for itself
+	for (int i = 0; i < members->count(); i++) {
+		members->get(i)->operateEvent(command);
+	}
 }

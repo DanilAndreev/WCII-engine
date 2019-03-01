@@ -20,7 +20,7 @@ struct Command_c {
 	void printCommand(string imessage) {
 		cout << imessage << endl;
 		for (unsigned int i = 0; i < args.size(); i++) {
-			cout << "[" << i << "]" << "(" << args[i].second << ")" << args[i].first;
+			cout << "[" << i << "]" << "(" << args[i].second << ")'" << args[i].first << "'";
 			if (i != args.size() - 1) {
 				cout << " : ";
 			}

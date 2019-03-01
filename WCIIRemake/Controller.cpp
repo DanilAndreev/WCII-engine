@@ -2,10 +2,12 @@
 #include "Controller.h"
 
 
-Controller::Controller(Field* ifield,/* MScreen* screen,*/ Console* ioconsole) {
+Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
+	this->screen = screen;
 	this->console = ioconsole;
 	this->field = ifield;
 	this->members = new DynArr();
+	members->add(field);
 }
 
 
@@ -83,7 +85,7 @@ Command_c Controller::parseCommand(string command)
 
 void Controller::throwCommand(Command_c command) {
 
-	command.printCommand();
+//	command.printCommand();
 
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);
@@ -96,6 +98,8 @@ void Controller::EventHandler() {
 	cout << "HandleEvent" << endl;
 	while (true) {
 		throwCommand(getCommand());
+
+		screen->render(); // TODO:  move it to another thread ----------------------------------------------------------
 	}
 }
 

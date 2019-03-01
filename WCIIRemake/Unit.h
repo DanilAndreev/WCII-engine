@@ -10,6 +10,7 @@ protected:
 	Field* field;
 	char value;//for debug
 	int type;
+	bool selected;
 public:
 
 //	Unit(Unit** field);
@@ -24,7 +25,15 @@ public:
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
 	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left (нужно дописать еще 4 движения)
 	virtual void render(); // отрисоваться(просчитаться)
+	bool classifyEvent(Command_c command);
+	virtual void operateEvent(Command_c command);
 private:
 	int findPath(cordScr destC); // запустить поиск пути(в процессе)
+private:
+	//UNIT COMMANDS(EVENTS)
+	bool selectEvent(Command_c command);
+	bool echoEvent(Command_c command);
+	bool tpEvent(Command_c command);
+
 };
 

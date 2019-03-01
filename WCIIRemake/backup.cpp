@@ -57,7 +57,9 @@ int main()
 
 
 	Console* console = new Console();
-	Controller* ctrl = new Controller(field, console);
+	Controller* ctrl = new Controller(field, scr,  console);
+
+	console->message("message");
 
 	ctrl->EventHandler();
 
