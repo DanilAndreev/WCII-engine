@@ -7,8 +7,6 @@ int main()
 {
 	MScreen* scr = new MScreen(10, 9);
 	Field* field = new Field(10, 9);
-	//float *weights = (float*)malloc(10*10*sizeof(float));
-	//int *paths = (int*)malloc(10 * 10 * sizeof(int));
 	scr->addElement(cordScr(2, 2), 1, 1, field);
 /*
 	cordScr cords;
@@ -48,15 +46,13 @@ int main()
 	
 	/*1--> The cell is not blocked
 	0--> The cell is blocked    */
-	AStar* astar = new AStar(9, 10);
-	astar->getMap(scr->buff, 'a');
+	AStar* astar = new AStar(20, 20);
+	astar->DebugMap();
 	//astar->getPathMap();
-	//astar->BinMap();
 	
-
-	astar->aStarSearch(astar->grid, cordScr(0, 0), cordScr(8, 3));
-	
+	astar->aStarSearch(cordScr(0, 0), cordScr(18, 18));
 	astar->getPathMap();
+	cout << astar->getPath();
 	field->freeElements();
 	scr->freeElements();
 	delete scr;

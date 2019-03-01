@@ -7,9 +7,6 @@
 
 using namespace std;
 
-#define ROW 9 
-#define COL 10
-
 struct AStarNode : private Obj {
 	AStarNode* cameFrom;
 	//cordScr nodePosition;
@@ -29,24 +26,26 @@ class AStar : public Obj {
 	private :
 		cell **cellDetails;
 		bool **closedList;
-		// Creating a shortcut for int, int pair type 
 		typedef pair<int, int> Pair;
-		// Creating a shortcut for pair<int, pair<int, int>> type 
 		typedef pair<double, pair<int, int>> pPair;
-	public:
-		
+		bool isValid(int row, int col); // Returns true if row number and column number is in range 
+		bool isUnBlocked(int row, int col); // check whether the given cell is blocked or not 
+		bool isDestination(int row, int col, cordScr dest); // check whether destination cell has been reached or not
+		double calculateHValue(int row, int col, cordScr dest); // Return using the distance formula of Pifagor :)
+		void tracePath(cordScr dest); // // trace the path from the start to destination 
+	protected:
 		char ** path;
 		int **grid;
+		int direction;
+	public:
+		void getPathMap(); //show path(debug)
+		void getMap(char * field, char type); // for transformation in bool map
+		void DebugMap();
 		int rows;
 		int columns;
-		void getPathMap();
 		AStar(int h, int w);
 		~AStar();
-		bool isValid(int row, int col);
-		bool isUnBlocked(int **grid, int row, int col);
-		bool isDestination(int row, int col, cordScr scr);
-		double calculateHValue(int row, int col, cordScr scr);
-		void tracePath(cell **cellDetails, cordScr scr, int **grid);
-		void getMap(char * field, char type);
-		void aStarSearch(int **grid, cordScr start, cordScr scr);
+		void Dijkstra(cordScr start, cordScr dest); // path search of Dijkstra(not developed)
+		int getPath();// returns 1 - up, 2 - down, 3 - right, 4 - left, 5 - north east, 6 - north west, 7 - south east, 8 - south west
+		void aStarSearch(cordScr start, cordScr dest); // main function for astar search, from start to destination
 };
