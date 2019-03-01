@@ -2,6 +2,7 @@
 #include "DynArr.h"
 
 
+
 DynArr::DynArr() {
 	len = 0;
 	array = new Obj*[len];

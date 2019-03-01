@@ -9,6 +9,7 @@
 #ifndef PCH_H
 #define PCH_H
 
+
 // TODO: add headers that you want to pre-compile here
 #include <stack> 
 #include <set>
@@ -28,6 +29,8 @@
 #include "AStar.h"
 #include "Queue.h"
 #include <iostream>
-
+#include "Command_c.h"
+#include "Console.h"
+#include "Controller.h"
 
 #endif //PCH_H

@@ -3,7 +3,6 @@
 
 
 
-
 Field::Field(int width, int heigth) {
 	fieldLen = width * heigth;
 	field = new DynArr*[fieldLen];
@@ -51,14 +50,14 @@ bool Field::checkFree(cordScr cords, int type) {
 	return false;
 }
 
-/*
+
 void Field::operateEvent(Command_c command){
 	//TODO: operate for itself
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);
 	}
 }
-*/
+
 
 int Field::setCell(cordScr cords, Unit* target) {
 	if (members->search(target) == -1) {

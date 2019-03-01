@@ -5,6 +5,7 @@
 
 
 
+
 class MScreen : public Screenable {
 private:
 	DynArr* elements;

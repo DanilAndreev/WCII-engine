@@ -155,8 +155,11 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="backup.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="Command_c.h" />
     <ClInclude Include="MScreen.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="pch.h" />
@@ -166,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="MScreen.cpp" />

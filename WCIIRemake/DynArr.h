@@ -4,6 +4,7 @@
 
 //Динамический массив
 
+
 class DynArr : public Obj {
 	private:
 		Obj **array;

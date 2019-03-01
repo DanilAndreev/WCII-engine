@@ -1,5 +1,6 @@
 #pragma once
 #include "DynArr.h"
+
 class Queue : private DynArr {
 	private:
 		DynArr* array;

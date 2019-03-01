@@ -3,6 +3,7 @@
 using namespace std;
 
 
+
 void AStar::getMap(char * field, char type) {
 	// todo: connect field
 	int count = 0;

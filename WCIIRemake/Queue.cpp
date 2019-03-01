@@ -2,6 +2,7 @@
 #include "Queue.h"
 
 
+
 Queue::Queue() {
 	array = new DynArr();
 }

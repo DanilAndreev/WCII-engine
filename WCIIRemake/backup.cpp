@@ -53,10 +53,27 @@ int main()
 	astar->aStarSearch(cordScr(0, 0), cordScr(18, 18));
 	astar->getPathMap();
 	cout << astar->getPath();
+
+
+
+	Console* console = new Console();
+	Controller* ctrl = new Controller(field, console);
+
+	ctrl->EventHandler();
+
+
+
+
+
+
+
+
 	field->freeElements();
 	scr->freeElements();
 	delete scr;
 	delete astar;
+
+
 
 
 

@@ -2,7 +2,6 @@
 #include "Screenable.h"
 
 
-
 Screenable::Screenable(cordScr cords, int width, int heigth, MScreen* scr) {
 	this->cords.x = cords.x;
 	this->cords.y = cords.y;

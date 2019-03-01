@@ -4,6 +4,7 @@
 
 class MScreen;
 
+
 // структура данных для хранения координат
 struct cordScr : public Obj {
 	int x;
