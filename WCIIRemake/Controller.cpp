@@ -8,6 +8,9 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 	this->field = ifield;
 	this->members = new DynArr();
 	members->add(field);
+	members->add(screen);
+	members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	EventHandlerRunning = false;
 }
 
 
@@ -54,6 +57,7 @@ pair <string, string> Controller::nextToken(string command) {
 		ParserPosition++;
 	}
 
+
 	while (readCondition(command[ParserPosition])) {
 		temp.first += command[ParserPosition];
 		if (readBegin) {
@@ -73,6 +77,9 @@ void Controller::initParser() {
 Command_c Controller::parseCommand(string command)
 {
 	initParser();
+	if (command.length() == 0) {
+		return Command_c("empty");
+	}
 	pair <string, string> temp;
 	Command_c command_c;
 	temp = nextToken(command);
@@ -94,13 +101,33 @@ void Controller::throwCommand(Command_c command) {
 
 
 
-void Controller::EventHandler() {
+void Controller::EventHandler(void *param) {
 	cout << "HandleEvent" << endl;
-	while (true) {
-		throwCommand(getCommand());
+	this->EventHandlerRunning = true;
+	while (EventHandlerRunning) {
+		Command_c command = getCommand();
+		if (command.args[0].first != "empty") {
+			throwCommand(command);
+		}
+	}
+	this->EventHandlerRunning = false;
+}
 
-		screen->render(); // TODO:  move it to another thread ----------------------------------------------------------
+void Controller::operateEvent(Command_c command) {
+	if (command == "exitgame") {
+		exitGame(command);
 	}
 }
 
+//CONTROLLER COMMANDS(EVENTS)
 
+bool Controller::exitGame(Command_c command) {
+	if (command.args.size() == 1) {
+		if (this->EventHandlerRunning) {
+			EventHandlerRunning = false;
+			console->message("Stopping EventHandler");
+			return true;
+		}
+	}
+	return false;
+}

@@ -15,7 +15,12 @@
 #include <set>
 #include <list>
 #include <algorithm>
-#include <windows.h>
+
+
+#include <Windows.h>
+#include <process.h>
+
+
 #include <stdlib.h>
 #include <cstring>
 #include <tchar.h>

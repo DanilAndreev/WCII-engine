@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "DynArr.h"
 
-
+const int DynArrThreadTimeout = 16;
 
 DynArr::DynArr() {
 	len = 0;
 	array = new Obj*[len];
+	notBusy = true;
 }
 
 
@@ -35,22 +36,53 @@ int DynArr::search(Obj *target) {
 	return -1;
 }
 
-void DynArr::add(Obj* source) {
+bool DynArr::waitThreadQueue() {
+	for (int i = 0; i < DynArrThreadTimeout; i++) {
+		if (notBusy) {
+			return true;
+		}
+		Sleep(10);
+	}
+	return false;
+}
+
+bool DynArr::add(Obj* source) {
+	if (!waitThreadQueue()) {
+		cout << "Failed to add element to DynArr" << endl;
+		return false;
+	}
+
+	notBusy = false;
+
 	Obj **newarray = new Obj*[len + 1];
 	memcpy(newarray, array, len * sizeof(Obj*));
 	len++;
 	newarray[len - 1] = source;
 	delete[] array;
 	array = newarray;
+
+	notBusy = true;
+	return true;
 }
 
 
 int DynArr::del(Obj* target) {
+	if (!waitThreadQueue()) {
+		cout << "Failed to add element to DynArr" << endl;
+		return 0;
+	}
+
+	notBusy = false;
+
+
 	int id = this->search(target);
 	if (id == -1) {
+		notBusy = true;
 		return 0;
 	}
 	delById(id);
+
+	notBusy = true;
 	return 1;
 }
 

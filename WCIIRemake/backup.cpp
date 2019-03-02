@@ -5,8 +5,8 @@
 using namespace std;
 int main()
 {
-	MScreen* scr = new MScreen(10, 9);
-	Field* field = new Field(10, 9);
+	MScreen* scr = new MScreen(80, 15);
+	Field* field = new Field(80, 15);
 	scr->addElement(cordScr(2, 2), 1, 1, field);
 /*
 	cordScr cords;
@@ -61,7 +61,23 @@ int main()
 
 	console->message("message");
 
-	ctrl->EventHandler();
+/*
+	HANDLE hThreadSCR;
+	HANDLE hThreadCTRL;
+
+	console->message("Starting screen thread");
+
+
+	hThreadSCR = (HANDLE)_beginthread(scr->FPSdrawing, 0, NULL);
+
+
+	WaitForSingleObject(hThreadSCR, INFINITE);
+*/
+
+
+	ctrl->EventHandler(NULL);
+
+	scr->FPSdrawing(NULL);
 
 
 

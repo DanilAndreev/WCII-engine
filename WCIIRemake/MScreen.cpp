@@ -9,6 +9,7 @@ MScreen::MScreen(int width, int heigth) {
 	buff = NULL;
 	this->bufLen = height * width;
 	initBuff();
+	FPSDrawingRunning = false;
 }
 
 /*MScreen::MScreen() : MScreen(80, 25) {
@@ -66,7 +67,7 @@ void MScreen::clear() {
 }
 
 void MScreen::draw() {
-
+	printf("\033[0;0H"); // move cursor to 0 0
 	for (int y = 0; y < height; y++) {
 		char *temp = new char[width + 1];
 		memcpy(temp, buff + (y*width), width * sizeof(char));
@@ -75,7 +76,7 @@ void MScreen::draw() {
 		delete[] temp;
 		
 	}
-	printf("\n-------------------------------------------------------------\n");
+	printf("\n----------------------------------------------------------------------------------\n");
 
 
 }
@@ -98,4 +99,77 @@ void MScreen::render() {
 	else {
 		draw();
 	}
+}
+
+void MScreen::FPSdrawing(void *param) {
+	FPSDrawingRunning = true;
+	while (FPSDrawingRunning) {
+		render();
+	}
+	FPSDrawingRunning = false;
+}
+
+void MScreen::operateEvent(Command_c command) {
+	classifyEvent(command);
+}
+
+void MScreen::classifyEvent(Command_c command) {
+	if (command == "exitGame") {
+		exitGameEvent(command);
+	}
+	if (command == "render") {
+		renderScreenEvent(command);
+	}
+	if (command == "draw") {
+		drawScreenEvent(command);
+	}
+}
+
+//MScreen COMMANDS(EVENTS)
+
+bool MScreen::exitGameEvent(Command_c command) {
+	if (command.args.size() == 1) {
+		if (FPSDrawingRunning) {
+			FPSDrawingRunning = false;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool MScreen::renderScreenEvent(Command_c command) {
+	if (command.args.size() >= 2) {
+		if (command.args[1].first != "screen") {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+
+	if (command.args.size() > 2) {
+		if (command.args[2].first == "All") {
+			render();
+			return true;
+		}
+	}
+	if (command.args.size() == 2 && this->selected) {
+		render();
+		return true;
+	}
+	return false;
+}
+
+bool MScreen::drawScreenEvent(Command_c command) {
+	if (command.args.size() > 1) {
+		if (command.args[1].first == "All") {
+			draw();
+			return true;
+		}
+	}
+	if (command.args.size() == 1 && this->selected) {
+		draw();
+		return true;
+	}
+	return false;
 }

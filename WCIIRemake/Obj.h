@@ -5,6 +5,8 @@
 class Obj {
 	private:
 		const char *className;
+	protected:
+		bool selected;
 	public:
 		Obj();
 		Obj(const char* className);

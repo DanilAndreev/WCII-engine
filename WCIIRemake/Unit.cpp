@@ -16,7 +16,6 @@ Unit::Unit(cordScr cords, char value,int type, Field* field) {
 	this->value = value;
 	this->field = field;
 	this->type = type;
-	this->selected = false;
 }
 
 

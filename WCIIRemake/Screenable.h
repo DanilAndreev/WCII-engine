@@ -11,6 +11,10 @@ struct cordScr : public Obj {
 	int y;
 	cordScr(int x, int y) : x(x) , y(y) {}
 	cordScr() : x(0), y(0) {}
+
+	friend bool operator==(const cordScr left, cordScr right) {
+		return (left.x == right.x) && (left.y == right.y);
+	}
 };
 
 // Класс для всех елементов, которые будут рисоваться на екране (наследовать от него)

@@ -5,10 +5,12 @@
 
 Obj::Obj() {
 	this->className = "Obj";
+	this->selected = false;
 }
 
 Obj::Obj(const char* className) {
 	this->className = className;
+	this->selected = false;
 }
 
 Obj::~Obj() {

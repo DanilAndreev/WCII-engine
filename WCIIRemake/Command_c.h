@@ -16,6 +16,12 @@ struct Command_c {
 
 	Command_c(vector <pair<string, string>> inp_args) : args(inp_args) {}
 	Command_c() {}
+	Command_c(string arg) {
+		pair <string, string> command;
+		command.first = arg; 
+		command.second = "command";
+		args.push_back(command);
+	}
 
 	void printCommand(string imessage) {
 		cout << imessage << endl;

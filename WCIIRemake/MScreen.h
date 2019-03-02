@@ -12,7 +12,7 @@ private:
 	int width;
 	int height;
 	int bufLen;
-	
+	bool FPSDrawingRunning;
 public:
 	MScreen(int width, int heigth);
 	MScreen() : MScreen(80, 25) {}
@@ -29,4 +29,12 @@ public:
 	void draw(); // отрисоваться (графически)
 	virtual void render(); // отрисоваться(просчитаться)
 	char *buff;
+	void FPSdrawing(void *param);
+	virtual void operateEvent(Command_c command);
+private:
+	void classifyEvent(Command_c command);
+//MScreen COMMANDS(EVENTS)
+	bool exitGameEvent(Command_c command);
+	bool renderScreenEvent(Command_c command);
+	bool drawScreenEvent(Command_c command);
 };

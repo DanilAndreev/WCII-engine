@@ -10,7 +10,7 @@ protected:
 	Field* field;
 	char value;//for debug
 	int type;
-	bool selected;
+
 public:
 
 //	Unit(Unit** field);

@@ -8,13 +8,16 @@ class Unit;
 class Field : public Screenable {
 	private:
 		int fieldLen;
-		DynArr** field;
+// OLD code
+//		DynArr** field;
+
 		int width;
 		int height;
 	protected:
 		DynArr* members;
 	public:
-		DynArr** getField();
+// OLD code
+//		DynArr** getField();
 		DynArr* getMembers();
 		Field(int width, int heigth); 
 		Field();
