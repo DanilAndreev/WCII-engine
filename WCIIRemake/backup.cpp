@@ -5,8 +5,9 @@
 using namespace std;
 int main()
 {
-	MScreen* scr = new MScreen(80, 15);
-	Field* field = new Field(80, 15);
+	MScreen* scr = new MScreen(85, 30);
+	scr->setCord(cordScr(30, 2));
+	Field* field = new Field(85, 30);
 	scr->addElement(cordScr(2, 2), 1, 1, field);
 /*
 	cordScr cords;

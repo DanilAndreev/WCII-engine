@@ -67,6 +67,7 @@ void MScreen::clear() {
 }
 
 void MScreen::draw() {
+/*
 	printf("\033[0;0H"); // move cursor to 0 0
 	for (int y = 0; y < height; y++) {
 		char *temp = new char[width + 1];
@@ -77,7 +78,21 @@ void MScreen::draw() {
 		
 	}
 	printf("\n----------------------------------------------------------------------------------\n");
+*/
 
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			COORD cord;
+			cord.X = x + this->cords.x;
+			cord.Y = y + this->cords.y;
+			DWORD result;
+			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+			//LPCTSTR character = (LPCTSTR) (buff[y*width + x]);
+			//cout << buff[x, y] << endl;
+			//WriteConsoleOutputCharacter(hStdOut, character, 1, cord, &result); // WriteConsoleOutputCharacter
+			WriteConsoleOutputCharacterA(hStdOut, &buff[y*width + x], 1, cord, &result); // WriteConsoleOutputCharacter
+		}
+	}
 
 }
 

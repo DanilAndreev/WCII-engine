@@ -2,7 +2,7 @@
 #include "Command_c.h"
 
 
-class Obj {
+class Obj{
 	private:
 		const char *className;
 	protected:
