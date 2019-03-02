@@ -491,7 +491,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 	}
 	if (foundDest == false) {
 		//printf("Failed to find the Destination Cell\n");
-		//tracePath(dest);
+		direction = 0;
 		double minHWalue = FLT_MAX;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
