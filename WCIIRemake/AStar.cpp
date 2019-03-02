@@ -3,13 +3,11 @@
 using namespace std;
 
 
-
-void AStar::getMap(char * field, char type) {
-	// todo: connect field
+void AStar::getMap(DynArr * field, int type, Unit & unt) {
 	int count = 0;
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
-			if (field[i*count+j] == '.' || field[i*count+j] == type) {
+			if (field[i*count+j].count() == 0 || unt.getType() == type) {
 				grid[i][j] = 1;
 			}
 			else grid[i][j] = 0;
@@ -149,7 +147,7 @@ void AStar::tracePath(cordScr dest){
 			}
 		}
 		printf("%d %d\n", p.first, p.second);
-		// сюда нужно дописать чтобы юнит двигался в заданном направлении
+		// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	}
 
 	return;

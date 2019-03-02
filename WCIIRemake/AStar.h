@@ -5,7 +5,6 @@
 #include "Unit.h"
 #include "MScreen.h"
 
-
 using namespace std;
 
 struct AStarNode : private Obj {
@@ -40,7 +39,7 @@ class AStar : public Obj {
 		int direction;
 	public:
 		void getPathMap(); //show path(debug)
-		void getMap(char * field, char type); // for transformation in bool map
+		void getMap(DynArr * field, int type, Unit & unt); // for transformation in bool map
 		void DebugMap();
 		int rows;
 		int columns;
