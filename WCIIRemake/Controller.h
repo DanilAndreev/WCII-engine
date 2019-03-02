@@ -1,10 +1,11 @@
 #pragma once
 #include "pch.h"
 #include "Obj.h"
+#include "Threadable.h"
 //#include "Command_c.h"
 
 
-class Controller : public Obj {
+class Controller : public Obj, public Threadable {
 private:
 	Console *console;
 	Field* field;
@@ -23,8 +24,11 @@ public: // change to private!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	Command_c getCommand();
 	Command_c parseCommand(string command);
 	void throwCommand(Command_c command);
-	void EventHandler(void *param);
+	void EventHandler();
 	virtual void operateEvent(Command_c command);
+private:
+	virtual void threadFunction();
+
 //CONTROLLER COMMANDS(EVENTS)
 private:
 	bool exitGame(Command_c command);

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MScreen.h"
-
+#include <Windows.h>
 
 MScreen::MScreen(int width, int heigth) {
 	elements = new DynArr();
@@ -116,16 +116,21 @@ void MScreen::render() {
 	}
 }
 
-void MScreen::FPSdrawing(void *param) {
+void MScreen::FPSdrawing() {
 	FPSDrawingRunning = true;
 	while (FPSDrawingRunning) {
 		render();
+		Sleep(100);
 	}
 	FPSDrawingRunning = false;
 }
 
 void MScreen::operateEvent(Command_c command) {
 	classifyEvent(command);
+}
+
+void MScreen::threadFunction() {
+	FPSdrawing();
 }
 
 void MScreen::classifyEvent(Command_c command) {

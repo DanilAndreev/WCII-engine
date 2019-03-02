@@ -8,16 +8,16 @@
 using namespace std;
 
 
-class Threadable : public Obj{
+class Threadable{
 private: 
 	//Obj* unit;
-	HANDLE receiveMessageHandle;
+	HANDLE hThread;
 public:
 	Threadable();
 	virtual ~Threadable();
 	HANDLE startThread();
 private:
-	void threadFunction();
+	virtual void threadFunction();
 	static unsigned int __stdcall receiveMessageThread(void* p_this);
 };
 

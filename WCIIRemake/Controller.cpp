@@ -101,7 +101,7 @@ void Controller::throwCommand(Command_c command) {
 
 
 
-void Controller::EventHandler(void *param) {
+void Controller::EventHandler() {
 	cout << "HandleEvent" << endl;
 	this->EventHandlerRunning = true;
 	while (EventHandlerRunning) {
@@ -117,6 +117,10 @@ void Controller::operateEvent(Command_c command) {
 	if (command == "exitgame") {
 		exitGame(command);
 	}
+}
+
+void Controller::threadFunction() {
+	EventHandler();
 }
 
 //CONTROLLER COMMANDS(EVENTS)

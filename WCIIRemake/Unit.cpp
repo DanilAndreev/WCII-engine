@@ -16,6 +16,7 @@ Unit::Unit(cordScr cords, char value,int type, Field* field) {
 	this->value = value;
 	this->field = field;
 	this->type = type;
+	this->threadFlag = false;
 }
 
 
@@ -54,28 +55,38 @@ int Unit::move(int direction) {
 				return 1;
 			}
 			break;
-		case 5: // left
-			if (field->changeCell(cordScr(cords.x - 1, cords.y+1), this)) {
+		case 5: // up right
+			if (field->changeCell(cordScr(cords.x + 1, cords.y - 1), this)) {
 				return 1;
 			}
 			break;
-		case 6: // left
+		case 6: // up left
 			if (field->changeCell(cordScr(cords.x - 1, cords.y - 1), this)) {
 				return 1;
 			}
 			break;
-		case 7: // left
+		case 7: // down right
 			if (field->changeCell(cordScr(cords.x + 1 , cords.y + 1), this)) {
 				return 1;
 			}
 			break;
-		case 8: // left
-			if (field->changeCell(cordScr(cords.x + 1, cords.y - 1), this)) {
+		case 8: // down left
+			if (field->changeCell(cordScr(cords.x - 1, cords.y + 1), this)) {
 				return 1;
 			}
 			break;
 	}
 	return 0;
+}
+
+bool Unit::goTo(cordScr dest) {
+	threadFlag = true;
+	while (true) {  // connect astar and stop flag from astar
+		move(rand() % 8);
+		Sleep(rand()%1000);
+	}
+	threadFlag = false;
+	return true;
 }
 
 int Unit::findPath(cordScr destC) {
@@ -104,9 +115,17 @@ bool Unit::classifyEvent(Command_c command) {
 		return tpEvent(command);
 	}
 
+	if (command == "move") {
+		return moveEvent(command);
+	}
+
 
 
 	return false;
+}
+
+void Unit::threadFunction() {
+	goTo(moveDest);
 }
 
 void Unit::operateEvent(Command_c command)
@@ -153,3 +172,16 @@ bool Unit::tpEvent(Command_c command) {
 	}
 	return false;
 }
+
+bool Unit::moveEvent(Command_c command) {
+	if (command.args.size() == 4) {
+		if (command.args[1].first == "to" && command.args[2].second == "number" && command.args[3].second == "number" && this->selected) {
+			this->moveDest = cordScr(stoi(command.args[2].first), stoi(command.args[3].first));
+			if (!threadFlag) {
+				startThread();
+			}
+		}
+	}
+	return false;
+}
+

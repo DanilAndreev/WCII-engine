@@ -76,15 +76,17 @@ int main()
 */
 
 
-	ctrl->EventHandler(NULL);
+//	ctrl->EventHandler();
 
-	scr->FPSdrawing(NULL);
+//	scr->FPSdrawing();
 
+	
 
+	scr->startThread();
 
+	HANDLE hThreadCTRL = ctrl->startThread();
 
-
-
+	WaitForSingleObject(hThreadCTRL, INFINITE);
 
 
 	field->freeElements();
