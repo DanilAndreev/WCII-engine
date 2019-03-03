@@ -37,5 +37,6 @@
 #include "Command_c.h"
 #include "Console.h"
 #include "Controller.h"
+#include "ConsoleCommandController.h"
 
 #endif //PCH_H

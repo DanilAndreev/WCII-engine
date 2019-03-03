@@ -154,12 +154,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="Command_c.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleCommandController.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
-    <ClInclude Include="Command_c.h" />
     <ClInclude Include="MScreen.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="pch.h" />
@@ -170,7 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="Command_c.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="ConsoleCommandController.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="FastPath.cpp" />

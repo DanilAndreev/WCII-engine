@@ -6,35 +6,16 @@
 
 using namespace std;
 
-
-struct Command_c {
+class Command_c {
+public:
 	vector <pair<string, string>> args;
-
-	friend bool operator==(const Command_c& left, string right) {
-		return left.args[0].first == right;
-	}
-
+public:
 	Command_c(vector <pair<string, string>> inp_args) : args(inp_args) {}
-	Command_c() {}
-	Command_c(string arg) {
-		pair <string, string> command;
-		command.first = arg; 
-		command.second = "command";
-		args.push_back(command);
-	}
-
-	void printCommand(string imessage) {
-		cout << imessage << endl;
-		for (unsigned int i = 0; i < args.size(); i++) {
-			cout << "[" << i << "]" << "(" << args[i].second << ")'" << args[i].first << "'";
-			if (i != args.size() - 1) {
-				cout << " : ";
-			}
-		}
-		cout << endl;
-	}
-
-	void printCommand() {
-		printCommand("");
-	}
+	Command_c(string arg);
+	Command_c();
+	~Command_c();
+	void printCommand(string imessage);
+	void printCommand();
+public:
+	friend bool operator==(const Command_c& left, string right);
 };

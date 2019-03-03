@@ -42,9 +42,6 @@
     <ClInclude Include="AStar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Command_c.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -55,6 +52,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FastPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleCommandController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command_c.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,6 +105,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FastPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleCommandController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command_c.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

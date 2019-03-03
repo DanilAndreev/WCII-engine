@@ -1,10 +1,16 @@
 #include "pch.h"
 #include "Controller.h"
 
+extern Console* defaultConsole;
 
 Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
+	if (ioconsole != NULL) {
+		this->console = ioconsole;
+	}
+	else {
+		this->console = defaultConsole;
+	}
 	this->screen = screen;
-	this->console = ioconsole;
 	this->field = ifield;
 	this->members = new DynArr();
 	members->add(field);
@@ -17,78 +23,12 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 Controller::~Controller() {
 }
 
-Command_c Controller::getCommand() {
-	string command;
-	command = console->getLine();
-	return parseCommand(command);
+
+
+void Controller::addEventToQueue(Command_c command) {
+	eventQueue.push(command);
 }
 
-
-bool Controller::readCondition(char character) {
-//	if ((isalnum(character) || character == '-') && character != 0) {
-	if ((character != ' ') && character != 0) {
-		return true;
-	}
-	return false;
-}
-
-string Controller::commandType(char character) {
-	if (character == '-') {
-		return "flag";
-	}
-	if (isalpha(character)) {
-		return "command";
-	}
-	if (isdigit(character)) {
-		return "number";
-	}
-	return "unknown";
-}
-
-pair <string, string> Controller::nextToken(string command) {
-	bool readBegin = true;
-	pair <string, string> temp;
-	while (!readCondition(command[ParserPosition])) {
-		if (command[ParserPosition] == 0) {
-			temp.first = "\0";
-			temp.second = "end";
-			return temp;
-		}
-		ParserPosition++;
-	}
-
-
-	while (readCondition(command[ParserPosition])) {
-		temp.first += command[ParserPosition];
-		if (readBegin) {
-			temp.second = commandType(temp.first[0]); // add better classification for commands
-		}
-		readBegin = false;
-		ParserPosition++;
-	}
-	return temp;
-}
-
-
-void Controller::initParser() {
-	ParserPosition = 0;
-}
-
-Command_c Controller::parseCommand(string command)
-{
-	initParser();
-	if (command.length() == 0) {
-		return Command_c("empty");
-	}
-	pair <string, string> temp;
-	Command_c command_c;
-	temp = nextToken(command);
-	for (int i = 0; temp.second != "end"; i++) {
-		command_c.args.push_back(temp);
-		temp = nextToken(command);
-	}
-	return command_c;
-}
 
 void Controller::throwCommand(Command_c command) {
 
@@ -105,9 +45,15 @@ void Controller::EventHandler() {
 	cout << "HandleEvent" << endl;
 	this->EventHandlerRunning = true;
 	while (EventHandlerRunning) {
-		Command_c command = getCommand();
-		if (command.args[0].first != "empty") {
-			throwCommand(command);
+		if (eventQueue.empty()) {
+			Sleep(10);
+		}
+		else {
+			Command_c command = eventQueue.front();
+			eventQueue.pop();
+			if (command.args[0].first != "empty") {
+				throwCommand(command);
+			}
 		}
 	}
 	this->EventHandlerRunning = false;

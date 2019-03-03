@@ -3,10 +3,12 @@
 #include <iostream> 
 
 
+
 using namespace std;
 
 
 class Console : public Obj {
+private:
 public:
 	Console();
 	~Console();

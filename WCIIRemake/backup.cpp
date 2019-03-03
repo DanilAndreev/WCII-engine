@@ -2,10 +2,12 @@
 //
 #include "pch.h"
 
+Console* defaultConsole;
 
 using namespace std;
 int main()
 {
+	defaultConsole = new Console();
 	MScreen* scr = new MScreen(85, 30);
 	scr->setCord(cordScr(30, 2));
 	Field* field = new Field(85, 30);
@@ -62,13 +64,13 @@ int main()
 	delete astar;
 */
 
-	Console* console = new Console();
-	Controller* ctrl = new Controller(field, scr,  console);
-
-
+	//Console* console = new Console();
+	Controller* ctrl = new Controller(field, scr,  defaultConsole);
+	ConsoleCommandController* conComCon = new ConsoleCommandController(defaultConsole, ctrl);
 
 
 	
+	conComCon->startThread();
 
 	scr->startThread();
 

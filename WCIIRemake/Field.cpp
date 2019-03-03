@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Field.h"
 
-
+extern Console* defaultConsole;
 
 Field::Field(int width, int heigth) {
 	fieldLen = width * heigth;
