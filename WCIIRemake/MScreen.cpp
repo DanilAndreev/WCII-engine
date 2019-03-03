@@ -4,10 +4,10 @@
 
 MScreen::MScreen(int width, int heigth) {
 	elements = new DynArr();
-	this->height = heigth;
+	this->heigth = heigth;
 	this->width = width;
 	buff = NULL;
-	this->bufLen = height * width;
+	this->bufLen = heigth * width;
 	initBuff();
 	FPSDrawingRunning = false;
 }
@@ -16,9 +16,9 @@ MScreen::MScreen(int width, int heigth) {
 }*/
 
 void MScreen::setRatio(int width, int heigth) {
-	this->height = heigth;
+	this->heigth = heigth;
 	this->width = width;
-	this->bufLen = height * width;
+	this->bufLen = heigth * width;
 }
 
 MScreen::~MScreen() {
@@ -38,11 +38,11 @@ int MScreen::getWidth() {
 }
 
 int MScreen::getHeight() {
-	return height;
+	return heigth;
 }
 
 int MScreen::putToBuff(cordScr cords, char c) {
-	if (cords.y < height && cords.y >= 0 && cords.x < width && cords.x >= 0) {
+	if (cords.y < heigth && cords.y >= 0 && cords.x < width && cords.x >= 0) {
 		buff[cords.y*width + cords.x] = c;
 		return 1;
 	}
@@ -79,8 +79,7 @@ void MScreen::draw() {
 	}
 	printf("\n----------------------------------------------------------------------------------\n");
 */
-
-	for (int y = 0; y < height; y++) {
+	for (int y = 0; y < heigth; y++) {
 		for (int x = 0; x < width; x++) {
 			COORD cord;
 			cord.X = x + this->cords.x;
@@ -102,7 +101,7 @@ void MScreen::render() {
 		((Screenable*)elements->get(i))->render();
 	}
 	if (scr != NULL) {
-		for (int y = 0; y < height; y++) {
+		for (int y = 0; y < heigth; y++) {
 			for (int x = 0; x < width; x++) {
 				cordScr cordsToWrite(x + cords.x, y + cords.y);
 				//cordsToWrite.x = x + cords.x;

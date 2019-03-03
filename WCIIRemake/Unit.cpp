@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Unit.h"
 
+const int TimeoutTimes = 80;
+
 /*
 Unit::Unit(Unit** field) {
 	this->field = field;
@@ -17,12 +19,13 @@ Unit::Unit(cordScr cords, char value,int type, Field* field) {
 	this->field = field;
 	this->type = type;
 	this->threadFlag = false;
+
 }
 
 
 
 Unit::~Unit() {
-	
+
 }
 
 int Unit::getType() {
@@ -51,7 +54,7 @@ int Unit::move(int direction) {
 			}
 			break;
 		case 4: // left
-			if (field->changeCell(cordScr(cords.x + 1, cords.y), this)) {
+			if (field->changeCell(cordScr(cords.x - 1, cords.y), this)) {
 				return 1;
 			}
 			break;
@@ -79,12 +82,34 @@ int Unit::move(int direction) {
 	return 0;
 }
 
-bool Unit::goTo(cordScr dest) {
+bool Unit::goTo(cordScr* dest) {
 	threadFlag = true;
-	while (true) {  // connect astar and stop flag from astar
-		move(rand() % 8);
-		Sleep(rand()%1000);
+
+	FastPath* fastpath = new FastPath(this->field, this);
+	int timeoutCounter = 0;
+	while (timeoutCounter <= TimeoutTimes) {
+		int direction = fastpath->solveDirection(*dest);
+//		cout << "Unit '" << this->value << "' direction " << direction << endl;
+		if (direction == -1) {
+			break;
+		}
+		if (direction == 0) {
+			timeoutCounter++;
+			Sleep(100);
+		}
+		else {
+			timeoutCounter = 0;
+			move(direction);
+			srand(time(NULL));
+			Sleep(300 + rand()%20); //TODO: change to his speed
+		}
 	}
+
+
+	cout << "Unit '" << this->value << "' finished movement" << endl;
+
+	delete fastpath;
+
 	threadFlag = false;
 	return true;
 }
@@ -125,7 +150,7 @@ bool Unit::classifyEvent(Command_c command) {
 }
 
 void Unit::threadFunction() {
-	goTo(moveDest);
+	goTo(&moveDest);
 }
 
 void Unit::operateEvent(Command_c command)
@@ -137,6 +162,13 @@ void Unit::operateEvent(Command_c command)
 
 //UNIT COMMANDS(EVENTS)
 bool Unit::selectEvent(Command_c command) {
+	if (command.args.size() == 2) {
+		if (command.args[1].first == "all") {
+			this->selected = true;
+			cout << "Selected unit " << value << endl;
+			return true;
+		}
+	}
 	if (command.args.size() > 1) {
 		for (int i = 1; i < command.args.size(); i++) {
 			if (command.args[i].first[0] == this->value) {

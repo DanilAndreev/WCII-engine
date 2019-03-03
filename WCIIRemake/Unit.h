@@ -3,8 +3,11 @@
 #include "pch.h"
 #include "Screenable.h"
 #include "Threadable.h"
+#include "FastPath.h"
+#include <ctime>
+#include <stdlib.h>
 
-class Unit : public Screenable, public Threadable {
+class Unit : public Screenable, public Threadable{
 protected:
 	Field* field;
 	char value;//for debug
@@ -25,7 +28,7 @@ public:
 	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
 	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left (нужно дописать еще 4 движения)
-	bool goTo(cordScr dest);
+	bool goTo(cordScr* dest);
 	virtual void render(); // отрисоваться(просчитаться)
 	bool classifyEvent(Command_c command);
 	virtual void threadFunction();

@@ -2,13 +2,14 @@
 //
 #include "pch.h"
 
+
 using namespace std;
 int main()
 {
 	MScreen* scr = new MScreen(85, 30);
 	scr->setCord(cordScr(30, 2));
 	Field* field = new Field(85, 30);
-	scr->addElement(cordScr(2, 2), 1, 1, field);
+	scr->addElement(cordScr(2, 2), field->getWidth(), field->getHeigth(), field);
 /*
 	cordScr cords;
 	cords.x = 2;
@@ -36,17 +37,20 @@ int main()
 	//scr->putToBuff(cordScr(1, 1), 'w');
 	scr->render();
 
-	unt4->move(1);
+//	unt4->move(1);
 
 	scr->render();
 
-	unt4->move(3);
+//	unt4->move(3);
 
 	scr->render();
 	//system("cls");
 	
 	/*1--> The cell is not blocked
 	0--> The cell is blocked    */
+
+/*
+
 	AStar* astar = new AStar(20, 20);
 	astar->DebugMap();
 	//astar->getPathMap();
@@ -55,30 +59,14 @@ int main()
 	astar->getPathMap();
 	cout << astar->getPath();
 
-
+	delete astar;
+*/
 
 	Console* console = new Console();
 	Controller* ctrl = new Controller(field, scr,  console);
 
-	console->message("message");
-
-/*
-	HANDLE hThreadSCR;
-	HANDLE hThreadCTRL;
-
-	console->message("Starting screen thread");
 
 
-	hThreadSCR = (HANDLE)_beginthread(scr->FPSdrawing, 0, NULL);
-
-
-	WaitForSingleObject(hThreadSCR, INFINITE);
-*/
-
-
-//	ctrl->EventHandler();
-
-//	scr->FPSdrawing();
 
 	
 
@@ -92,7 +80,7 @@ int main()
 	field->freeElements();
 	scr->freeElements();
 	delete scr;
-	delete astar;
+
 
 
 

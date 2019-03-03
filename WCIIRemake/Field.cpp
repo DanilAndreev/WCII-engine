@@ -5,9 +5,10 @@
 
 Field::Field(int width, int heigth) {
 	fieldLen = width * heigth;
+
 	this->width = width;
-	this->height = heigth;
-// OLD code
+	this->heigth = heigth;
+	// OLD code
 /*
 	field = new DynArr*[fieldLen];
 	memset(field, 0, fieldLen*sizeof(Unit*));
@@ -49,9 +50,7 @@ void Field::freeElements() {
 }
 
 bool Field::checkFree(cordScr cords, int type) {
-
-
-	if (cords.x >= this->width || cords.y >= this->height) {
+	if (cords.x >= this->width || cords.y >= this->heigth) {
 		return false;
 	}
 
@@ -115,6 +114,7 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 }
 
 void Field::render() {
+
 	for (int i = 0; i < members->count(); i++) {
 		((Screenable*)(members->get(i)))->render();
 	}

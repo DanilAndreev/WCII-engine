@@ -22,6 +22,16 @@ Screenable::Screenable() {
 Screenable::~Screenable() {
 }
 
+int Screenable::getWidth()
+{
+	return this->width;
+}
+
+int Screenable::getHeigth()
+{
+	return this->heigth;
+}
+
 cordScr Screenable::getCord() {
 	return this->cords;
 }

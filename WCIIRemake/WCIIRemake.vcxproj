@@ -157,6 +157,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
+    <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Command_c.h" />
     <ClInclude Include="MScreen.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
+    <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="MScreen.cpp" />
     <ClCompile Include="Obj.cpp" />

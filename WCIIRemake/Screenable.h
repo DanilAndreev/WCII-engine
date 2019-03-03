@@ -28,6 +28,8 @@ class Screenable : public Obj {
 		Screenable(cordScr cords, int width, int heigth, MScreen* scr);
 		Screenable();
 		virtual ~Screenable();
+		int getWidth();
+		int getHeigth();
 		cordScr getCord(); //возвращает координаты 
 		int setCord(cordScr cords); // установить координаты
 		int setup(cordScr cords, int width, int heigth, MScreen* scr); // инициализировать елемент (передаем координаты, куда залепить елемент, его ширину и высоту и указатель на екран, где он будет отрисовываться)

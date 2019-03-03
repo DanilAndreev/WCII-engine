@@ -9,8 +9,8 @@
 class MScreen : public Screenable, public Threadable {
 private:
 	DynArr* elements;
-	int width;
-	int height;
+//	int width;
+//	int height;
 	int bufLen;
 	bool FPSDrawingRunning;
 public:

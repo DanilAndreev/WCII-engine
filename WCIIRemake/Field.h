@@ -11,17 +11,16 @@ class Field : public Screenable {
 // OLD code
 //		DynArr** field;
 
-		int width;
-		int height;
+
 	protected:
 		DynArr* members;
 	public:
 // OLD code
 //		DynArr** getField();
-		DynArr* getMembers();
-		Field(int width, int heigth); 
+		Field(int width, int heigth);
 		Field();
 		virtual ~Field();
+		DynArr* getMembers();
 		void freeElements(); // Удалить всех детей поля(из пямяти, указатели осстанутся, но будут указывать в небо)
 		int setCell(cordScr cordsNew, Unit * target); // установить на клетку с данными координатам данный юнит
 		int changeCell(cordScr cords, Unit * target); // поменять клетку(прыгнуть в клетку с данными координатами)
