@@ -84,7 +84,7 @@ bool AStar::isValid(int row, int col) {
 
 // check whether the given cell is 
 // blocked or not 
-bool AStar::isUnBlocked(int row, int col) {
+bool AStar::isUnBlocked(int row, int col){
 	// Returns true if the cell is not blocked else false 
 	if (grid[row][col] == 1)
 		return (true);
@@ -94,7 +94,7 @@ bool AStar::isUnBlocked(int row, int col) {
 
 // check whether destination cell has 
 // been reached or not 
-bool AStar::isDestination(int row, int col, cordScr dest) {
+bool AStar::isDestination(int row, int col, cordScr dest){
 	//printf("%d %d %d %d", row, col, dest.x, dest.y);
 	if (row == dest.x && col == dest.y)
 		return (true);
@@ -103,7 +103,7 @@ bool AStar::isDestination(int row, int col, cordScr dest) {
 }
 
 // 
-double AStar::calculateHValue(int row, int col, cordScr dest) {
+double AStar::calculateHValue(int row, int col, cordScr dest){
 	// Return using the distance formula of Pifagor :)
 	return ((double)sqrt((row - dest.x)*(row - dest.x)
 		+ (col - dest.y)*(col - dest.y)));
@@ -111,7 +111,7 @@ double AStar::calculateHValue(int row, int col, cordScr dest) {
 
 // trace the path from the source 
 // to destination 
-void AStar::tracePath(cordScr dest) {
+void AStar::tracePath(cordScr dest){
 	printf("\nThe Path is \n");
 	int row = dest.x;
 	int col = dest.y;
@@ -129,7 +129,7 @@ void AStar::tracePath(cordScr dest) {
 	}
 
 	Path.push(make_pair(row, col));
-	while (!Path.empty()) {
+	while (!Path.empty()){
 		pair<int, int> p = Path.top();
 		Path.pop();
 		for (int x = 0; x < rows; x++) {
@@ -170,7 +170,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		printf("Destination is invalid\n");
 		return;
 	}
-
+	
 
 	// Either the source or the destination is blocked 
 	if (isUnBlocked(start.x, start.y) == false ||
@@ -212,7 +212,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 	openList.insert(make_pair(0.0, make_pair(i, j)));
 	bool foundDest = false;
 
-
+	
 
 	while (!openList.empty())
 	{
@@ -226,7 +226,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		j = p.second.second;
 		closedList[i][j] = true;
 
-		// To store the 'g', 'h' and 'f' of the 8 successors 
+		 // To store the 'g', 'h' and 'f' of the 8 successors 
 		double gNew, hNew, fNew;
 
 		// Check all 8 succesors of current node
@@ -424,7 +424,7 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 			}
 		}
 		if (isValid(i + 1, j + 1) == true)
-		{
+		{ 
 			if (isDestination(i + 1, j + 1, dest) == true)
 			{
 				cellDetails[i + 1][j + 1].parent_i = i;
