@@ -35,6 +35,7 @@ private:
 	virtual void threadFunction();
 	void classifyEvent(Command_c command);
 //MScreen COMMANDS(EVENTS)
+protected:
 	bool exitGameEvent(Command_c command);
 	bool renderScreenEvent(Command_c command);
 	bool drawScreenEvent(Command_c command);

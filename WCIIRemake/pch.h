@@ -38,5 +38,6 @@
 #include "Console.h"
 #include "Controller.h"
 #include "ConsoleCommandController.h"
+#include "LiveUnit.h"
 
 #endif //PCH_H

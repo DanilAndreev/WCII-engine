@@ -42,7 +42,6 @@ void Controller::throwCommand(Command_c command) {
 
 
 void Controller::EventHandler() {
-	cout << "HandleEvent" << endl;
 	this->EventHandlerRunning = true;
 	while (EventHandlerRunning) {
 		if (eventQueue.empty()) {

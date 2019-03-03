@@ -29,10 +29,10 @@ int FastPath::solveDirection(cordScr dest) {
 	}
 
 	cordScr minCords = solveQueue[0];
-	float firstLen = lineLength(dest, minCords);
+	float firstLen = minCords.lineLength(dest, minCords);
 	float minLen = firstLen;
 	for (int i = 1; i < solveQueue.size(); i++) {
-		int curLen = lineLength(dest, solveQueue[i]);
+		int curLen = minCords.lineLength(dest, solveQueue[i]);
 		if (curLen < minLen) {
 			minLen = curLen;
 			minCords = solveQueue[i];
@@ -103,9 +103,7 @@ void FastPath::createSolveQueue() {
 	}
 }
 
-int FastPath::sqr(int input) {
-	return input * input;
-}
+
 
 int FastPath::determineDirection(cordScr cords) {
 	cordScr uCords = unit->getCord();
@@ -145,10 +143,4 @@ int FastPath::determineDirection(cordScr cords) {
 	return 0;
 }
 
-float FastPath::lineLength(cordScr cord1, cordScr cord2) {
-	if (cord1.x < 0 || cord1.y < 0 || cord2.x < 0 || cord2.y < 0) {
-		return -1;
-	}
-	return sqrt( sqr(cord2.x - cord1.x) + sqr(cord2.y - cord1.y) );
-}
 

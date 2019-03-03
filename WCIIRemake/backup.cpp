@@ -3,6 +3,7 @@
 #include "pch.h"
 
 Console* defaultConsole;
+Controller* gameController;
 
 using namespace std;
 int main()
@@ -18,14 +19,14 @@ int main()
 	cords.y = 2;
 */
 
-	Unit* unt1 = new Unit('a', 1, field);
-	Unit* unt2 = new Unit('b', field);
-	Unit* unt3 = new Unit('c', field);
-	Unit* unt4 = new Unit('d', 1, field);
-	Unit* obstacle1 = new Unit('u', field);
-	Unit* obstacle2 = new Unit('x', field);
-	Unit* obstacle3 = new Unit('y', field);
-	Unit* obstacle4 = new Unit('z', field);
+	LiveUnit* unt1 = new LiveUnit('a', 1, field, 100, 1, 30);
+	LiveUnit* unt2 = new LiveUnit('b', 1, field, 100, 1, 25);
+	LiveUnit* unt3 = new LiveUnit('c', 1, field, 100, 1, 15);
+	LiveUnit* unt4 = new LiveUnit('d', 1, field, 100, 1, 35);
+	LiveUnit* obstacle1 = new LiveUnit('u', 1, field, 100, 2, 20);
+	LiveUnit* obstacle2 = new LiveUnit('x', 1, field, 100, 2, 33);
+	LiveUnit* obstacle3 = new LiveUnit('y', 1, field, 100, 2, 32);
+	LiveUnit* obstacle4 = new LiveUnit('z', 1, field, 100, 2, 31);
 	field->setCell(cordScr(1, 4), unt1);
 	field->setCell(cordScr(5, 8), unt2);
 	field->setCell(cordScr(4, 6), unt3);
@@ -65,8 +66,8 @@ int main()
 */
 
 	//Console* console = new Console();
-	Controller* ctrl = new Controller(field, scr,  defaultConsole);
-	ConsoleCommandController* conComCon = new ConsoleCommandController(defaultConsole, ctrl);
+	gameController = new Controller(field, scr,  defaultConsole);
+	ConsoleCommandController* conComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 
 	
@@ -74,7 +75,7 @@ int main()
 
 	scr->startThread();
 
-	HANDLE hThreadCTRL = ctrl->startThread();
+	HANDLE hThreadCTRL = gameController->startThread();
 
 	WaitForSingleObject(hThreadCTRL, INFINITE);
 

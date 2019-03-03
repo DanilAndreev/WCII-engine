@@ -2,6 +2,7 @@
 #include "ConsoleCommandController.h"
 
 extern Console* defaultConsole;
+extern Controller* gameController;
 
 ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController) {
 	if (ioconsole != NULL) {
@@ -10,8 +11,15 @@ ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controlle
 	else {
 		this->console = defaultConsole;
 	}
+
+	if (mainController != NULL) {
+		this->mainController = mainController;
+	}
+	else {
+		this-> mainController = gameController;
+	}
+
 	this->CommandHandlerRunning = false;
-	this->mainController = mainController;
 }
 
 
@@ -95,7 +103,7 @@ void ConsoleCommandController::throwCommand(Command_c command) {
 }
 
 void ConsoleCommandController::CommandHandler() {
-	cout << "CommandHandler" << endl;
+	cout << "Command:" << endl;
 	this->CommandHandlerRunning = true;
 	while (CommandHandlerRunning) {
 		Command_c command = getCommand();

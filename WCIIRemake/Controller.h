@@ -25,7 +25,7 @@ private:
 	virtual void threadFunction();
 
 //CONTROLLER COMMANDS(EVENTS)
-private:
+protected:
 	bool exitGame(Command_c command);
 
 };

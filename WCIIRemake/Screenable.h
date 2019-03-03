@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Obj.h"
+#include <cmath>
 
 class MScreen;
 
@@ -15,6 +16,18 @@ struct cordScr : public Obj {
 	friend bool operator==(const cordScr left, cordScr right) {
 		return (left.x == right.x) && (left.y == right.y);
 	}
+
+	float lineLength(cordScr cord1, cordScr cord2) {
+		if (cord1.x < 0 || cord1.y < 0 || cord2.x < 0 || cord2.y < 0) {
+			return -1;
+		}
+		return sqrt(sqr(cord2.x - cord1.x) + sqr(cord2.y - cord1.y));
+	}
+
+	inline int sqr(int input) {
+		return input * input;
+	}
+
 };
 
 // Класс для всех елементов, которые будут рисоваться на екране (наследовать от него)
