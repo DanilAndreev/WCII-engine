@@ -17,7 +17,7 @@ public:
 private:
 	bool checkCords(cordScr cords);
 	void createSolveQueue();
-	int lineLength(cordScr cord1, cordScr cord2);
+	float lineLength(cordScr cord1, cordScr cord2);
 	inline int sqr(int input);
 	int determineDirection(cordScr cords);
 };

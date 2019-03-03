@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Unit.h"
 
-const int TimeoutTimes = 80;
+const int TimeoutTimes = 200;
 
 /*
 Unit::Unit(Unit** field) {
@@ -94,6 +94,7 @@ bool Unit::goTo(cordScr* dest) {
 			break;
 		}
 		if (direction == 0) {
+			//cout << "direction '" << value << "' = " << direction << endl;
 			timeoutCounter++;
 			Sleep(100);
 		}
