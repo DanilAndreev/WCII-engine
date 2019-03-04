@@ -24,7 +24,10 @@ int DynArr::count() {
 }
 
 Obj* DynArr::get(int index) {
-	return array[index];
+	if (index < this->count()) {
+		return array[index];
+	}
+	return NULL;
 }
 
 int DynArr::search(Obj *target) {

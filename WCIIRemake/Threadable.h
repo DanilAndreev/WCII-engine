@@ -7,11 +7,13 @@
 
 using namespace std;
 
+typedef unsigned long long ThreadId;
 
 class Threadable{
 private: 
-	//Obj* unit;
+	Obj* parent;
 	HANDLE hThread;
+	ThreadId threadId;
 public:
 	Threadable();
 	virtual ~Threadable();
