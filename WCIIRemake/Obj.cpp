@@ -6,6 +6,7 @@
 Obj::Obj() {
 	this->className = "Obj";
 	this->selected = false;
+	cout << "kuku";
 }
 
 Obj::Obj(const char* className) {

@@ -63,8 +63,10 @@ bool Unit::classifyEvent(Command_c command) {
 	return false;
 }
 
+/*
 void Unit::threadFunction() {
 }
+*/
 
 void Unit::operateEvent(Command_c command)
 {
@@ -86,6 +88,8 @@ bool Unit::getDamage(int damage) {
 	}
 	return false;
 }
+
+/*
 
 void Unit::attack() {
 	DynArr* fmembers = field->getMembers();
@@ -114,6 +118,8 @@ void Unit::attack() {
 		}
 	}
 }
+
+*/
 
 //UNIT COMMANDS(EVENTS)
 bool Unit::selectEvent(Command_c command) {

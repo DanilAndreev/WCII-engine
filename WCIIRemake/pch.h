@@ -39,5 +39,6 @@
 #include "Controller.h"
 #include "ConsoleCommandController.h"
 #include "LiveUnit.h"
+#include "ThreadDescriptor.h"
 
 #endif //PCH_H

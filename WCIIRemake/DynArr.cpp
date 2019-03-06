@@ -30,6 +30,8 @@ Obj* DynArr::get(int index) {
 	return NULL;
 }
 
+
+
 int DynArr::search(Obj *target) {
 	for (int i = 0; i < this->count(); i++) {
 		if (this->get(i) == target) {

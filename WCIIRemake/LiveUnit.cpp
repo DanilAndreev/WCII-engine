@@ -19,6 +19,8 @@ LiveUnit::~LiveUnit() {
 
 }
 
+
+/*
 bool LiveUnit::goTo(cordScr* dest) {
 	threadFlag = true;
 
@@ -52,10 +54,14 @@ bool LiveUnit::goTo(cordScr* dest) {
 	return true;
 }
 
+*/
+
 int LiveUnit::findPath(cordScr destC) {
 
 	return 0;
 }
+
+
 
 int LiveUnit::move(int direction) {
 	switch (direction) {
@@ -103,9 +109,11 @@ int LiveUnit::move(int direction) {
 	return 0;
 }
 
+/*
 void LiveUnit::threadFunction() {
 	goTo(&moveDest);
 }
+*/
 
 bool LiveUnit::classifyEvent(Command_c command) {
 	if (command == "select") {
@@ -157,7 +165,7 @@ bool LiveUnit::moveEvent(Command_c command) {
 		if (command.args[1].first == "to" && command.args[2].second == "number" && command.args[3].second == "number" && this->selected) {
 			this->moveDest = cordScr(stoi(command.args[2].first), stoi(command.args[3].first));
 			if (!threadFlag) {
-				startThread();
+				//startThread();
 			}
 		}
 	}

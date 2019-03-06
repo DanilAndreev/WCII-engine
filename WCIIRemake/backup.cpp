@@ -4,10 +4,12 @@
 
 Console* defaultConsole;
 Controller* gameController;
+extern ThreadDescriptor* gameThreads;
 
 using namespace std;
 int main()
 {
+	new ThreadDescriptor();
 	defaultConsole = new Console();
 	MScreen* scr = new MScreen(85, 30);
 	scr->setCord(cordScr(30, 2));
@@ -71,13 +73,14 @@ int main()
 
 
 	
-	conComCon->startThread();
+//	conComCon->startThread();
 
-	scr->startThread();
+	//scr->startThread();
 
-	HANDLE hThreadCTRL = gameController->startThread();
+	//HANDLE hThreadCTRL = gameController->startThread();
 
-	WaitForSingleObject(hThreadCTRL, INFINITE);
+	HANDLE eventHandlerHandle =  ((EventThrowerTHR*)(gameThreads->getThread(gameController->getEventHandlerDescriptor())))->getThreadHandle();
+	WaitForSingleObject(eventHandlerHandle, INFINITE);
 
 
 	field->freeElements();

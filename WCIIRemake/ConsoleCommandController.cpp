@@ -102,6 +102,8 @@ void ConsoleCommandController::throwCommand(Command_c command) {
 	mainController->addEventToQueue(command);
 }
 
+
+/*
 void ConsoleCommandController::CommandHandler() {
 	cout << "Command:" << endl;
 	this->CommandHandlerRunning = true;
@@ -117,3 +119,5 @@ void ConsoleCommandController::CommandHandler() {
 void ConsoleCommandController::threadFunction() {
 	CommandHandler();
 }
+
+*/

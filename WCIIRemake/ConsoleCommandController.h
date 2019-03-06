@@ -4,7 +4,7 @@
 #include "Obj.h"
 #include "Threadable.h"
 
-class ConsoleCommandController : public Obj, public Threadable{
+class ConsoleCommandController : public Obj{
 private:
 	Console *console;
 	Controller* mainController;
@@ -21,7 +21,7 @@ private:
 	void initParser();
 	Command_c getCommand();
 	void throwCommand(Command_c command);
-	void CommandHandler();
-	virtual void threadFunction();
+//	void CommandHandler();
+//	virtual void threadFunction();
 };
 

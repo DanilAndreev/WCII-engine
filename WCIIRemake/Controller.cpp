@@ -2,6 +2,7 @@
 #include "Controller.h"
 
 extern Console* defaultConsole;
+extern ThreadDescriptor* gameThreads;
 
 Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 	if (ioconsole != NULL) {
@@ -16,20 +17,57 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 	members->add(field);
 	members->add(screen);
 	members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	EventHandlerRunning = false;
+	dataWriting = false;
+
+	EventThrowerTHR* eventHandler = new EventThrowerTHR(this);
+	gameThreads->add(eventHandler);
+	this->eventHandlerDescriptor = eventHandler->getDescriptor();
 }
 
 
 Controller::~Controller() {
 }
 
-
-
-void Controller::addEventToQueue(Command_c command) {
-	eventQueue.push(command);
+Command_c Controller::getEventFromQueue() {
+	while (dataWriting) {
+		Sleep(10);
+	}
+	Command_c command;
+	dataWriting = true;
+	command = eventQueue.front();
+	eventQueue.pop();
+	dataWriting = false;
+	return command;
 }
 
 
+
+void Controller::addEventToQueue(Command_c command) {
+	while (dataWriting) {
+		Sleep(10);
+	}
+	dataWriting = true;
+	eventQueue.push(command);
+	dataWriting = false;
+}
+
+bool Controller::EventQueueIsEmpty() {
+	if (eventQueue.empty()) {
+		return true;
+	}
+	return false;
+}
+
+DynArr * Controller::getMembers() {
+	return this->members;
+}
+
+ThreadId Controller::getEventHandlerDescriptor()
+{
+	return ThreadId();
+}
+
+/*
 void Controller::throwCommand(Command_c command) {
 
 //	command.printCommand();
@@ -38,9 +76,9 @@ void Controller::throwCommand(Command_c command) {
 		members->get(i)->operateEvent(command);
 	}
 }
+*/
 
-
-
+/*
 void Controller::EventHandler() {
 	this->EventHandlerRunning = true;
 	while (EventHandlerRunning) {
@@ -58,18 +96,24 @@ void Controller::EventHandler() {
 	this->EventHandlerRunning = false;
 }
 
+*/
+
 void Controller::operateEvent(Command_c command) {
 	if (command == "exitgame") {
 		exitGame(command);
 	}
 }
 
+/*
 void Controller::threadFunction() {
 	EventHandler();
 }
+*/
 
 //CONTROLLER COMMANDS(EVENTS)
 
+
+/*
 bool Controller::exitGame(Command_c command) {
 	if (command.args.size() == 1) {
 		if (this->EventHandlerRunning) {
@@ -80,3 +124,4 @@ bool Controller::exitGame(Command_c command) {
 	}
 	return false;
 }
+*/

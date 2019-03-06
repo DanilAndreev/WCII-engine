@@ -1,6 +1,8 @@
 #pragma once
 #include "Command_c.h"
+#include <iostream>
 
+using namespace std;
 
 class Obj{
 	private:

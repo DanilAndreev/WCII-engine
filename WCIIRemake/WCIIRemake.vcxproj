@@ -159,6 +159,7 @@
     <ClInclude Include="ConsoleCommandController.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
+    <ClInclude Include="EventThrowerTHR.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="LiveUnit.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Screenable.h" />
     <ClInclude Include="Threadable.h" />
+    <ClInclude Include="ThreadDescriptor.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +179,7 @@
     <ClCompile Include="ConsoleCommandController.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
+    <ClCompile Include="EventThrowerTHR.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="LiveUnit.cpp" />
@@ -192,6 +195,7 @@
     <ClCompile Include="Screenable.cpp" />
     <ClCompile Include="backup.cpp" />
     <ClCompile Include="Threadable.cpp" />
+    <ClCompile Include="ThreadDescriptor.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="WCIIRemake.cpp" />
   </ItemGroup>

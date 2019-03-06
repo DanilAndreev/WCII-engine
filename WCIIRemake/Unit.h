@@ -7,7 +7,7 @@
 #include <ctime>
 #include <stdlib.h>
 
-class Unit : public Screenable, public Threadable{
+class Unit : public Screenable{
 protected:
 	Field* field;
 	char value; //for debug
@@ -26,11 +26,11 @@ public:
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
 	virtual void render(); // отрисоваться(просчитаться)
 	bool classifyEvent(Command_c command);
-	virtual void threadFunction();
+	//virtual void threadFunction();
 	virtual void operateEvent(Command_c command);
 protected:
 	bool getDamage(int damage);
-	void attack();
+	//void attack();
 protected:
 	//UNIT COMMANDS(EVENTS)
 	bool selectEvent(Command_c command);

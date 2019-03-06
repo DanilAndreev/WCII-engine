@@ -6,7 +6,7 @@
 
 
 
-class MScreen : public Screenable, public Threadable {
+class MScreen : public Screenable {
 private:
 	DynArr* elements;
 //	int width;
@@ -29,10 +29,10 @@ public:
 	void draw(); // отрисоваться (графически)
 	virtual void render(); // отрисоваться(просчитаться)
 	char *buff;
-	void FPSdrawing();
+//	void FPSdrawing();
 	virtual void operateEvent(Command_c command);
 private:
-	virtual void threadFunction();
+//	virtual void threadFunction();
 	void classifyEvent(Command_c command);
 //MScreen COMMANDS(EVENTS)
 protected:

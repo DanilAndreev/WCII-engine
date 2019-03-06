@@ -115,6 +115,8 @@ void MScreen::render() {
 	}
 }
 
+
+/*
 void MScreen::FPSdrawing() {
 	FPSDrawingRunning = true;
 	while (FPSDrawingRunning) {
@@ -124,13 +126,19 @@ void MScreen::FPSdrawing() {
 	FPSDrawingRunning = false;
 }
 
+*/
+
 void MScreen::operateEvent(Command_c command) {
 	classifyEvent(command);
 }
 
+
+/*
 void MScreen::threadFunction() {
 	FPSdrawing();
 }
+
+*/
 
 void MScreen::classifyEvent(Command_c command) {
 	if (command == "exitGame") {
