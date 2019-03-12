@@ -69,6 +69,9 @@
     <ClInclude Include="EventHndlrTHREAD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ConsoleCommandControllerTHREAD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -129,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EventHndlrTHREAD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleCommandControllerTHREAD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

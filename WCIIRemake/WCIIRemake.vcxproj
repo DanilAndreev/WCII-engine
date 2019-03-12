@@ -157,6 +157,7 @@
     <ClInclude Include="Command_c.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleCommandController.h" />
+    <ClInclude Include="ConsoleCommandControllerTHREAD.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="EventHndlrTHREAD.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Command_c.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleCommandController.cpp" />
+    <ClCompile Include="ConsoleCommandControllerTHREAD.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="EventHndlrTHREAD.cpp" />

@@ -2,19 +2,23 @@
 #include "pch.h"
 #include "Command_c.h"
 #include "Obj.h"
-#include "Threadable.h"
+//#include "Threadable.h"
+#include "ConsoleCommandControllerTHREAD.h"
 
 class ConsoleCommandController : public Obj{
 private:
-	Console *console;
+//	Console *console;
 	Controller* mainController;
 	int ParserPosition;
 	bool CommandHandlerRunning;
+	ThreadId ConComConTHRDescriptor;
+public:
+	Console *console;
 public:
 	ConsoleCommandController(Console* ioconsole, Controller* mainController);
 	~ConsoleCommandController();
 	Command_c parseCommand(string command); // Parse the command
-private:
+public:
 	bool readCondition(char character);
 	string commandType(char character);
 	pair <string, string> nextToken(string command);

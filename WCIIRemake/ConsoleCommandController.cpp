@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ConsoleCommandController.h"
 
+
 extern Console* defaultConsole;
 extern Controller* gameController;
 
@@ -20,6 +21,16 @@ ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controlle
 	}
 
 	this->CommandHandlerRunning = false;
+
+	ConsoleCommandControllerTHREAD* ConComConTHRD = new ConsoleCommandControllerTHREAD(this);
+
+	if (ConComConTHRD) {
+		this->ConComConTHRDescriptor  = ConComConTHRD->getDescriptor();
+	}
+	else {
+		cout << "Error allocating memory" << endl;
+	}
+	ConComConTHRD->startThread();
 }
 
 
