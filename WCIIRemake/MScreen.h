@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "Screenable.h"
 #include "DynArr.h"
-#include "Threadable.h"
+#include "ScreenDrawindTHREAD.h"
 
 
 
@@ -12,7 +12,7 @@ private:
 //	int width;
 //	int height;
 	int bufLen;
-	bool FPSDrawingRunning;
+	ThreadId screenDrawingTHRDDescriptor;
 public:
 	MScreen(int width, int heigth);
 	MScreen() : MScreen(80, 25) {}

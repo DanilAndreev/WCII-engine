@@ -1,8 +1,8 @@
+//TODO : ADD THSI TO CONTROLLER EVENT MEMBERS
 #pragma once
 #include "pch.h"
 #include "Command_c.h"
 #include "Obj.h"
-//#include "Threadable.h"
 #include "ConsoleCommandControllerTHREAD.h"
 
 class ConsoleCommandController : public Obj{
@@ -25,7 +25,10 @@ public:
 	void initParser();
 	Command_c getCommand();
 	void throwCommand(Command_c command);
+	void operateEvent(Command_c command);
 //	void CommandHandler();
 //	virtual void threadFunction();
+protected:
+	bool exitGame(Command_c command);
 };
 

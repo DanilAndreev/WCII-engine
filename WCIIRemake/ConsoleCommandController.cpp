@@ -4,6 +4,7 @@
 
 extern Console* defaultConsole;
 extern Controller* gameController;
+extern ThreadDescriptor* gameThreads;
 
 ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController) {
 	if (ioconsole != NULL) {
@@ -111,6 +112,19 @@ Command_c ConsoleCommandController::getCommand() {
 
 void ConsoleCommandController::throwCommand(Command_c command) {
 	mainController->addEventToQueue(command);
+}
+
+void ConsoleCommandController::operateEvent(Command_c command) {
+	if (command == "exitgame") {
+		exitGame(command);
+	}
+}
+
+bool ConsoleCommandController::exitGame(Command_c command) {
+	if (command.args.size() == 1) {
+		return gameThreads->stopThread(ConComConTHRDescriptor);
+	}
+	return false;
 }
 
 

@@ -72,6 +72,9 @@
     <ClInclude Include="ConsoleCommandControllerTHREAD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScreenDrawindTHREAD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -135,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleCommandControllerTHREAD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenDrawindTHREAD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

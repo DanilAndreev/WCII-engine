@@ -2,6 +2,8 @@
 #include "MScreen.h"
 #include <Windows.h>
 
+extern ThreadDescriptor* gameThreads;
+
 MScreen::MScreen(int width, int heigth) {
 	elements = new DynArr();
 	this->heigth = heigth;
@@ -9,7 +11,19 @@ MScreen::MScreen(int width, int heigth) {
 	buff = NULL;
 	this->bufLen = heigth * width;
 	initBuff();
-	FPSDrawingRunning = false;
+//	FPSDrawingRunning = false;
+
+	ScreenDrawindTHREAD* ScrDrwTHRD = new ScreenDrawindTHREAD(this);
+
+
+	//gameThreads->add(eventHandler);
+	if (ScrDrwTHRD) {
+		this->screenDrawingTHRDDescriptor = ScrDrwTHRD->getDescriptor();
+	}
+	else {
+		cout << "Error allocating memory" << endl;
+	}
+	ScrDrwTHRD->startThread();
 }
 
 /*MScreen::MScreen() : MScreen(80, 25) {
@@ -156,10 +170,7 @@ void MScreen::classifyEvent(Command_c command) {
 
 bool MScreen::exitGameEvent(Command_c command) {
 	if (command.args.size() == 1) {
-		if (FPSDrawingRunning) {
-			FPSDrawingRunning = false;
-			return true;
-		}
+		return gameThreads->stopThread(screenDrawingTHRDDescriptor);
 	}
 	return false;
 }

@@ -33,7 +33,7 @@ private:
 
 //CONTROLLER COMMANDS(EVENTS)
 protected:
-//	bool exitGame(Command_c command);
+	bool exitGame(Command_c command);
 
 };
 

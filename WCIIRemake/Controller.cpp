@@ -108,7 +108,7 @@ void Controller::EventHandler() {
 
 void Controller::operateEvent(Command_c command) {
 	if (command == "exitgame") {
-//		exitGame(command);
+		exitGame(command);
 	}
 }
 
@@ -121,15 +121,11 @@ void Controller::threadFunction() {
 //CONTROLLER COMMANDS(EVENTS)
 
 
-/*
+
 bool Controller::exitGame(Command_c command) {
 	if (command.args.size() == 1) {
-		if (this->EventHandlerRunning) {
-			EventHandlerRunning = false;
-			console->message("Stopping EventHandler");
-			return true;
-		}
+		console->message("Stopping EventHandler");
+		return gameThreads->stopThread(eventHandlerDescriptor);
 	}
 	return false;
 }
-*/
