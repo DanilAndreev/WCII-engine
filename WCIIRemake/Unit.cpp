@@ -126,6 +126,7 @@ bool Unit::selectEvent(Command_c command) {
 	if (command.args.size() == 2) {
 		if (command.args[1].first == "all") {
 			this->selected = true;
+			cout << "selected unit '" << this->value << "'" << endl;
 			return true;
 		}
 	}

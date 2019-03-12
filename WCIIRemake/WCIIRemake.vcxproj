@@ -164,6 +164,7 @@
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="LiveUnit.h" />
+    <ClInclude Include="MoveToTHREAD.h" />
     <ClInclude Include="MScreen.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="pch.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="LiveUnit.cpp" />
+    <ClCompile Include="MoveToTHREAD.cpp" />
     <ClCompile Include="MScreen.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="pch.cpp">

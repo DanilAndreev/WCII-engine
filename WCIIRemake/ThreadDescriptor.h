@@ -11,7 +11,7 @@ public:
 	ThreadDescriptor();
 	~ThreadDescriptor();
 	ThreadId addThread(Threadable* thread);
-	int getIndexByDescriptror(ThreadId targetDescriptor); // returns array index of thread or -1 if nnot found
+	int getIndexByDescriptror(ThreadId targetDescriptor); // returns array index of thread or -1 if not found
 	bool stopThread(ThreadId targetDescriptor);
 	Threadable* getThread(ThreadId targetDescriptor);
 private:

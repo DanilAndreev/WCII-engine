@@ -3,7 +3,7 @@
 
 const int TimeoutTimes = 200;
 extern Controller* gameController;
-
+extern ThreadDescriptor* gameThreads;
 
 LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength) {
 	this->team = team;
@@ -13,14 +13,20 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->type = type;
 	this->threadFlag = false;
 	this->health = health;
+	this->MoveToTHRDDescriptor = 0;
 }
 
 LiveUnit::~LiveUnit() {
 
 }
 
+ThreadId LiveUnit::getMoveToTHRDDescriptor()
+{
+	return this->MoveToTHRDDescriptor;
+}
 
-/*
+
+
 bool LiveUnit::goTo(cordScr* dest) {
 	threadFlag = true;
 
@@ -46,7 +52,7 @@ bool LiveUnit::goTo(cordScr* dest) {
 	}
 
 
-	cout << "Unit '" << this->value << "' finished movement" << endl;
+	//cout << "Unit '" << this->value << "' finished movement" << endl;
 
 	delete fastpath;
 
@@ -54,7 +60,7 @@ bool LiveUnit::goTo(cordScr* dest) {
 	return true;
 }
 
-*/
+
 
 int LiveUnit::findPath(cordScr destC) {
 
@@ -107,6 +113,10 @@ int LiveUnit::move(int direction) {
 		break;
 	}
 	return 0;
+}
+
+cordScr * LiveUnit::getMoveDest() {
+	return &moveDest;
 }
 
 /*
@@ -164,9 +174,24 @@ bool LiveUnit::moveEvent(Command_c command) {
 	if (command.args.size() == 4) {
 		if (command.args[1].first == "to" && command.args[2].second == "number" && command.args[3].second == "number" && this->selected) {
 			this->moveDest = cordScr(stoi(command.args[2].first), stoi(command.args[3].first));
+/*
 			if (!threadFlag) {
 				//startThread();
 			}
+*/
+
+
+			gameThreads->stopThread(MoveToTHRDDescriptor);
+
+
+			MoveToTHREAD* moveToTHRD = new MoveToTHREAD(this);
+			if (moveToTHRD) {
+				this->MoveToTHRDDescriptor = moveToTHRD->getDescriptor();
+			}
+			else {
+				cout << "Error allocating memory" << endl;
+			}
+			moveToTHRD->startThread();
 		}
 	}
 	return false;
