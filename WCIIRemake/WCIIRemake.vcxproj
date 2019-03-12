@@ -159,7 +159,7 @@
     <ClInclude Include="ConsoleCommandController.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
-    <ClInclude Include="EventThrowerTHR.h" />
+    <ClInclude Include="EventHndlrTHREAD.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="LiveUnit.h" />
@@ -179,7 +179,7 @@
     <ClCompile Include="ConsoleCommandController.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
-    <ClCompile Include="EventThrowerTHR.cpp" />
+    <ClCompile Include="EventHndlrTHREAD.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="LiveUnit.cpp" />

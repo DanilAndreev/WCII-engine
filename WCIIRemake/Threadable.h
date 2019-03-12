@@ -12,7 +12,7 @@ typedef unsigned long long ThreadId;
 class Threadable : public Obj{
 protected: 
 //	Obj* parent;
-	HANDLE hThread;
+//	HANDLE hThread;
 	ThreadId threadId;
 	bool isRunning;
 	HANDLE threadHandle;
@@ -21,11 +21,12 @@ public:
 	virtual ~Threadable();
 	bool setDescriptor(ThreadId id);
 	ThreadId getDescriptor();
-	HANDLE startThread();
-	inline void stopThread();
-private:
+	void startThread();
+	void stopThread();
+protected:
 	void threadController();
 	virtual void threadFunction();
+private:
 	static unsigned int __stdcall receiveMessageThread(void* p_this);
 };
 

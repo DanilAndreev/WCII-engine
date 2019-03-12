@@ -8,47 +8,60 @@ ThreadDescriptor::ThreadDescriptor() {
 	if (gameThreads == NULL) {
 		gameThreads = this;
 	}
-	DynArr::DynArr();
 }
 
 ThreadDescriptor::~ThreadDescriptor() {
 }
 
-bool ThreadDescriptor::add(Threadable* thread) {
-	if (this->search(thread) == -1) {
-		return false;
+ThreadId ThreadDescriptor::addThread(Threadable* thread) {
+	if (this->search(thread) != -1) {
+		return 0;
 	}
-	thread->setDescriptor(getFreeId());
+	ThreadId descriptor = getFreeId();
+	thread->setDescriptor(descriptor);
 	DynArr::add((Obj*)thread);
-	return true;
+	return descriptor;
+}
+
+int ThreadDescriptor::getIndexByDescriptror(ThreadId targetDescriptor) {
+	for (int i = 0; i < this->len; i++) {
+		if (this->getT(i)->getDescriptor() == targetDescriptor) {
+			return i;
+		}
+	}
+	return -1;
+
 }
 
 bool ThreadDescriptor::stopThread(ThreadId targetDescriptor) {
-	for (int i = 0; i < this->len; i++) {
-		if ( this->get(i)->getDescriptor() == targetDescriptor ) {
-			Threadable* thread = this->get(i);
-			DynArr::delById(i); //REPAIR ----------------------------------------------------------------------
-			delete thread;
-			return true;
-		}
+	int index = getIndexByDescriptror(targetDescriptor);
+	if (index != -1) {
+		getT(index)->stopThread();
+		return true;
 	}
 	return false;
+/*
+	Threadable* thread = this->get(i);
+	DynArr::delById(i); //REPAIR ----------------------------------------------------------------------
+	delete thread;
+*/
 }
 
 Threadable * ThreadDescriptor::getThread(ThreadId targetDescriptor) {
 	for (int i = 0; i < this->len; i++) {
-		if (this->get(i)->getDescriptor() == targetDescriptor) {
-			return this->get(i);
+		if (this->getT(i)->getDescriptor() == targetDescriptor) {
+			return this->getT(i);
 		}
 	}
 	return NULL;
 }
 
 ThreadId ThreadDescriptor::getFreeId() {
+	cout << "Incrementing free id" << endl;
 	freeId++;
 	return freeId;
 }
 
-Threadable * ThreadDescriptor::get(ThreadId index) {
-	return (Threadable*)(DynArr::get(index));
+Threadable * ThreadDescriptor::getT(ThreadId index) {
+	return (Threadable*)(get(index));
 }

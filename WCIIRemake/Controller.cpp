@@ -19,9 +19,17 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 	members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	dataWriting = false;
 
-	EventThrowerTHR* eventHandler = new EventThrowerTHR(this);
-	gameThreads->add(eventHandler);
-	this->eventHandlerDescriptor = eventHandler->getDescriptor();
+	EventHndlrTHREAD* eventHandler = new EventHndlrTHREAD(this);
+
+	
+	//gameThreads->add(eventHandler);
+	if (eventHandler) {
+		this->eventHandlerDescriptor = eventHandler->getDescriptor();
+	}
+	else {
+		cout << "Error allocating memory" << endl;
+	}
+	eventHandler->startThread();
 }
 
 
@@ -64,7 +72,7 @@ DynArr * Controller::getMembers() {
 
 ThreadId Controller::getEventHandlerDescriptor()
 {
-	return ThreadId();
+	return eventHandlerDescriptor;
 }
 
 /*
@@ -100,7 +108,7 @@ void Controller::EventHandler() {
 
 void Controller::operateEvent(Command_c command) {
 	if (command == "exitgame") {
-		exitGame(command);
+//		exitGame(command);
 	}
 }
 

@@ -79,8 +79,13 @@ int main()
 
 	//HANDLE hThreadCTRL = gameController->startThread();
 
-	HANDLE eventHandlerHandle =  ((EventThrowerTHR*)(gameThreads->getThread(gameController->getEventHandlerDescriptor())))->getThreadHandle();
-	WaitForSingleObject(eventHandlerHandle, INFINITE);
+	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
+	if (evHdlrThread) {
+		HANDLE eventHandlerHandle = evHdlrThread->getThreadHandle();
+		if (eventHandlerHandle) {
+			WaitForSingleObject(eventHandlerHandle, INFINITE);
+		}
+	}
 
 
 	field->freeElements();

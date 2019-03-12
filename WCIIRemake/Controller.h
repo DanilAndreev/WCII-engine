@@ -4,7 +4,7 @@
 #include "Threadable.h"
 #include "Command_c.h"
 #include <queue>
-#include "EventThrowerTHR.h"
+#include "EventHndlrTHREAD.h"
 
 class Controller : public Obj {
 private:
@@ -27,13 +27,13 @@ public:
 	ThreadId getEventHandlerDescriptor();
 	virtual void operateEvent(Command_c command); // Process phe incoming event
 private:
-	void throwCommand(Command_c command);
+//	void throwCommand(Command_c command);
 	//void EventHandler();
 	//virtual void threadFunction();
 
 //CONTROLLER COMMANDS(EVENTS)
 protected:
-	bool exitGame(Command_c command);
+//	bool exitGame(Command_c command);
 
 };
 

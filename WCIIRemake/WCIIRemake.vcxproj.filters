@@ -66,7 +66,7 @@
     <ClInclude Include="ThreadDescriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventThrowerTHR.h">
+    <ClInclude Include="EventHndlrTHREAD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,7 +128,7 @@
     <ClCompile Include="ThreadDescriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EventThrowerTHR.cpp">
+    <ClCompile Include="EventHndlrTHREAD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,15 +6,13 @@ extern ThreadDescriptor* gameThreads;
 
 Threadable::Threadable() {
 	this->isRunning = true;
-	startThread();
+	gameThreads->addThread(this);
+	//startThread();
 }
 
 
 Threadable::~Threadable() {
-
-	this->stopThread();
-	Sleep(5);
-	CloseHandle(hThread);
+	gameThreads->delById(gameThreads->getIndexByDescriptror(this->getDescriptor()));
 }
 
 bool Threadable::setDescriptor(ThreadId id) {
@@ -36,7 +34,9 @@ void Threadable::stopThread() {
 
 void Threadable::threadController() {
 	threadFunction();
-	gameThreads->stopThread(this->threadId);
+	//gameThreads->stopThread(this->threadId);
+	_endthreadex(0);
+	CloseHandle(threadHandle);
 }
 
 void Threadable::threadFunction() {
@@ -48,7 +48,8 @@ void Threadable::threadFunction() {
 unsigned int __stdcall Threadable::receiveMessageThread(void * p_this) {
 	Threadable* p_Threadable = static_cast<Threadable*>(p_this);
 	p_Threadable->threadController();
-	_endthread();
-	
+//	gameThreads->delById(gameThreads->getIndexByDescriptror(p_Threadable->getDescriptor()));
+	delete p_Threadable;
+
 	return 0;
 }

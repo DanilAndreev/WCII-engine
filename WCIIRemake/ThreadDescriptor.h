@@ -4,17 +4,18 @@
 
 
 
-class ThreadDescriptor : protected DynArr {
+class ThreadDescriptor : public DynArr {
 private:
 	static ThreadId freeId;
 public:
 	ThreadDescriptor();
 	~ThreadDescriptor();
-	bool add(Threadable* thread);
+	ThreadId addThread(Threadable* thread);
+	int getIndexByDescriptror(ThreadId targetDescriptor); // returns array index of thread or -1 if nnot found
 	bool stopThread(ThreadId targetDescriptor);
 	Threadable* getThread(ThreadId targetDescriptor);
 private:
 	static ThreadId getFreeId();
-	inline Threadable* get(ThreadId index);
+	inline Threadable* getT(ThreadId index);
 };
 
