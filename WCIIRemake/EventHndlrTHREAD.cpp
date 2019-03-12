@@ -10,7 +10,6 @@ EventHndlrTHREAD::~EventHndlrTHREAD() {
 }
 
 void EventHndlrTHREAD::threadFunction() {
-//	cout << " ThreadFunction isRunning == " << isRunning << endl;
 	while (isRunning) {
 		if (((Controller*)parent)->EventQueueIsEmpty()) {
 			Sleep(10);

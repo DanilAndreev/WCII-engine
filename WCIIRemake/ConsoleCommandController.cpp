@@ -120,6 +120,8 @@ void ConsoleCommandController::operateEvent(Command_c command) {
 	}
 }
 
+//CONSOLE COMMAND CONTROLLER COMMANDS(EVENTS)
+
 bool ConsoleCommandController::exitGame(Command_c command) {
 	if (command.args.size() == 1) {
 		return gameThreads->stopThread(ConComConTHRDescriptor);
@@ -128,21 +130,3 @@ bool ConsoleCommandController::exitGame(Command_c command) {
 }
 
 
-/*
-void ConsoleCommandController::CommandHandler() {
-	cout << "Command:" << endl;
-	this->CommandHandlerRunning = true;
-	while (CommandHandlerRunning) {
-		Command_c command = getCommand();
-		if (command.args[0].first != "empty") {
-			throwCommand(command);
-		}
-	}
-	this->CommandHandlerRunning = false;
-}
-
-void ConsoleCommandController::threadFunction() {
-	CommandHandler();
-}
-
-*/

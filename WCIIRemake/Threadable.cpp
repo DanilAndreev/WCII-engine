@@ -3,11 +3,11 @@
 #include "ThreadDescriptor.h"
 
 extern ThreadDescriptor* gameThreads;
+extern Console* defaultConsole;
 
 Threadable::Threadable() {
 	this->isRunning = true;
 	gameThreads->addThread(this);
-	//startThread();
 }
 
 
@@ -34,13 +34,12 @@ void Threadable::stopThread() {
 
 void Threadable::threadController() {
 	threadFunction();
-	//gameThreads->stopThread(this->threadId);
 	_endthreadex(0);
 	CloseHandle(threadHandle);
 }
 
 void Threadable::threadFunction() {
-	cout << "Unreloaded basic thread function" << endl;
+	defaultConsole->error("Unreloaded basic thread function");
 }
 
 
@@ -48,7 +47,6 @@ void Threadable::threadFunction() {
 unsigned int __stdcall Threadable::receiveMessageThread(void * p_this) {
 	Threadable* p_Threadable = static_cast<Threadable*>(p_this);
 	p_Threadable->threadController();
-//	gameThreads->delById(gameThreads->getIndexByDescriptror(p_Threadable->getDescriptor()));
 	delete p_Threadable;
 
 	return 0;

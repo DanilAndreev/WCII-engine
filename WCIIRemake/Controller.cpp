@@ -112,12 +112,6 @@ void Controller::operateEvent(Command_c command) {
 	}
 }
 
-/*
-void Controller::threadFunction() {
-	EventHandler();
-}
-*/
-
 //CONTROLLER COMMANDS(EVENTS)
 
 

@@ -1,4 +1,4 @@
-//TODO : ADD THSI TO CONTROLLER EVENT MEMBERS
+//TODO : ADD THIS TO CONTROLLER EVENT MEMBERS
 #pragma once
 #include "pch.h"
 #include "Command_c.h"
@@ -7,7 +7,6 @@
 
 class ConsoleCommandController : public Obj{
 private:
-//	Console *console;
 	Controller* mainController;
 	int ParserPosition;
 	bool CommandHandlerRunning;
@@ -26,8 +25,7 @@ public:
 	Command_c getCommand();
 	void throwCommand(Command_c command);
 	void operateEvent(Command_c command);
-//	void CommandHandler();
-//	virtual void threadFunction();
+//CONSOLE COMMAND CONTROLLER COMMANDS(EVENTS)
 protected:
 	bool exitGame(Command_c command);
 };

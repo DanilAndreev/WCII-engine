@@ -40,11 +40,6 @@ bool ThreadDescriptor::stopThread(ThreadId targetDescriptor) {
 		return true;
 	}
 	return false;
-/*
-	Threadable* thread = this->get(i);
-	DynArr::delById(i); //REPAIR ----------------------------------------------------------------------
-	delete thread;
-*/
 }
 
 Threadable * ThreadDescriptor::getThread(ThreadId targetDescriptor) {
@@ -57,7 +52,6 @@ Threadable * ThreadDescriptor::getThread(ThreadId targetDescriptor) {
 }
 
 ThreadId ThreadDescriptor::getFreeId() {
-	cout << "Incrementing free id" << endl;
 	freeId++;
 	return freeId;
 }

@@ -11,8 +11,6 @@ typedef unsigned long long ThreadId;
 
 class Threadable : public Obj{
 protected: 
-//	Obj* parent;
-//	HANDLE hThread;
 	ThreadId threadId;
 	bool isRunning;
 	HANDLE threadHandle;
