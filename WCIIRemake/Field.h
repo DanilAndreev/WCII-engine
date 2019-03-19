@@ -26,7 +26,7 @@ class Field : public Screenable {
 		int changeCell(cordScr cords, Unit * target); // поменять клетку(прыгнуть в клетку с данными координатами)
 		virtual void render(); // отрисоваться(просчитаться)
 		bool checkFree(cordScr cords, int type); // проверить клетку на наличие юнита даного типа (вернет истину если нету и ложь если есть)
-		bool classifyEvent(Command_c command);
-		virtual void operateEvent(Command_c command);
+		bool classifyEvent(Command_c* command);
+		virtual void operateEvent(Command_c* command);
 };
 

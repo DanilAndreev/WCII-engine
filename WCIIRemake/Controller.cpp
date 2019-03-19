@@ -75,39 +75,24 @@ ThreadId Controller::getEventHandlerDescriptor()
 	return eventHandlerDescriptor;
 }
 
-/*
-void Controller::throwCommand(Command_c command) {
 
-//	command.printCommand();
 
+Command_c* Controller::throwCommand(Command_c* command) {
+	//	command.printCommand();
+//	Command_c* eventCommand = new Command_c();
+//	*eventCommand = command;
 	for (int i = 0; i < members->count(); i++) {
-		members->get(i)->operateEvent(command);
-	}
-}
-*/
-
-/*
-void Controller::EventHandler() {
-	this->EventHandlerRunning = true;
-	while (EventHandlerRunning) {
-		if (eventQueue.empty()) {
-			Sleep(10);
-		}
-		else {
-			Command_c command = eventQueue.front();
-			eventQueue.pop();
-			if (command.args[0].first != "empty") {
-				throwCommand(command);
-			}
+		Obj* object = members->get(i);
+		if (object) {
+			object->operateEvent(command);
 		}
 	}
-	this->EventHandlerRunning = false;
+	return command;
 }
 
-*/
 
-void Controller::operateEvent(Command_c command) {
-	if (command == "exitgame") {
+void Controller::operateEvent(Command_c* command) {
+	if (*command == "exitgame") {
 		exitGame(command);
 	}
 }
@@ -116,8 +101,8 @@ void Controller::operateEvent(Command_c command) {
 
 
 
-bool Controller::exitGame(Command_c command) {
-	if (command.args.size() == 1) {
+bool Controller::exitGame(Command_c* command) {
+	if (command->args.size() == 1) {
 		console->message("Stopping EventHandler");
 		return gameThreads->stopThread(eventHandlerDescriptor);
 	}

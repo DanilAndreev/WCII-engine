@@ -4,6 +4,8 @@
 const int TimeoutTimes = 200;
 extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
+extern ConsoleCommandController* defaultConComCon;
+
 
 LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength) {
 	this->team = team;
@@ -58,6 +60,33 @@ bool LiveUnit::goTo(cordScr* dest) {
 
 	threadFlag = false;
 	return true;
+}
+
+bool LiveUnit::attack() {
+	DynArr* members = field->getMembers();
+	for (int i = 0; i < members->count(); i++) {
+		Unit* unt = (Unit*)(members->get(i));
+		if (unt) {
+			cordScr tarCords = ((Unit*)(members->get(i)))->getCord();
+			if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0) {
+				// generating the event for damage
+				Command_c command;
+				pair <string, string> arg;
+				arg.first = "damage";
+				arg.second = "command";
+				command.args.push_back(arg);
+				arg.first = ((Unit*)(members->get(i)))->getValue();
+				arg.second = "command";
+				command.args.push_back(arg);
+				arg.first = to_string(30); //TODO: add the damage value to unit!!!
+				arg.second = "number";
+				command.args.push_back(arg);
+				gameController->addEventToQueue(command);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 
@@ -125,65 +154,68 @@ void LiveUnit::threadFunction() {
 }
 */
 
-bool LiveUnit::classifyEvent(Command_c command) {
-	if (command == "select") {
+bool LiveUnit::classifyEvent(Command_c* command) {
+	if (*command == "select") {
 		return selectEvent(command);
 	}
 
 
-	if (command == "echo" && this->selected) {
+	if (*command == "echo" && this->selected) {
 		return echoEvent(command);
 	}
 
-	if (command == "tp" && this->selected) {
+	if (*command == "tp" && this->selected) {
 		return tpEvent(command);
 	}
 
-	if (command == "move") {
+	if (*command == "move" && this->selected) {
 		return moveEvent(command);
 	}
 
-	if (command == "damage") {
+	if (*command == "damage") {
 		return damageEvent(command);
 	}
 
+	if (*command == "attack" && this->selected) {
+		return attackEvent(command);
+	}
+
+	if (*command == "stop" && this->selected) {
+		return stopEvent(command);
+	}
 
 	return false;
 }
 
-void LiveUnit::operateEvent(Command_c command)
+void LiveUnit::operateEvent(Command_c* command)
 {
 	classifyEvent(command);
 }
 
-
+void LiveUnit::stopAllThreads() {
+	gameThreads->stopThread(AttackTHRDDescriptor);
+	gameThreads->stopThread(MoveToTHRDDescriptor);
+}
 
 //LIVEUNIT COMMANDS(EVENTS)
 
-bool LiveUnit::tpEvent(Command_c command) {
-	if (command.args.size() == 3) {
-		if (command.args[1].second == "number" && command.args[2].second == "number") {
-			cordScr cords(stoi(command.args[1].first), stoi(command.args[2].first));
+bool LiveUnit::tpEvent(Command_c* command) {
+	if (command->args.size() == 3) {
+		if (command->args[1].second == "number" && command->args[2].second == "number") {
+			cordScr cords(stoi(command->args[1].first), stoi(command->args[2].first));
 			return field->changeCell(cords, this);
 		}
 	}
 	return false;
 }
 
-bool LiveUnit::moveEvent(Command_c command) {
-	if (command.args.size() == 4) {
-		if (command.args[1].first == "to" && command.args[2].second == "number" && command.args[3].second == "number" && this->selected) {
-			this->moveDest = cordScr(stoi(command.args[2].first), stoi(command.args[3].first));
-/*
-			if (!threadFlag) {
-				//startThread();
-			}
-*/
+bool LiveUnit::moveEvent(Command_c* command) {
+	if (command->args.size() == 4) {
+		if (command->args[1].first == "to" && command->args[2].second == "number" && command->args[3].second == "number" && this->selected) {
+			this->moveDest = cordScr(stoi(command->args[2].first), stoi(command->args[3].first));
 
 
 			gameThreads->stopThread(MoveToTHRDDescriptor);
-
-
 			MoveToTHREAD* moveToTHRD = new MoveToTHREAD(this);
 			if (moveToTHRD) {
 				this->MoveToTHRDDescriptor = moveToTHRD->getDescriptor();
@@ -197,3 +229,44 @@ bool LiveUnit::moveEvent(Command_c command) {
 	return false;
 }
 
+bool LiveUnit::stopEvent(Command_c* command) {
+	gameThreads->stopThread(MoveToTHRDDescriptor);
+	gameThreads->stopThread(AttackTHRDDescriptor);
+	return true;
+}
+
+bool LiveUnit::attackEvent(Command_c* command) {
+	if (command->args.size() == 3) {
+		if (command->args[1].second == "number" && command->args[2].second == "number") {
+//			cout << "kuku" << endl;
+			//starting attack thread
+			gameThreads->stopThread(AttackTHRDDescriptor);
+			AttackTHREAD* attackTHRD = new AttackTHREAD(this);
+			if (attackTHRD) {
+				this->AttackTHRDDescriptor = attackTHRD->getDescriptor();
+			}
+			else {
+				cout << "Error allocating memory" << endl;
+			}
+			attackTHRD->startThread();
+			//starting move thread
+
+			Command_c* moveCommand = new Command_c();
+
+
+			pair <string, string> arg;
+			arg.first = "move";
+			arg.second = "command";
+			moveCommand->args.push_back(arg);
+			arg.first = "to";
+			arg.second = "command";
+			moveCommand->args.push_back(arg);
+			moveCommand->args.push_back(command->args[1]);
+			moveCommand->args.push_back(command->args[2]);
+//			moveCommand->printCommand();
+			moveEvent(moveCommand);
+			return true;
+		}
+	}
+	return false;
+}

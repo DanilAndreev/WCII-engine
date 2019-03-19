@@ -21,21 +21,23 @@ public:
 	Unit(char value, int type, Field* field, int health, int team, int attackLength);
 	Unit() : Unit('d', 1, NULL, 100, 0, 0) {}
 	virtual ~Unit();
-
+	int getTeam();
+	int getHealth();
 	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
 	virtual void render(); // отрисоваться(просчитаться)
-	bool classifyEvent(Command_c command);
+	bool classifyEvent(Command_c* command);
 	//virtual void threadFunction();
-	virtual void operateEvent(Command_c command);
+	virtual void operateEvent(Command_c* command);
 protected:
 	bool getDamage(int damage);
+	virtual void stopAllThreads();
 	//void attack();
 protected:
 	//UNIT COMMANDS(EVENTS)
-	bool selectEvent(Command_c command);
-	bool echoEvent(Command_c command);
-	bool damageEvent(Command_c command);
+	bool selectEvent(Command_c* command);
+	bool echoEvent(Command_c* command);
+	bool damageEvent(Command_c* command);
 
 };
 

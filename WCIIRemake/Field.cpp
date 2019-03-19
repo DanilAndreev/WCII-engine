@@ -122,14 +122,14 @@ void Field::render() {
 
 }
 
-bool Field::classifyEvent(Command_c command) {
-	if (command == "select") {
+bool Field::classifyEvent(Command_c* command) {
+	if (*command == "select") {
 		
 	}
 	return false;
 }
 
-void Field::operateEvent(Command_c command) {
+void Field::operateEvent(Command_c* command) {
 	//TODO: operate for itself
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);

@@ -12,6 +12,6 @@ MoveToTHREAD::~MoveToTHREAD() {
 
 void MoveToTHREAD::threadFunction(){
 	LiveUnit* LUParent = (LiveUnit*)parent;
-	LUParent->goTo(LUParent->getMoveDest());
+	LUParent->goTo(LUParent->getMoveDest()); // FIX!!!! cant terminate thread
 }
 

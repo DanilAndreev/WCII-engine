@@ -5,6 +5,7 @@
 Console* defaultConsole;
 Controller* gameController;
 extern ThreadDescriptor* gameThreads;
+ConsoleCommandController* defaultConComCon;
 
 using namespace std;
 int main()
@@ -69,7 +70,7 @@ int main()
 
 	//Console* console = new Console();
 	gameController = new Controller(field, scr,  defaultConsole);
-	ConsoleCommandController* conComCon = new ConsoleCommandController(defaultConsole, gameController);
+	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 
 	

@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="AttackTHREAD.h" />
     <ClInclude Include="Command_c.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleCommandController.h" />
@@ -177,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="AttackTHREAD.cpp" />
     <ClCompile Include="Command_c.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleCommandController.cpp" />

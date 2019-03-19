@@ -25,7 +25,8 @@ public:
 	bool EventQueueIsEmpty();
 	DynArr* getMembers();
 	ThreadId getEventHandlerDescriptor();
-	virtual void operateEvent(Command_c command); // Process phe incoming event
+	Command_c* throwCommand(Command_c* command);
+	virtual void operateEvent(Command_c* command); // Process phe incoming event
 private:
 //	void throwCommand(Command_c command);
 	//void EventHandler();
@@ -33,7 +34,7 @@ private:
 
 //CONTROLLER COMMANDS(EVENTS)
 protected:
-	bool exitGame(Command_c command);
+	bool exitGame(Command_c* command);
 
 };
 

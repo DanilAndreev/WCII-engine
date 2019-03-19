@@ -15,22 +15,33 @@ void EventHndlrTHREAD::threadFunction() {
 			Sleep(10);
 		}
 		else {
-			Command_c command = ((Controller*)parent)->getEventFromQueue();
-			if (command.args[0].first != "empty") {
-				throwCommand(command);
+			Command_c* command = new Command_c();
+			*command = ((Controller*)parent)->getEventFromQueue();
+			if (command->args[0].first != "empty") {
+				((Controller*)parent)->throwCommand(command);
+				delete command;
 			}
 		}
 	}
 	isRunning = false;
 }
 
+/*
 void EventHndlrTHREAD::throwCommand(Command_c command) {
 	//	command.printCommand();
-	for (int i = 0; i < ((Controller*)parent)->getMembers()->count(); i++) {
-		((Controller*)parent)->getMembers()->get(i)->operateEvent(command);
-	}
-}
+	Command_c* eventCommand = new Command_c();
+	*eventCommand = command;
 
+	
+	for (int i = 0; i < ((Controller*)parent)->getMembers()->count(); i++) {
+		Obj* object = ((Controller*)parent)->getMembers()->get(i);
+		if (object) {
+			object->operateEvent(eventCommand);
+		}
+	}
+	delete eventCommand;
+}
+*/
 
 HANDLE EventHndlrTHREAD::getThreadHandle() {
 	return this->threadHandle;

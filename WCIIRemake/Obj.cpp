@@ -20,8 +20,7 @@ void Obj::setClassName(const char* className) {
 	this->className = className;
 }
 
-void Obj::operateEvent(Command_c command)
-{
+void Obj::operateEvent(Command_c* command){
 }
 
 const char* Obj::getClassName() {
