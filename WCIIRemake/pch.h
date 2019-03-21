@@ -41,5 +41,6 @@
 #include "LiveUnit.h"
 #include "ThreadDescriptor.h"
 #include "gameMaster.h"
+#include "Building.h"
 
 #endif //PCH_H
