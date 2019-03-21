@@ -6,15 +6,14 @@ Command_c::Command_c() {
 	Command_c("error");
 }
 
-
-Command_c::~Command_c() {
-}
-
 Command_c::Command_c(string arg) {
 	pair <string, string> command;
 	command.first = arg;
 	command.second = "command";
 	args.push_back(command);
+}
+
+Command_c::~Command_c() {
 }
 
 void Command_c::printCommand(string imessage) {

@@ -99,7 +99,7 @@ void DynArr::delById(int index) {
 	if (index > 0) {
 		memcpy(newarray, array, index*sizeof(Obj*));
 	}
-	memcpy(newarray + index, array, (len - (index)) * sizeof(Obj*)); // maybe change to index + 1
+	memcpy(newarray + index, array, (len - (index)) * sizeof(Obj*));
 	delete[] array;
 	array = newarray;
 }

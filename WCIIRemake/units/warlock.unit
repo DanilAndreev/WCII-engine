@@ -1,0 +1,17 @@
+unit Warlock{
+    beautyName: "Warlock";
+    fraction: "Horde";
+    symbol: 'w';
+    width: 1;
+    heigth: 1;
+    health: 60;
+    damage: 30;
+    cooldown: 10000;
+    attackRadius: 30;
+    speedDelay: 700;
+    mana: 100;
+    spells: ["demonFury", "fastSlash"];
+    cost: 250;
+    eats: 5;
+    productionTime: 1000000;
+}

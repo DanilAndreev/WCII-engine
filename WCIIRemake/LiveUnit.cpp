@@ -36,12 +36,10 @@ bool LiveUnit::goTo(cordScr* dest) {
 	int timeoutCounter = 0;
 	while (timeoutCounter <= TimeoutTimes && this->health > 0) {
 		int direction = fastpath->solveDirection(*dest);
-		//		cout << "Unit '" << this->value << "' direction " << direction << endl;
 		if (direction == -1) {
 			break;
 		}
 		if (direction == 0) {
-			//cout << "direction '" << value << "' = " << direction << endl;
 			timeoutCounter++;
 			Sleep(100);
 		}
@@ -52,12 +50,7 @@ bool LiveUnit::goTo(cordScr* dest) {
 			Sleep(300 + rand() % 20); //TODO: change to his speed
 		}
 	}
-
-
-	//cout << "Unit '" << this->value << "' finished movement" << endl;
-
 	delete fastpath;
-
 	threadFlag = false;
 	return true;
 }
@@ -148,12 +141,6 @@ cordScr * LiveUnit::getMoveDest() {
 	return &moveDest;
 }
 
-/*
-void LiveUnit::threadFunction() {
-	goTo(&moveDest);
-}
-*/
-
 bool LiveUnit::classifyEvent(Command_c* command) {
 	if (*command == "select") {
 		return selectEvent(command);
@@ -182,6 +169,10 @@ bool LiveUnit::classifyEvent(Command_c* command) {
 
 	if (*command == "stop" && this->selected) {
 		return stopEvent(command);
+	}
+	
+	if (*command == "getInfo") {
+		return getInfoEvent(command);
 	}
 
 	return false;
@@ -238,7 +229,6 @@ bool LiveUnit::stopEvent(Command_c* command) {
 bool LiveUnit::attackEvent(Command_c* command) {
 	if (command->args.size() == 3) {
 		if (command->args[1].second == "number" && command->args[2].second == "number") {
-//			cout << "kuku" << endl;
 			//starting attack thread
 			gameThreads->stopThread(AttackTHRDDescriptor);
 			AttackTHREAD* attackTHRD = new AttackTHREAD(this);

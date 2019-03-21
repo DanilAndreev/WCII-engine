@@ -1,4 +1,5 @@
 #pragma once
+#include "eventReturnData.h"
 #include <vector>
 #include <utility>
 #include <string>
@@ -9,7 +10,7 @@ using namespace std;
 class Command_c {
 public:
 	vector <pair<string, string>> args;
-	vector <int> values;
+	vector <eventReturnData> data;
 public:
 	Command_c(vector <pair<string, string>> inp_args) : args(inp_args) {}
 	Command_c(string arg);

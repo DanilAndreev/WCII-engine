@@ -40,5 +40,6 @@
 #include "ConsoleCommandController.h"
 #include "LiveUnit.h"
 #include "ThreadDescriptor.h"
+#include "gameMaster.h"
 
 #endif //PCH_H

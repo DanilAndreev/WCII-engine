@@ -11,12 +11,7 @@ MScreen::MScreen(int width, int heigth) {
 	buff = NULL;
 	this->bufLen = heigth * width;
 	initBuff();
-//	FPSDrawingRunning = false;
-
 	ScreenDrawindTHREAD* ScrDrwTHRD = new ScreenDrawindTHREAD(this);
-
-
-	//gameThreads->add(eventHandler);
 	if (ScrDrwTHRD) {
 		this->screenDrawingTHRDDescriptor = ScrDrwTHRD->getDescriptor();
 	}
@@ -25,9 +20,6 @@ MScreen::MScreen(int width, int heigth) {
 	}
 	ScrDrwTHRD->startThread();
 }
-
-/*MScreen::MScreen() : MScreen(80, 25) {
-}*/
 
 void MScreen::setRatio(int width, int heigth) {
 	this->heigth = heigth;
@@ -129,30 +121,9 @@ void MScreen::render() {
 	}
 }
 
-
-/*
-void MScreen::FPSdrawing() {
-	FPSDrawingRunning = true;
-	while (FPSDrawingRunning) {
-		render();
-		Sleep(100);
-	}
-	FPSDrawingRunning = false;
-}
-
-*/
-
 void MScreen::operateEvent(Command_c command) {
 	classifyEvent(command);
 }
-
-
-/*
-void MScreen::threadFunction() {
-	FPSdrawing();
-}
-
-*/
 
 void MScreen::classifyEvent(Command_c command) {
 	if (command == "exitGame") {

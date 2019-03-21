@@ -11,6 +11,5 @@ public:
 	HANDLE getThreadHandle();
 protected:
 	virtual void threadFunction();
-	//void throwCommand(Command_c command);
 };
 

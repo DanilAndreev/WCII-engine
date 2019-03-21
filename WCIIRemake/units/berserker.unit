@@ -1,0 +1,17 @@
+unit Berserker{
+    beautyName: "Berserker";
+    fraction: "Horde";
+    symbol: 'b';
+    width: 1;
+    heigth: 1;
+    health: 100;
+    damage: 30;
+    cooldown: 1000;
+    attackRadius: 20;
+    speedDelay: 1000;
+    mana: 0;
+    spells: [];
+    cost: 100;
+    eats: 3;
+    productionTime: 100000;
+}

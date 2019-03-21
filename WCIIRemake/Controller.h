@@ -27,10 +27,6 @@ public:
 	ThreadId getEventHandlerDescriptor();
 	Command_c* throwCommand(Command_c* command);
 	virtual void operateEvent(Command_c* command); // Process phe incoming event
-private:
-//	void throwCommand(Command_c command);
-	//void EventHandler();
-	//virtual void threadFunction();
 
 //CONTROLLER COMMANDS(EVENTS)
 protected:

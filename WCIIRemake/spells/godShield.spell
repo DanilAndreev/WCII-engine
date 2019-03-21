@@ -1,0 +1,9 @@
+spell godShield{
+    beautyName: "God shield";
+    type: self;
+    heal: 100;
+    cooldown: 1000;
+    castCooldown: 1000;
+    cost: 100;
+    productionTime: 20;
+}

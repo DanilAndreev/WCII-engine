@@ -6,6 +6,7 @@ Console* defaultConsole;
 Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 ConsoleCommandController* defaultConComCon;
+GameMaster* gameMaster;
 
 using namespace std;
 int main()
@@ -16,11 +17,6 @@ int main()
 	scr->setCord(cordScr(30, 2));
 	Field* field = new Field(85, 30);
 	scr->addElement(cordScr(2, 2), field->getWidth(), field->getHeigth(), field);
-/*
-	cordScr cords;
-	cords.x = 2;
-	cords.y = 2;
-*/
 
 	LiveUnit* unt1 = new LiveUnit('a', 1, field, 100, 1, 30);
 	LiveUnit* unt2 = new LiveUnit('b', 1, field, 100, 1, 25);
@@ -40,45 +36,12 @@ int main()
 	field->setCell(cordScr(7, 4), obstacle4);
 
 
-	//scr->putToBuff(cordScr(1, 1), 'w');
-	scr->render();
 
-//	unt4->move(1);
-
-	scr->render();
-
-//	unt4->move(3);
-
-	scr->render();
-	//system("cls");
-	
-	/*1--> The cell is not blocked
-	0--> The cell is blocked    */
-
-/*
-
-	AStar* astar = new AStar(20, 20);
-	astar->DebugMap();
-	//astar->getPathMap();
-	
-	astar->aStarSearch(cordScr(0, 0), cordScr(18, 18));
-	astar->getPathMap();
-	cout << astar->getPath();
-
-	delete astar;
-*/
-
-	//Console* console = new Console();
 	gameController = new Controller(field, scr,  defaultConsole);
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
-
-	
-//	conComCon->startThread();
-
-	//scr->startThread();
-
-	//HANDLE hThreadCTRL = gameController->startThread();
+	gameMaster = new GameMaster();
+	gameMaster->readUnits();
 
 	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
 	if (evHdlrThread) {
@@ -92,28 +55,6 @@ int main()
 	field->freeElements();
 	scr->freeElements();
 	delete scr;
-
-
-
-
-
-
-
-	//system("pause");
-
-
-
-
-
-/*
-	std::cout << "Hello World!\n";
-
-	for (int i = 0; i < arr->count(); i++) {
-		std::cout << arr->get(1)->getClassName() << "\n";
-	}
-	delete arr;
-*/
-
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

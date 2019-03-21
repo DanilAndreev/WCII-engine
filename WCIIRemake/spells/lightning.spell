@@ -1,0 +1,9 @@
+spell lightning{
+    beautyName: "Lightning";
+    type: target;
+    damage: 100;
+    heal: 0;
+    castCooldown: 10000;
+    cost: 200;
+    productionTime: 400;
+}

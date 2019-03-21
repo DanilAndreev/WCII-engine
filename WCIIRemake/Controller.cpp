@@ -22,7 +22,6 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 	EventHndlrTHREAD* eventHandler = new EventHndlrTHREAD(this);
 
 	
-	//gameThreads->add(eventHandler);
 	if (eventHandler) {
 		this->eventHandlerDescriptor = eventHandler->getDescriptor();
 	}

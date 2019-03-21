@@ -19,7 +19,6 @@ public:
 private:
 	int findPath(cordScr destC); // запустить поиск пути(в процессе)
 	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left (нужно дописать еще 4 движения)
-//	virtual void threadFunction();
 	bool classifyEvent(Command_c* command);
 	virtual void operateEvent(Command_c* command);
 	virtual void stopAllThreads();

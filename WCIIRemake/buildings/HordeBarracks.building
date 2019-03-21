@@ -1,0 +1,16 @@
+building HordeBarracks{
+    beautyName: "Barracks";
+    fraction: "Horde";
+    symbol: 'B';
+    width: 3;
+    heigth: 3;
+    health: 400;
+    damage: 0;
+    cooldown: 0;
+    attackRadius: 0;
+    mana: 100;
+    spells: ["spikes"];
+    pruduction: ["berserker", "warclock", "grunt"];
+    cost: 600;
+    productionTime: 2000000;
+}

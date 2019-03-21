@@ -26,23 +26,6 @@ void EventHndlrTHREAD::threadFunction() {
 	isRunning = false;
 }
 
-/*
-void EventHndlrTHREAD::throwCommand(Command_c command) {
-	//	command.printCommand();
-	Command_c* eventCommand = new Command_c();
-	*eventCommand = command;
-
-	
-	for (int i = 0; i < ((Controller*)parent)->getMembers()->count(); i++) {
-		Obj* object = ((Controller*)parent)->getMembers()->get(i);
-		if (object) {
-			object->operateEvent(eventCommand);
-		}
-	}
-	delete eventCommand;
-}
-*/
-
 HANDLE EventHndlrTHREAD::getThreadHandle() {
 	return this->threadHandle;
 }

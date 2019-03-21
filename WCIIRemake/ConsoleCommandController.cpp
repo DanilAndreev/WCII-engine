@@ -39,7 +39,6 @@ ConsoleCommandController::~ConsoleCommandController() {
 }
 
 bool ConsoleCommandController::readCondition(char character) {
-	//	if ((isalnum(character) || character == '-') && character != 0) {
 	if ((character != ' ') && character != 0) {
 		return true;
 	}
@@ -75,7 +74,7 @@ pair <string, string> ConsoleCommandController::nextToken(string command) {
 	while (readCondition(command[ParserPosition])) {
 		temp.first += command[ParserPosition];
 		if (readBegin) {
-			temp.second = commandType(temp.first[0]); // add better classification for commands
+			temp.second = commandType(temp.first[0]);
 		}
 		readBegin = false;
 		ParserPosition++;

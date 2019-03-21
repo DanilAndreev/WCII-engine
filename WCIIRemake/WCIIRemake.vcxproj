@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AttackTHREAD.h" />
+    <ClInclude Include="Building.h" />
     <ClInclude Include="Command_c.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleCommandController.h" />
@@ -162,8 +163,12 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="EventHndlrTHREAD.h" />
+    <ClInclude Include="eventReturnData.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="cordScr.h" />
+    <ClInclude Include="gameMaster.h" />
+    <ClInclude Include="ID.h" />
     <ClInclude Include="LiveUnit.h" />
     <ClInclude Include="MoveToTHREAD.h" />
     <ClInclude Include="MScreen.h" />
@@ -179,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AttackTHREAD.cpp" />
+    <ClCompile Include="Building.cpp" />
     <ClCompile Include="Command_c.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleCommandController.cpp" />
@@ -186,8 +192,10 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="EventHndlrTHREAD.cpp" />
+    <ClCompile Include="eventReturnData.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="gameMaster.cpp" />
     <ClCompile Include="LiveUnit.cpp" />
     <ClCompile Include="MoveToTHREAD.cpp" />
     <ClCompile Include="MScreen.cpp" />
