@@ -8,10 +8,10 @@ class GameMaster : public Obj {
 	//vector <Building> buildingPresets;
 	//vector <Spell> spellsPresets;
 	DynArr players;
-	string line;
-	string beautyName;
+	string line; //get line from file
+	string beautyName; // name of person
 	string fraction;
-	char symbol;
+	char symbol; // symbol of pers
 	int width;
 	int height;
 	int health;
@@ -20,18 +20,18 @@ class GameMaster : public Obj {
 	int attackRadius;
 	int speedDelay;
 	int mana;
-	char **spells;
+	vector<string> spells; // spells of pers
 	int cost;
 	int eats;
 	int productionTime;
-	typedef vector<map<string, string>> parse;
+	typedef vector<map<string, string>> parse; // idea parse line into vector of map of strings(like BeautyName:, Berserker)
 	parse map;
-	bool next_token(string & token);
-	int check_token(string & token);
+	bool next_token(string & token); // function for splitting line into parts
+	int check_token(string & token); // check what token means
 public:
 	GameMaster();
 	~GameMaster();
-	vector<string>& split(const string & s, char delim, vector<string>& elems);
+	vector<string>& split(const string & s, char delim, vector<string>& elems); //another function for splitting into vector of strings
 
 	vector<string> split(const string & s, char delim);
 
