@@ -1,3 +1,4 @@
+
 #include "pch.h"
 #include "gameMaster.h"
 #include <fstream>
@@ -187,3 +188,4 @@ bool GameMaster::loadGame(vector<LiveUnit> & units) {
 
 
 //char value, int type, Field* field, int health, int team, int attackLength
+

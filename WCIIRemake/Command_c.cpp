@@ -31,6 +31,24 @@ void Command_c::printCommand() {
 	printCommand("");
 }
 
+bool Command_c::checkFlag(string target) {
+	for (int i = 0; i < this->args.size(); i++) {
+		if (target == this->args[i].first && this->args[i].second == "flag") {
+			return true;
+		}
+	}
+	return false;
+}
+
+int Command_c::search(string target) {
+	for (int i = 0; i < this->args.size(); i++) {
+		if (this->args[i].first == target) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 
 
 bool operator==(const Command_c & left, string right) {

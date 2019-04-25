@@ -81,8 +81,12 @@ void Field::render() {
 
 bool Field::classifyEvent(Command_c* command) {
 	if (*command == "select") {
-		
+
 	}
+	if (*command == "spawn") {
+		return spawn(command);
+	}
+
 	return false;
 }
 
@@ -91,4 +95,25 @@ void Field::operateEvent(Command_c* command) {
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);
 	}
+}
+
+//Field commands(Events)
+
+//spawn unit 10(x) 10(y) 1(team) 100(health) 100(attack) 1(type) v(value) 
+bool Field::spawn(Command_c* command) {
+	if (command->args.size() == 9) { 
+		if (command->args[1].second == "command" && command->args[2].second == "number" && command->args[3].second == "number" && command->args[4].second == "number" && command->args[5].second == "number" && command->args[6].second == "number" && command->args[7].second == "number" && command->args[8].second == "command") {
+			int x = stoi(command->args[2].first);
+			int y = stoi(command->args[3].first);
+			int team = stoi(command->args[4].first);
+			int health = stoi(command->args[5].first);
+			int attackLength = stoi(command->args[6].first);
+			int type = stoi(command->args[7].first);
+			int value = command->args[8].first[0];
+			LiveUnit* unit = new LiveUnit(value, type, this, health, team, attackLength);
+			this->setCell(cordScr(x,y), (Unit*)unit);
+			return true;
+		}
+	}
+	return false;
 }

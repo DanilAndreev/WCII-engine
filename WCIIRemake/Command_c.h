@@ -16,8 +16,10 @@ public:
 	Command_c(string arg);
 	Command_c();
 	~Command_c();
-	void printCommand(string imessage);
-	void printCommand();
+	void printCommand(string imessage); // prints the command to the debug console with user message
+	void printCommand(); // prints the command to the console in debug mode
+	bool checkFlag(string target); // returns true if it is a requested flag in this command and false in not
+	int search(string target); // returns index of first matched requested value in the command or -1 if not found
 public:
 	friend bool operator==(const Command_c& left, string right);
 };

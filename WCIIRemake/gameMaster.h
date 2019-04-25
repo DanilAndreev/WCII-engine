@@ -2,6 +2,8 @@
 #include "Obj.h"
 #include "pch.h"
 
+#include <map>
+
 
 class GameMaster : public Obj {
 	vector <LiveUnit> creaturePresets;
@@ -36,7 +38,7 @@ public:
 	vector<string> split(const string & s, char delim);
 
 	void readUnits();
-	void readSpells();
+	//void readSpells();
 	void readBuildings();
 	bool saveGame(vector<LiveUnit>& units);
 	bool loadGame(vector<LiveUnit>& units);

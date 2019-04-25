@@ -22,5 +22,8 @@ class Field : public Screenable {
 		bool checkFree(cordScr cords, int type); // проверить клетку на наличие юнита даного типа (вернет истину если нету и ложь если есть)
 		bool classifyEvent(Command_c* command);
 		virtual void operateEvent(Command_c* command);
+		//Field commands(Events)
+		bool spawn(Command_c* command);
+
 };
 
