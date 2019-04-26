@@ -8,12 +8,15 @@
 using namespace std;
 
 class Command_c {
+protected:
+	int ParserPosition;
 public:
 	vector <pair<string, string>> args;
 	vector <eventReturnData> data;
 public:
-	Command_c(vector <pair<string, string>> inp_args) : args(inp_args) {}
+	Command_c(vector <pair<string, string>> inp_args) : args(inp_args), ParserPosition(0){}
 	Command_c(string arg);
+	Command_c(int notUsed, const char* s1, ...);
 	Command_c();
 	~Command_c();
 	void printCommand(string imessage); // prints the command to the debug console with user message
@@ -22,4 +25,10 @@ public:
 	int search(string target); // returns index of first matched requested value in the command or -1 if not found
 public:
 	friend bool operator==(const Command_c& left, string right);
+protected:
+	bool readCondition(char character);
+	string commandType(char character);
+	pair <string, string> nextToken(string command);
+	void initParser();
+	bool parseCommand(string command); // Parse the command
 };
