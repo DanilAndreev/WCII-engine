@@ -3,8 +3,10 @@
 
 extern GameMaster* gameMaster;
 
+
 Building::Building() {
 }
+
 
 
 Building::~Building() {

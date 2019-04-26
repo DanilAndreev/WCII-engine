@@ -143,6 +143,11 @@ bool Unit::damageEvent(Command_c* command) {
 		if (command->args[1].first[0] == this->value && command->args[2].second == "number") {
 			getDamage(stoi(command->args[2].first));
 		}
+		if (command->args[1].second == "number" && command->args[2].second == "number") {
+			if (stoi(command->args[1].first) == this->id) {
+				getDamage(stoi(command->args[2].first));
+			}
+		}
 	}
 	return false;
 }

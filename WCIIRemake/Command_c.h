@@ -16,7 +16,7 @@ public:
 public:
 	Command_c(vector <pair<string, string>> inp_args) : args(inp_args), ParserPosition(0){}
 	Command_c(string arg);
-	Command_c(int notUsed, const char* s1, ...);
+	Command_c(int notUsed, const char* s1, ...); // constructor for multiple strings, to finish the enter set 0 parameter; for example Command_c(1, "sdf", "sdss", 0);
 	Command_c();
 	~Command_c();
 	void printCommand(string imessage); // prints the command to the debug console with user message

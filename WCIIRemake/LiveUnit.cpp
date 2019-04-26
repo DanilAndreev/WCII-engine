@@ -5,6 +5,7 @@ const int TimeoutTimes = 200;
 extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 extern ConsoleCommandController* defaultConComCon;
+extern Console* defaultConsole;
 
 
 LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength) {
@@ -16,6 +17,7 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->threadFlag = false;
 	this->health = health;
 	this->MoveToTHRDDescriptor = 0;
+	this->AttackTHRDDescriptor = 0;
 }
 
 LiveUnit::~LiveUnit() {
@@ -63,6 +65,7 @@ bool LiveUnit::attack() {
 			cordScr tarCords = ((Unit*)(members->get(i)))->getCord();
 			if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0) {
 				// generating the event for damage
+/*
 				Command_c command;
 				pair <string, string> arg;
 				arg.first = "damage";
@@ -75,6 +78,10 @@ bool LiveUnit::attack() {
 				arg.second = "number";
 				command.args.push_back(arg);
 				gameController->addEventToQueue(command);
+*/				
+				string value = "";
+				int id = ((Unit*)(members->get(i)))->getId();
+				gameController->addEventToQueue(Command_c(0, "damage", to_string(id).data(), to_string(30).data(), 0));
 				return true;
 			}
 		}
@@ -212,7 +219,8 @@ bool LiveUnit::moveEvent(Command_c* command) {
 				this->MoveToTHRDDescriptor = moveToTHRD->getDescriptor();
 			}
 			else {
-				cout << "Error allocating memory" << endl;
+				//cout << "Error allocating memory" << endl;
+				defaultConsole->error("Error allocating memory");
 			}
 			moveToTHRD->startThread();
 		}
@@ -236,7 +244,8 @@ bool LiveUnit::attackEvent(Command_c* command) {
 				this->AttackTHRDDescriptor = attackTHRD->getDescriptor();
 			}
 			else {
-				cout << "Error allocating memory" << endl;
+				//cout << "Error allocating memory" << endl;
+				defaultConsole->error("Error allocating memory");
 			}
 			attackTHRD->startThread();
 			//starting move thread
