@@ -75,9 +75,6 @@
     <ClInclude Include="ScreenDrawindTHREAD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MoveToTHREAD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AttackTHREAD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,9 +159,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScreenDrawindTHREAD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveToTHREAD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AttackTHREAD.cpp">

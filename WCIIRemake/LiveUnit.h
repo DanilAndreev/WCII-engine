@@ -1,6 +1,5 @@
 #pragma once
 #include "Unit.h"
-#include "MoveToTHREAD.h"
 #include "AttackTHREAD.h"
 
 class LiveUnit : public Unit {
