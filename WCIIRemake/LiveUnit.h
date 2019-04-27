@@ -8,7 +8,8 @@ private:
 	cordScr moveDest;
 	ThreadId MoveToTHRDDescriptor;
 	ThreadId AttackTHRDDescriptor;
-	bool throwingDamageFlag;
+public:
+	bool moveNoAttack;
 public:
 	LiveUnit(char value, int type, Field* field, int health, int team, int attackLength);
 	LiveUnit() : LiveUnit('d', 1, NULL, 100, 0, 0) {}

@@ -13,12 +13,24 @@ AttackTHREAD::~AttackTHREAD() {
 void AttackTHREAD::threadFunction() {
 	LiveUnit* LUParent = (LiveUnit*)parent;
 	while (isRunning) {
-		if (LUParent->attack()) {
+		if (!(LUParent->moveNoAttack) && LUParent->attack()) {
 			Sleep(1000);// TODO: change to cooldown
 		}
 		else {
-			Sleep(1000);
+			if (LUParent->getCord() != *(LUParent->getMoveDest())) {
+				LUParent->goTo(LUParent->getMoveDest());
+				//Sleep(1000);  //it is an stop in the goTo()
+			}
+			else {
+				if (LUParent->moveNoAttack) {
+					LUParent->moveNoAttack = false;
+				}
+				Sleep(1000);
+			}
 		}
+
+
+
 	}
 	this->isRunning = false;
 }

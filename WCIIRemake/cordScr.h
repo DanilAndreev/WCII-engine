@@ -13,6 +13,10 @@ struct cordScr/* : public Obj */ {
 		return (left.x == right.x) && (left.y == right.y);
 	}
 
+	friend bool operator!=(const cordScr left, cordScr right) {
+		return (left.x != right.x) || (left.y != right.y);
+	}
+
 	float lineLength(cordScr cord1, cordScr cord2) {
 		if (cord1.x < 0 || cord1.y < 0 || cord2.x < 0 || cord2.y < 0) {
 			return -1;

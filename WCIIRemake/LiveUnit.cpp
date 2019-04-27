@@ -18,7 +18,7 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->health = health;
 	this->MoveToTHRDDescriptor = 0;
 	this->AttackTHRDDescriptor = 0;
-	this->throwingDamageFlag = false;
+	this->moveNoAttack = false;
 }
 
 LiveUnit::~LiveUnit() {
@@ -214,16 +214,17 @@ bool LiveUnit::moveEvent(Command_c* command) {
 			this->moveDest = cordScr(stoi(command->args[2].first), stoi(command->args[3].first));
 
 
-			gameThreads->stopThread(MoveToTHRDDescriptor);
-			MoveToTHREAD* moveToTHRD = new MoveToTHREAD(this);
-			if (moveToTHRD) {
-				this->MoveToTHRDDescriptor = moveToTHRD->getDescriptor();
+			gameThreads->stopThread(AttackTHRDDescriptor);
+			AttackTHREAD* attackTHRD = new AttackTHREAD(this);
+			if (attackTHRD) {
+				this->AttackTHRDDescriptor = attackTHRD->getDescriptor();
 			}
 			else {
 				//cout << "Error allocating memory" << endl;
 				defaultConsole->error("Error allocating memory");
 			}
-			moveToTHRD->startThread();
+			this->moveNoAttack = true;
+			attackTHRD->startThread();
 		}
 	}
 	return false;
@@ -238,6 +239,7 @@ bool LiveUnit::stopEvent(Command_c* command) {
 bool LiveUnit::attackEvent(Command_c* command) {
 	if (command->args.size() == 3) {
 		if (command->args[1].second == "number" && command->args[2].second == "number") {
+			this->moveDest = cordScr(stoi(command->args[1].first), stoi(command->args[2].first));
 			//starting attack thread
 			gameThreads->stopThread(AttackTHRDDescriptor);
 			AttackTHREAD* attackTHRD = new AttackTHREAD(this);
@@ -249,6 +251,8 @@ bool LiveUnit::attackEvent(Command_c* command) {
 				defaultConsole->error("Error allocating memory");
 			}
 			attackTHRD->startThread();
+
+/*
 			//starting move thread
 
 			Command_c* moveCommand = new Command_c();
@@ -266,6 +270,7 @@ bool LiveUnit::attackEvent(Command_c* command) {
 //			moveCommand->printCommand();
 			moveEvent(moveCommand);
 			return true;
+*/
 		}
 	}
 	return false;
