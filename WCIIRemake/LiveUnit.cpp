@@ -18,6 +18,7 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->health = health;
 	this->MoveToTHRDDescriptor = 0;
 	this->AttackTHRDDescriptor = 0;
+	this->throwingDamageFlag = false;
 }
 
 LiveUnit::~LiveUnit() {
