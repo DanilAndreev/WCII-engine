@@ -4,9 +4,8 @@
 extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 
-Unit::Unit(char value, int type, Field* field, int health, int team,  int attackLength) {
+Unit::Unit(char value, int type, Field* field, int health, int team) {
 	this->team = team;
-	this->attackLength = attackLength;
 	this->value = value;
 	this->field = field;
 	this->type = type;

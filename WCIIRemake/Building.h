@@ -6,7 +6,7 @@ class Building : public Unit {
 protected:
 	queue <Unit> productionQueue;
 public:
-	Building(char value, int type, Field* field, int health, int team, int attackLength) : Unit(value, type, field, health, team, attackLength){}
+	Building(char value, int type, Field* field, int health, int team) : Unit(value, type, field, health, team){}
 	Building();
 	~Building();
 	bool classifyEvent(Command_c* command);

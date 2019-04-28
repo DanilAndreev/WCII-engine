@@ -8,7 +8,8 @@ extern ConsoleCommandController* defaultConComCon;
 extern Console* defaultConsole;
 
 
-LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength) {
+LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength, time_t cooldown, time_t moveSpeed, int attackPower) : Unit(value, type, field, health, team) {
+/*
 	this->team = team;
 	this->attackLength = attackLength;
 	this->value = value;
@@ -16,9 +17,14 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->type = type;
 	this->threadFlag = false;
 	this->health = health;
+*/
+	this->attackLength = attackLength;
 	this->MoveToTHRDDescriptor = 0;
 	this->AttackTHRDDescriptor = 0;
 	this->moveNoAttack = false;
+	this->cooldown = cooldown;
+	this->moveSpeed = moveSpeed;
+	this->attackPower = attackPower;
 }
 
 LiveUnit::~LiveUnit() {
@@ -50,7 +56,7 @@ bool LiveUnit::goTo(cordScr* dest) {
 			timeoutCounter = 0;
 			move(direction);
 			srand(time(NULL));
-			Sleep(300 + rand() % 20); //TODO: change to his speed
+			Sleep(this->moveSpeed + rand() % 20);
 		}
 	}
 	delete fastpath;
@@ -82,12 +88,27 @@ bool LiveUnit::attack() {
 */				
 				string value = "";
 				int id = ((Unit*)(members->get(i)))->getId();
-				gameController->addEventToQueue(Command_c(0, "damage", to_string(id).data(), to_string(30).data(), 0));
+				gameController->addEventToQueue(Command_c(0, "damage", to_string(id).data(), to_string(this->attackPower).data(), 0));
+				this->lastAttackTime = clock();
 				return true;
 			}
 		}
 	}
 	return false;
+}
+
+time_t LiveUnit::getLastAttackTime()
+{
+	return this->lastAttackTime;
+}
+
+bool LiveUnit::setLastAttackTime(time_t iclock) {
+	this->lastAttackTime = iclock;
+	return true;
+}
+
+time_t LiveUnit::getCooldown() {
+	return this->cooldown;
 }
 
 

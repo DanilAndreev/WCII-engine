@@ -19,8 +19,8 @@ protected:
 	string typeName;
 	//TODO: add friend teams list
 public:
-	Unit(char value, int type, Field* field, int health, int team, int attackLength);
-	Unit() : Unit('d', 1, NULL, 100, 0, 0) {}
+	Unit(char value, int type, Field* field, int health, int team);
+	Unit() : Unit('d', 1, NULL, 100, 0) {}
 	virtual ~Unit();
 	int getTeam();
 	int getHealth();

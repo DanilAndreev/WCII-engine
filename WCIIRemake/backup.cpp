@@ -18,14 +18,14 @@ int main()
 	Field* field = new Field(85, 30);
 	scr->addElement(cordScr(2, 2), field->getWidth(), field->getHeigth(), field);
 
-	LiveUnit* unt1 = new LiveUnit('a', 1, field, 100, 1, 30);
-	LiveUnit* unt2 = new LiveUnit('b', 1, field, 100, 1, 25);
-	LiveUnit* unt3 = new LiveUnit('c', 1, field, 100, 1, 15);
-	LiveUnit* unt4 = new LiveUnit('d', 1, field, 100, 1, 35);
-	LiveUnit* obstacle1 = new LiveUnit('u', 1, field, 100, 2, 20);
-	LiveUnit* obstacle2 = new LiveUnit('x', 1, field, 100, 2, 33);
-	LiveUnit* obstacle3 = new LiveUnit('y', 1, field, 100, 2, 32);
-	LiveUnit* obstacle4 = new LiveUnit('z', 1, field, 100, 2, 31);
+	LiveUnit* unt1 = new LiveUnit('a', 1, field, 100, 1, 30, 10, 1000, 40);
+	LiveUnit* unt2 = new LiveUnit('b', 1, field, 100, 1, 25, 1000, 1000, 40);
+	LiveUnit* unt3 = new LiveUnit('c', 1, field, 100, 1, 15, 1000, 1000, 40);
+	LiveUnit* unt4 = new LiveUnit('d', 1, field, 100, 1, 35, 1000, 1000, 40);
+	LiveUnit* obstacle1 = new LiveUnit('u', 1, field, 100, 2, 20, 1000, 1000, 40);
+	LiveUnit* obstacle2 = new LiveUnit('x', 1, field, 100, 2, 33, 1000, 1000, 40);
+	LiveUnit* obstacle3 = new LiveUnit('y', 1, field, 100, 2, 32, 1000, 1000, 40);
+	LiveUnit* obstacle4 = new LiveUnit('z', 1, field, 100, 2, 31, 1000, 1000, 40);
 	field->setCell(cordScr(1, 4), unt1);
 	field->setCell(cordScr(5, 8), unt2);
 	field->setCell(cordScr(4, 6), unt3);
