@@ -43,6 +43,14 @@ int main()
 	gameMaster = new GameMaster();
 	gameMaster->readUnits();
 
+
+//TESTING FILE PARSER
+	FileParser* parser = new FileParser();
+	ParserOut output = parser->parseFile("units/berserker.unit");
+	output.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+//-----------------------------------------------------------------------
+
+
 	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
 	if (evHdlrThread) {
 		HANDLE eventHandlerHandle = evHdlrThread->getThreadHandle();

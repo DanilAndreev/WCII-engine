@@ -167,11 +167,14 @@
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="cordScr.h" />
+    <ClInclude Include="FileParser.h" />
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="gameMaster.h" />
     <ClInclude Include="ID.h" />
     <ClInclude Include="LiveUnit.h" />
     <ClInclude Include="MScreen.h" />
     <ClInclude Include="Obj.h" />
+    <ClInclude Include="ParserOut.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Screenable.h" />
@@ -194,10 +197,13 @@
     <ClCompile Include="eventReturnData.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="FileParser.cpp" />
+    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="gameMaster.cpp" />
     <ClCompile Include="LiveUnit.cpp" />
     <ClCompile Include="MScreen.cpp" />
     <ClCompile Include="Obj.cpp" />
+    <ClCompile Include="ParserOut.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -42,5 +42,7 @@
 #include "ThreadDescriptor.h"
 #include "gameMaster.h"
 #include "Building.h"
-
+#include "FileReader.h"
+#include "ParserOut.h"
+#include "FileParser.h"
 #endif //PCH_H
