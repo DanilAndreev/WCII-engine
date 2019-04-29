@@ -179,6 +179,7 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Screenable.h" />
     <ClInclude Include="ScreenDrawindTHREAD.h" />
+    <ClInclude Include="Spell.h" />
     <ClInclude Include="Threadable.h" />
     <ClInclude Include="ThreadDescriptor.h" />
     <ClInclude Include="Unit.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="Screenable.cpp" />
     <ClCompile Include="backup.cpp" />
     <ClCompile Include="ScreenDrawindTHREAD.cpp" />
+    <ClCompile Include="Spell.cpp" />
     <ClCompile Include="Threadable.cpp" />
     <ClCompile Include="ThreadDescriptor.cpp" />
     <ClCompile Include="Unit.cpp" />

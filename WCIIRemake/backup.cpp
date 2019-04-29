@@ -45,10 +45,13 @@ int main()
 
 
 //TESTING FILE PARSER
-	FileParser* parser = new FileParser();
-	ParserOut output = parser->parseFile("units/berserker.unit");
-	output.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+	//FileParser* parser = new FileParser();
+	//ParserOut output = parser->parseFile("units/berserker.unit");
+	//output.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 //-----------------------------------------------------------------------
+	//gameMaster->dirFilenames("C:\\Users\\user\\Documents\\GitHub\\WCII\\WCIIRemake\\spells");
+	gameMaster->readSpells();
 
 
 	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
