@@ -7,12 +7,13 @@ struct SpellPreset {
 	string type;
 	char symbol;
 	int damage;
+	int heal;
 	int cooldown;
 	int castCooldown;
 	int attackRadius;
 	int cost;
 	int productionTime;
-	SpellPreset(string name, string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime);
+	SpellPreset(string name, string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime, int heal);
 	~SpellPreset();
 	void print();
 };
@@ -24,6 +25,7 @@ private:
 	string type;
 	char symbol;
 	int damage;
+	int heal;
 	int cooldown;
 	int castCooldown;
 	int attackRadius;

@@ -2,6 +2,30 @@
 #include "Unit.h"
 #include "AttackTHREAD.h"
 
+struct LiveUnitPreset {
+public:
+	string name;
+	string beautyName;
+	string fraction;
+	char symbol;
+	int width;
+	int heigth;
+	int health;
+	int damage;
+	int cooldown;
+	int attackRadius;
+	int speedDelay;
+	int mana;
+    vector <string> spells;
+	int cost;
+	int eats;
+	int productionTime;
+public:
+	LiveUnitPreset(string name, string beautyName, string fraction, char symbol, int width, int heigth, int health, int damage, int cooldown, int attackRadius, int speedDelay, int mana, vector <string> spells, int cost, int eats, int productionTime);
+	~LiveUnitPreset();
+	void print();
+};
+
 class LiveUnit : public Unit {
 private:
 	cordScr moveDest;

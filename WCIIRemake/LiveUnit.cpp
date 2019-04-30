@@ -8,6 +8,56 @@ extern ConsoleCommandController* defaultConComCon;
 extern Console* defaultConsole;
 
 
+
+LiveUnitPreset::LiveUnitPreset(string name, string beautyName, string fraction, char symbol, int width, int heigth, int health, int damage, int cooldown, int attackRadius, int speedDelay, int mana, vector<string> spells, int cost, int eats, int productionTime) {
+	this->name = name;
+	this->beautyName = beautyName;
+	this->fraction = fraction;
+	this->symbol = symbol;
+	this->width = width;
+	this->heigth = heigth;
+	this->health = health;
+	this->damage = damage;
+	this->cooldown = cooldown;
+	this->attackRadius = attackRadius;
+	this->mana = mana;
+	this->spells = spells;
+	this->cost = cost;
+	this->eats = eats;
+	this->productionTime = productionTime;
+}
+
+LiveUnitPreset::~LiveUnitPreset()
+{
+}
+
+void LiveUnitPreset::print() {
+	cout << "unit: " << name << ", beauty name: " << beautyName << endl;
+	cout << "fraction: " << fraction << endl;
+	cout << "symbol: " << symbol << endl;
+	cout << "width: " << width << endl;
+	cout << "heigth: " << heigth << endl;
+	cout << "health: " << health << endl;
+	cout << "damage: " << damage << endl;
+	cout << "cooldown: " << cooldown << endl;
+	cout << "attackRadius: " << attackRadius << endl;
+	cout << "mana: " << mana << endl;
+	cout << "spells: [";
+	for (int i = 0; i < spells.size(); i++) {
+		cout << spells[i] << " "  ;
+	}
+	cout << "]" << endl;
+	cout << "cost: " << cost << endl;
+	cout << "eats: " << eats << endl;
+	cout << "productionTime: " << productionTime << endl;
+	cout << endl;
+}
+
+
+
+
+
+
 LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength, time_t cooldown, time_t moveSpeed, int attackPower) : Unit(value, type, field, health, team) {
 /*
 	this->team = team;
@@ -296,3 +346,4 @@ bool LiveUnit::attackEvent(Command_c* command) {
 	}
 	return false;
 }
+

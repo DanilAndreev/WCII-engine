@@ -37,6 +37,9 @@ string FileParser::inputType(char character) {
 	if (character == ';') {
 		return "dotcom";
 	}
+	if (character == ',') {
+		return "coma";
+	}
 	if (isalpha(character)) {
 		return "word";
 	}
@@ -52,7 +55,7 @@ bool FileParser::isServiceSymbol(char character) {
 }
 
 bool FileParser::isServiceSymbol(string type) {
-	if (type == "fbord" || type == "sbord" || type == "ddots" || type == "dquote" || type == "quote" || type == "dotcom") {
+	if (type == "fbord" || type == "sbord" || type == "ddots" || type == "dquote" || type == "quote" || type == "dotcom" || type == "coma") {
 		return true;
 	}
 	return false;

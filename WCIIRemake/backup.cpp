@@ -41,7 +41,9 @@ int main()
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 	gameMaster = new GameMaster();
+	gameMaster->readSpells();
 	gameMaster->readUnits();
+	gameMaster->readBuildings();
 
 
 //TESTING FILE PARSER
@@ -51,7 +53,7 @@ int main()
 	//output.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 //-----------------------------------------------------------------------
 	//gameMaster->dirFilenames("C:\\Users\\user\\Documents\\GitHub\\WCII\\WCIIRemake\\spells");
-	gameMaster->readSpells();
+	//gameMaster->readSpells();
 
 
 	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));

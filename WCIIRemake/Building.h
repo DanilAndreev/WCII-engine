@@ -1,6 +1,29 @@
 #pragma once
 #include "Unit.h"
 
+struct BuildingPreset {
+public:
+	string name;
+	string beautyName;
+	string fraction;
+	char symbol;
+	int width;
+	int heigth;
+	int health;
+	int damage;
+	int cooldown;
+	int attackRadius;
+	int mana;
+	vector <string> spells;
+	vector <string> production;
+	int cost;
+	int productionTime;
+public:
+	BuildingPreset(string name, string beautyName, string fraction, char symbol, int width, int heigth, int health, int damage, int cooldown, int attackRadius, int mana, vector <string> spells, vector <string> production, int cost, int productionTime);
+	~BuildingPreset();
+	void print();
+};
+
 
 class Building : public Unit {
 protected:

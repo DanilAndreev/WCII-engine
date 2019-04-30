@@ -10,7 +10,7 @@ building HordeBarracks{
     attackRadius: 0;
     mana: 100;
     spells: ["spikes"];
-    pruduction: ["berserker", "warclock", "grunt"];
+    production: ["berserker", "warclock", "grunt"];
     cost: 600;
     productionTime: 2000000;
 }
