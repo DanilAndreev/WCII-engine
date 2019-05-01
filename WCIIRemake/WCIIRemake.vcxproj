@@ -170,6 +170,7 @@
     <ClInclude Include="FileParser.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="gameMaster.h" />
+    <ClInclude Include="Exitcode.h" />
     <ClInclude Include="ID.h" />
     <ClInclude Include="LiveUnit.h" />
     <ClInclude Include="MScreen.h" />
@@ -179,10 +180,13 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Screenable.h" />
     <ClInclude Include="ScreenDrawindTHREAD.h" />
+    <ClInclude Include="SearchTarget.h" />
     <ClInclude Include="Spell.h" />
     <ClInclude Include="Threadable.h" />
     <ClInclude Include="ThreadDescriptor.h" />
+    <ClInclude Include="UnInSearchTargets.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitInterpretor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
@@ -215,10 +219,13 @@
     <ClCompile Include="Screenable.cpp" />
     <ClCompile Include="backup.cpp" />
     <ClCompile Include="ScreenDrawindTHREAD.cpp" />
+    <ClCompile Include="SearchTarget.cpp" />
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="Threadable.cpp" />
     <ClCompile Include="ThreadDescriptor.cpp" />
+    <ClCompile Include="UnInSearchTargets.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitInterpretor.cpp" />
     <ClCompile Include="WCIIRemake.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,9 +7,9 @@
 #include "Building.h"
 #include "Obj.h"
 #include "pch.h"
+#include "Exitcode.h"
+#include "UnitInterpretor.h"
 
-
-typedef int Exitcode;
 
 
 
@@ -32,6 +32,5 @@ private:
 	Exitcode readParseUnit(string filename);
 	Exitcode readParseSpell(string filename);
 	Exitcode readParseBuilding(string filename);
-
 };
 

@@ -105,6 +105,18 @@
     <ClInclude Include="Spell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SearchTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitInterpretor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exitcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnInSearchTargets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -195,6 +207,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Spell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitInterpretor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnInSearchTargets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

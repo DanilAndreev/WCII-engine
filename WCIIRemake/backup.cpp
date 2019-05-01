@@ -55,6 +55,8 @@ int main()
 	//gameMaster->dirFilenames("C:\\Users\\user\\Documents\\GitHub\\WCII\\WCIIRemake\\spells");
 	//gameMaster->readSpells();
 
+//----------------------------------------------------------------------------
+
 
 	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
 	if (evHdlrThread) {
