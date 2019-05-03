@@ -34,7 +34,7 @@ private:
 	int cost;
 	int productionTime;
 public:
-	Spell(string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime);
+	Spell(string name, string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime, int heal, int targetType, int lifeTime);
 	Spell(SpellPreset preset);
 	~Spell();
 };

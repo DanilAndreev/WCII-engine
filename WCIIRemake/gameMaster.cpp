@@ -197,7 +197,7 @@ Exitcode GameMaster::readParseSpell(string filename) {
 	int lifeTime = targets.targets[12].temp_int;
 
 
-	SpellPreset tempSpellPreset(name, beautyName, type, symbol, damage, cooldown, castCooldown, attackRadius, cost, productionTime, heal);
+	SpellPreset tempSpellPreset(name, beautyName, type, symbol, damage, cooldown, castCooldown, attackRadius, cost, productionTime, heal, targetType, lifeTime);
 	this->spellsPresets.push_back(tempSpellPreset);
 //	tempSpellPreset.print();
 	cout << "Successfuly loaded spell: " << tempSpellPreset.name << endl;
