@@ -136,5 +136,20 @@ bool Field::spawn(Command_c* command) {
 			}
 		}
 	}
+	// spawn team 1 unit berserker 10 10
+	if (command->args.size() == 7) {
+		if (command->args[1].first == "team" && command->args[2].second == "number" && command->args[3].second == "command" && command->args[4].second == "command" && command->args[5].second == "number" && command->args[6].second == "number") {
+			if (command->args[3].first == "unit") {
+				LiveUnitPreset* preset = gameMaster->getUnitPreset(command->args[4].first);
+				if (preset) {
+					int x = stoi(command->args[5].first);
+					int y = stoi(command->args[6].first);
+					int team = stoi(command->args[2].first);
+					LiveUnit* unit = new LiveUnit(*preset, this, team);
+					this->setCell(cordScr(x, y), (Unit*)unit);
+				}
+			}
+		}
+	}
 	return false;
 }

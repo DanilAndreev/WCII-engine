@@ -39,6 +39,7 @@ public:
 	bool moveNoAttack;
 public:
 	LiveUnit(char value, int type, Field* field, int health, int team, int attackLength, time_t cooldown, time_t moveSpeed, int attackPower);
+	LiveUnit(LiveUnitPreset preset, Field* field, int team) : LiveUnit(preset.symbol, 1, field, preset.health, team, preset.attackRadius, preset.cooldown, preset.speedDelay, preset.damage) {}
 	LiveUnit() : LiveUnit('d', 1, NULL, 100, 0, 0, 1000, 1000, 40) {}
 	~LiveUnit();
 	ThreadId getMoveToTHRDDescriptor();

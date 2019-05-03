@@ -28,9 +28,13 @@ public:
 	void readBuildings();
 	bool saveGame();
 	bool loadGame();
+	LiveUnitPreset* getUnitPreset(string name);
 private:
 	Exitcode readParseUnit(string filename);
 	Exitcode readParseSpell(string filename);
 	Exitcode readParseBuilding(string filename);
+	int searchSpell(string name);
+	int searchUnit(string name);
+	int searchBuilding(string name);
 };
 

@@ -24,6 +24,5 @@ class Field : public Screenable {
 		virtual void operateEvent(Command_c* command);
 		//Field commands(Events)
 		bool spawn(Command_c* command);
-
 };
 

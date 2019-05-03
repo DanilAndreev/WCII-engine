@@ -52,27 +52,6 @@ vector<string> GameMaster::dirFilenames(string dirPath) {
 		cout << "file" << filenames[i] << endl;
 	}
 	return filenames;
-/*
-	HANDLE hFind;
-	WIN32_FIND_DATA FindFileData;
-
-	char path[] = "units/*.unit";
-	wchar_t wpath[256];
-	mbstowcs_s(NULL, wpath, path, strlen(path) + 1);
-	LPWSTR ptr = wpath;
-	int type, health, team, attackLength;
-	char value;
-	if ((hFind = FindFirstFile(ptr, &FindFileData)) != INVALID_HANDLE_VALUE) {
-		do {
-			ifstream takeData(wpath);
-			while (getline(takeData, line)) {
-				
-			}
-		} while (FindNextFile(hFind, &FindFileData));
-		FindClose(hFind);
-	}
-	return vector<string>();
-*/
 }
 
 
@@ -137,8 +116,9 @@ Exitcode GameMaster::readParseUnit(string filename) {
 
 	LiveUnitPreset tempCreaturePreset(name, beautyName, fraction, symbol, width, heigth, health, damage, cooldown, attackRadius, speedDelay, mana, spells, cost, eats, productionTime);
 	this->creaturePresets.push_back(tempCreaturePreset);
-	tempCreaturePreset.print();
-
+//	tempCreaturePreset.print();
+//	defaultConsole->message("Succesfully loaded ");
+	cout << "Successfuly loaded unit: " << tempCreaturePreset.name << endl;
 	return GM_NO_ERROR;
 }
 
@@ -162,29 +142,6 @@ void GameMaster::readUnits() {
 	default:
 		break;
 	}
-/*
-	HANDLE hFind;
-	WIN32_FIND_DATA FindFileData;
-
-	char path[] = "units/*.unit";
-	wchar_t wpath[256];
-	mbstowcs_s(NULL, wpath, path, strlen(path) + 1);
-	LPWSTR ptr = wpath;
-	int type, health, team, attackLength; 
-	char value;
-	if ((hFind = FindFirstFile(ptr, &FindFileData)) != INVALID_HANDLE_VALUE) {
-		do {
-			ifstream takeData(wpath);
-			while (getline(takeData, line)) {
-				string token;
-				vector<string> elements = split(line, ' ');
-			}
-		} while (FindNextFile(hFind, &FindFileData));
-		FindClose(hFind);
-	}
-*/
-
-
 }
 
 Exitcode GameMaster::readParseSpell(string filename) {
@@ -209,6 +166,8 @@ Exitcode GameMaster::readParseSpell(string filename) {
 	targets.addTarget(SearchTarget("attackRadius", PARSER_NUMBER, "1"));
 	targets.addTarget(SearchTarget("cost", PARSER_NUMBER, "100"));
 	targets.addTarget(SearchTarget("productionTime", PARSER_NUMBER, "10000"));
+	targets.addTarget(SearchTarget("targetType", PARSER_NUMBER, "2"));
+	targets.addTarget(SearchTarget("lifeTime", PARSER_NUMBER, "5000"));
 
 	UnitInterpretor* interpretor = new UnitInterpretor();
 	if (!interpretor) {
@@ -234,11 +193,14 @@ Exitcode GameMaster::readParseSpell(string filename) {
 	int attackRadius = targets.targets[8].temp_int;
 	int cost = targets.targets[9].temp_int;
 	int productionTime = targets.targets[10].temp_int;
+	int targetType = targets.targets[11].temp_int;
+	int lifeTime = targets.targets[12].temp_int;
 
 
 	SpellPreset tempSpellPreset(name, beautyName, type, symbol, damage, cooldown, castCooldown, attackRadius, cost, productionTime, heal);
 	this->spellsPresets.push_back(tempSpellPreset);
-	tempSpellPreset.print();
+//	tempSpellPreset.print();
+	cout << "Successfuly loaded spell: " << tempSpellPreset.name << endl;
 	return GM_NO_ERROR;
 }
 
@@ -327,7 +289,8 @@ Exitcode GameMaster::readParseBuilding(string filename) {
 
 	BuildingPreset tempBuildingPreset(name, beautyName, fraction, symbol, width, heigth, health, damage, cooldown, attackRadius, mana, spells, production, cost, productionTime);
 	buildingPresets.push_back(tempBuildingPreset);
-	tempBuildingPreset.print();
+	//tempBuildingPreset.print();
+	cout << "Successfuly loaded building: " << tempBuildingPreset.name << endl;
 	return GM_NO_ERROR;
 }
 
@@ -351,18 +314,6 @@ void GameMaster::readBuildings() {
 	default:
 		break;
 	}
-/*
-	ifstream takeData("units/*.unit");
-	string line;
-	while (getline(takeData, line, '}')) {
-		stringstream ss(line);
-		string token;
-		getline(ss, token, ';');
-
-		Building * building = new Building();
-
-	}
-*/
 }
 
 
@@ -375,3 +326,37 @@ bool GameMaster::loadGame() {
 	return false;
 }
 
+int GameMaster::searchSpell(string name) {
+	for (int i = 0; i < spellsPresets.size(); i++) {
+		if (spellsPresets[i].name == name) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+int GameMaster::searchUnit(string name) {
+	for (int i = 0; i < creaturePresets.size(); i++) {
+		if (creaturePresets[i].name == name) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+int GameMaster::searchBuilding(string name) {
+	for (int i = 0; i < buildingPresets.size(); i++) {
+		if (buildingPresets[i].name == name) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+LiveUnitPreset* GameMaster::getUnitPreset(string name){
+	int id = searchUnit(name);
+	if (id != -1) {
+		return &(creaturePresets[id]);
+	}
+	return NULL;
+}

@@ -2,7 +2,7 @@
 #include "Spell.h"
 
 
-SpellPreset::SpellPreset(string name, string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime, int heal) {
+SpellPreset::SpellPreset(string name, string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime, int heal, int targetType, int lifeTime) {
 	this->name = name;
 	this->beautyName = beautyName;
 	this->type = type;
@@ -14,6 +14,8 @@ SpellPreset::SpellPreset(string name, string beautyName, string type, char symbo
 	this->attackRadius = attackRadius;
 	this->cost = cost;
 	this->productionTime = productionTime;
+	this->targetType = targetType;
+	this->lifeTime = lifeTime;
 }
 
 SpellPreset::~SpellPreset() {
@@ -35,7 +37,7 @@ void SpellPreset::print() {
 
 
 
-Spell::Spell(string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime) {
+Spell::Spell(string name, string beautyName, string type, char symbol, int damage, int cooldown, int castCooldown, int attackRadius, int cost, int productionTime, int heal, int targetType, int lifeTime) {
 	this->beautyName = beautyName;
 	this->type = type;
 	this->symbol = symbol;
