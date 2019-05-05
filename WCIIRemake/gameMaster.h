@@ -22,7 +22,7 @@ private:
 public:
 	GameMaster();
 	~GameMaster();
-	vector <string> dirFilenames(string dirPath);
+	vector <string> dirFilenames(string dirPath, string filetype);
 	void readUnits();
 	void readSpells();
 	void readBuildings();

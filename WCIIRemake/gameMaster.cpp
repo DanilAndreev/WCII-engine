@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "gameMaster.h"
+#include <comdef.h>
 
 extern Console* defaultConsole;
 
@@ -16,44 +17,53 @@ extern const char* PARSER_FBORD;
 extern const char* PARSER_DQUOTE;
 extern const char* PARSER_QUOTE;
 
+using namespace std;
 
 
 GameMaster::GameMaster() {
-
+	readSpells();
+	readUnits();
+	readBuildings();
 }
 
 GameMaster::~GameMaster() {
 	
 }
 
+typedef vector<string> stringvec;
 
-vector<string> GameMaster::dirFilenames(string dirPath) {
-	vector <string> filenames;
+std::wstring s2ws(const std::string& s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
+}
 
-	std::string pattern(dirPath);
+
+vector<string> GameMaster::dirFilenames(string dirPath, string filetype) {
+	stringvec v;
+	string pattern(dirPath);
 	pattern.append("\\*");
+	pattern.append(".");
+	pattern.append(filetype);
+
 	WIN32_FIND_DATA data;
 	HANDLE hFind;
-	cout << "starting to search for files" << endl;
-	if ((hFind = FindFirstFile((LPCWSTR)pattern.c_str(), &data)) != INVALID_HANDLE_VALUE) {
+	if ((hFind = FindFirstFile(s2ws(pattern).c_str(), &data)) != INVALID_HANDLE_VALUE) {
 		do {
-			cout << "found file: " << (char*)(*(data.cFileName))  << endl;
-			string temp = (char*)(*(data.cFileName));
-			filenames.push_back(temp);
+			_bstr_t b(data.cFileName);
+			const char* str = b;
+			v.push_back(str);
 		} while (FindNextFile(hFind, &data) != 0);
 		FindClose(hFind);
 	}
-	else {
-		printf("FindFirstFile failed (%d)\n", GetLastError());
-	}
-	cout << "files found:" << endl;
-	for (int i = 0; i < filenames.size(); i++) {
-
-		cout << "file" << filenames[i] << endl;
-	}
-	return filenames;
+	return v;
 }
-
 
 
 Exitcode GameMaster::readParseUnit(string filename) {
@@ -125,22 +135,32 @@ Exitcode GameMaster::readParseUnit(string filename) {
 
 
 void GameMaster::readUnits() {
-	Exitcode exitcode = readParseUnit("units/berserker.unit");
-	switch (exitcode) {
-	case GM_ERROR_ALLOCATING_MEMORY:
-		defaultConsole->error("Error allocating memory");
-		break;
-	case GM_ERROR_ARGUMENTS_COUNT:
-		defaultConsole->error("Wrong arguments count");
-		break;
-	case GM_ERROR_NOT_VALID_TYPE:
-		defaultConsole->error("Not valid type");
-		break;
-	case GM_ERROR_NOT_VALID_STRUCTURE:
-		defaultConsole->error("Not valid structure");
-		break;
-	default:
-		break;
+	string directory = ".\\units";
+	string filetype = "unit";
+	vector<string> files = dirFilenames(directory, filetype);
+
+	for (int i = 0; i < files.size(); i++) {
+		string path = directory;
+		path.append("\\");
+		path.append(files[i]);
+
+		Exitcode exitcode = readParseUnit(path);
+		switch (exitcode) {
+		case GM_ERROR_ALLOCATING_MEMORY:
+			defaultConsole->error("Error allocating memory");
+			break;
+		case GM_ERROR_ARGUMENTS_COUNT:
+			defaultConsole->error("Wrong arguments count");
+			break;
+		case GM_ERROR_NOT_VALID_TYPE:
+			defaultConsole->error("Not valid type");
+			break;
+		case GM_ERROR_NOT_VALID_STRUCTURE:
+			defaultConsole->error("Not valid structure");
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -211,22 +231,32 @@ Exitcode GameMaster::readParseSpell(string filename) {
 
 
 void GameMaster::readSpells() {
-	Exitcode exitcode = readParseSpell("spells/demonFury.spell");
-	switch (exitcode) {
-	case GM_ERROR_ALLOCATING_MEMORY:
-		defaultConsole->error("Error allocating memory");
-		break;
-	case GM_ERROR_ARGUMENTS_COUNT:
-		defaultConsole->error("Wrong arguments count");
-		break;
-	case GM_ERROR_NOT_VALID_TYPE:
-		defaultConsole->error("Not valid type");
-		break;
-	case GM_ERROR_NOT_VALID_STRUCTURE:
-		defaultConsole->error("Not valid structure");
-		break;
-	default:
-		break;
+	string directory = ".\\spells";
+	string filetype = "spell";
+	vector<string> files = dirFilenames(directory, filetype);
+
+	for (int i = 0; i < files.size(); i++) {
+		string path = directory;
+		path.append("\\");
+		path.append(files[i]);
+
+		Exitcode exitcode = readParseSpell(path);
+		switch (exitcode) {
+		case GM_ERROR_ALLOCATING_MEMORY:
+			defaultConsole->error("Error allocating memory");
+			break;
+		case GM_ERROR_ARGUMENTS_COUNT:
+			defaultConsole->error("Wrong arguments count");
+			break;
+		case GM_ERROR_NOT_VALID_TYPE:
+			defaultConsole->error("Not valid type");
+			break;
+		case GM_ERROR_NOT_VALID_STRUCTURE:
+			defaultConsole->error("Not valid structure");
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -297,22 +327,32 @@ Exitcode GameMaster::readParseBuilding(string filename) {
 
 
 void GameMaster::readBuildings() {
-	Exitcode exitcode = readParseBuilding("buildings/HordeBarracks.building");
-	switch (exitcode) {
-	case GM_ERROR_ALLOCATING_MEMORY:
-		defaultConsole->error("Error allocating memory");
-		break;
-	case GM_ERROR_ARGUMENTS_COUNT:
-		defaultConsole->error("Wrong arguments count");
-		break;
-	case GM_ERROR_NOT_VALID_TYPE:
-		defaultConsole->error("Not valid type");
-		break;
-	case GM_ERROR_NOT_VALID_STRUCTURE:
-		defaultConsole->error("Not valid structure");
-		break;
-	default:
-		break;
+	string directory = ".\\buildings";
+	string filetype = "building";
+	vector<string> files = dirFilenames(directory, filetype);
+
+	for (int i = 0; i < files.size(); i++) {
+		string path = directory;
+		path.append("\\");
+		path.append(files[i]);
+
+		Exitcode exitcode = readParseBuilding(path);
+		switch (exitcode) {
+		case GM_ERROR_ALLOCATING_MEMORY:
+			defaultConsole->error("Error allocating memory");
+			break;
+		case GM_ERROR_ARGUMENTS_COUNT:
+			defaultConsole->error("Wrong arguments count");
+			break;
+		case GM_ERROR_NOT_VALID_TYPE:
+			defaultConsole->error("Not valid type");
+			break;
+		case GM_ERROR_NOT_VALID_STRUCTURE:
+			defaultConsole->error("Not valid structure");
+			break;
+		default:
+			break;
+		}
 	}
 }
 

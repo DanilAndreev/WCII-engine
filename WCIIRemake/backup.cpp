@@ -35,15 +35,15 @@ int main()
 	field->setCell(cordScr(6, 5), obstacle3);
 	field->setCell(cordScr(7, 4), obstacle4);
 
-
+//	gameMaster->dirFilenames(".\\spells","spell");
 
 	gameController = new Controller(field, scr,  defaultConsole);
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 	gameMaster = new GameMaster();
-	gameMaster->readSpells();
-	gameMaster->readUnits();
-	gameMaster->readBuildings();
+//	gameMaster->readSpells();
+//	gameMaster->readUnits();
+//	gameMaster->readBuildings();
 
 
 //TESTING FILE PARSER
