@@ -22,6 +22,7 @@ public:
 	int productionTime;
 public:
 	LiveUnitPreset(string name, string beautyName, string fraction, char symbol, int width, int heigth, int health, int damage, int cooldown, int attackRadius, int speedDelay, int mana, vector <string> spells, int cost, int eats, int productionTime);
+	LiveUnitPreset() : LiveUnitPreset("default", "Dafault", "Alliance", 'd', 1, 1, 100, 30, 1000, 5, 1000, 100, vector<string>(), 100, 1, 10000) {}
 	~LiveUnitPreset();
 	void print();
 };

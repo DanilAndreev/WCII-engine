@@ -13,9 +13,7 @@ Field::Field(int width, int heigth) {
 	members = new DynArr();
 }
 
-Field::Field() {
-	Field(30, 30);
-}
+
 
 Field::~Field() {
 	delete members;

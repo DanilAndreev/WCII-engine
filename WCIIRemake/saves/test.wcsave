@@ -1,0 +1,19 @@
+save test
+
+field{
+    width: 30;
+    heigth: 30;
+}
+
+player{
+    team: 1;
+}
+
+unit{
+    x: 10;
+    y: 10;
+    health: 10;
+    width: 1;
+    heigth: 1;
+}
+

@@ -20,6 +20,7 @@ private:
 public:
 	Controller(Field* ifield, MScreen* screen, Console* ioconsole);
 	~Controller();
+	bool setField(Field* field);
 	Command_c getEventFromQueue(); // Pop the event from processing queue
 	void addEventToQueue(Command_c command); // Add the event to processing queue
 	bool EventQueueIsEmpty();

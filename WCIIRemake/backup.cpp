@@ -40,7 +40,31 @@ int main()
 	gameController = new Controller(field, scr,  defaultConsole);
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	gameMaster = new GameMaster();
+
+//--------------------------------------------------------------------------
+// Testing load game
+	
+	Exitcode exitcode = gameMaster->loadGame("test");
+	switch (exitcode) {
+	case GM_ERROR_ALLOCATING_MEMORY:
+		defaultConsole->error("Error allocating memory");
+		break;
+	case GM_ERROR_ARGUMENTS_COUNT:
+		defaultConsole->error("Wrong arguments count");
+		break;
+	case GM_ERROR_NOT_VALID_TYPE:
+		defaultConsole->error("Not valid type");
+		break;
+	case GM_ERROR_NOT_VALID_STRUCTURE:
+		defaultConsole->error("Not valid structure");
+		break;
+	default:
+		break;
+	}
+
+//---------------------------------------------------------------------------
 //	gameMaster->readSpells();
 //	gameMaster->readUnits();
 //	gameMaster->readBuildings();

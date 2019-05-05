@@ -12,7 +12,7 @@ class Field : public Screenable {
 		DynArr* members;
 	public:
 		Field(int width, int heigth);
-		Field();
+		Field() : Field(30, 30) {}
 		virtual ~Field();
 		DynArr* getMembers();
 		void freeElements(); // Удалить всех детей поля(из пямяти, указатели останутся, но будут указывать в небо)

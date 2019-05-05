@@ -35,6 +35,14 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 Controller::~Controller() {
 }
 
+bool Controller::setField(Field* field) {
+	if (field) {
+		this->field = field;
+		return true;
+	}
+	return false;
+}
+
 Command_c Controller::getEventFromQueue() {
 	while (dataWriting) {
 		Sleep(10);

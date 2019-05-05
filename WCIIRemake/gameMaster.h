@@ -10,6 +10,13 @@
 #include "Exitcode.h"
 #include "UnitInterpretor.h"
 
+template <class Tmpl>
+struct fieldableData {
+	Tmpl preset;
+	int x;
+	int y;
+	int team;
+};
 
 
 
@@ -19,6 +26,7 @@ private:
 	vector <BuildingPreset> buildingPresets;
 	vector <SpellPreset> spellsPresets;
 	DynArr players;
+	Field* field;
 public:
 	GameMaster();
 	~GameMaster();
@@ -27,14 +35,16 @@ public:
 	void readSpells();
 	void readBuildings();
 	bool saveGame();
-	bool loadGame();
+	Exitcode loadGame(string savename);
 	LiveUnitPreset* getUnitPreset(string name);
 private:
-	Exitcode readParseUnit(string filename);
+	Exitcode ParseUnit(string filename, LiveUnitPreset* writeTo);
+	Exitcode ParseUnit(ParserOut input, LiveUnitPreset* writeTo);
 	Exitcode readParseSpell(string filename);
 	Exitcode readParseBuilding(string filename);
 	int searchSpell(string name);
 	int searchUnit(string name);
 	int searchBuilding(string name);
+	Exitcode addUnit(ParserOut data, vector<fieldableData<LiveUnitPreset>>* arr);
 };
 

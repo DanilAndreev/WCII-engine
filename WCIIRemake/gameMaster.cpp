@@ -3,6 +3,7 @@
 #include <comdef.h>
 
 extern Console* defaultConsole;
+extern Controller* gameController;
 
 extern const char* PARSER_DQDATA;
 extern const char* PARSER_QDATA;
@@ -24,6 +25,12 @@ GameMaster::GameMaster() {
 	readSpells();
 	readUnits();
 	readBuildings();
+/*
+	this->field = new Field(10,10);
+	if (gameController->setField(this->field)){
+		cout << "setted new field" << endl;
+	}
+*/
 }
 
 GameMaster::~GameMaster() {
@@ -66,15 +73,10 @@ vector<string> GameMaster::dirFilenames(string dirPath, string filetype) {
 }
 
 
-Exitcode GameMaster::readParseUnit(string filename) {
-	ParserOut input;
-	FileParser* parser = new FileParser();
-	if (!parser) {
-		return GM_ERROR_ALLOCATING_MEMORY;
+Exitcode GameMaster::ParseUnit(ParserOut input, LiveUnitPreset *writeTo) {
+	if (writeTo == NULL) {
+		return GM_ERROR_NULL_POINTER;
 	}
-	input = parser->parseFile(filename);
-	delete parser;
-
 	UnInSearchTargets targets("unit");
 	// configurating search for unit
 	targets.addTarget(SearchTarget("name", PARSER_WORD, "default"));
@@ -125,11 +127,27 @@ Exitcode GameMaster::readParseUnit(string filename) {
 	int productionTime = targets.targets[15].temp_int;
 
 	LiveUnitPreset tempCreaturePreset(name, beautyName, fraction, symbol, width, heigth, health, damage, cooldown, attackRadius, speedDelay, mana, spells, cost, eats, productionTime);
-	this->creaturePresets.push_back(tempCreaturePreset);
+
+//	this->creaturePresets.push_back(tempCreaturePreset);
 //	tempCreaturePreset.print();
 //	defaultConsole->message("Succesfully loaded ");
-	cout << "Successfuly loaded unit: " << tempCreaturePreset.name << endl;
+	*writeTo = tempCreaturePreset;
 	return GM_NO_ERROR;
+}
+
+Exitcode GameMaster::ParseUnit(string filename, LiveUnitPreset* writeTo) {
+	ParserOut input;
+	FileParser* parser = new FileParser();
+	if (!parser) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	input = parser->parseFile(filename);
+	delete parser;
+	Exitcode exitcode = ParseUnit(input, writeTo);
+	if (exitcode == GM_NO_ERROR) {
+		cout << "Successfuly loaded unit: " << (*writeTo).name << endl;
+	}
+	return exitcode;
 }
 
 
@@ -144,8 +162,12 @@ void GameMaster::readUnits() {
 		path.append("\\");
 		path.append(files[i]);
 
-		Exitcode exitcode = readParseUnit(path);
+		LiveUnitPreset lupreset;
+		Exitcode exitcode = ParseUnit(path, &lupreset);
 		switch (exitcode) {
+		case GM_NO_ERROR:
+			this->creaturePresets.push_back(lupreset);
+			break;
 		case GM_ERROR_ALLOCATING_MEMORY:
 			defaultConsole->error("Error allocating memory");
 			break;
@@ -362,8 +384,125 @@ bool GameMaster::saveGame() {
 	return false;
 }
 
-bool GameMaster::loadGame() {
-	return false;
+
+Exitcode GameMaster::addUnit(ParserOut data, vector<fieldableData<LiveUnitPreset>>* arr) {
+	LiveUnitPreset preset;
+	Exitcode exitcode = ParseUnit(data, &preset);
+	if (exitcode != GM_NO_ERROR) {
+		return exitcode;
+	}
+	
+	UnInSearchTargets targets("unit");
+	targets.addTarget(SearchTarget("x", PARSER_NUMBER, "0"));
+	targets.addTarget(SearchTarget("y", PARSER_NUMBER, "0"));
+	targets.addTarget(SearchTarget("team", PARSER_NUMBER, "1"));
+
+	UnitInterpretor* interpretor = new UnitInterpretor();
+	if (!interpretor) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	interpretor->init(targets);
+	exitcode = interpretor->interpret(data);
+	if (exitcode != GM_NO_ERROR) {
+		return exitcode;
+	}
+	targets = interpretor->getTargets();
+	delete interpretor;
+
+
+	int x = targets.targets[0].temp_int;
+	int y = targets.targets[1].temp_int;
+	int team = targets.targets[2].temp_int;
+
+
+	fieldableData<LiveUnitPreset> temp;
+	temp.preset = preset;
+	temp.x = x;
+	temp.y = y;
+	temp.team = team;
+	arr->push_back(temp);
+	return GM_NO_ERROR;
+}
+
+Exitcode GameMaster::loadGame(string savename) {
+	//loading data from file
+	string path = "saves/" + savename + ".wcsave";
+	FileReader* reader = new FileReader(path);
+	if (!reader) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	string file = reader->getData();
+	delete reader;
+	FileParser* parser = new FileParser();
+	if (!parser) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	ParserOut input = parser->parse(file);
+	delete parser;
+
+
+//	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+//	input.print();
+
+	//adding temp arrays
+	vector<fieldableData<LiveUnitPreset>> units;
+
+
+	//parsing file
+	if (input.args.size() < 2) {
+		return GM_ERROR_ARGUMENTS_COUNT;
+	}
+	if (!(input.args[0].first == "save" && input.args[0].second == PARSER_WORD)) {
+		return GM_ERROR_NOT_VALID_TYPE;
+	}
+	if (input.args[1].second != PARSER_WORD) {
+		return GM_ERROR_NOT_VALID_STRUCTURE;
+	}
+
+	int dataStart = 2;
+	int dataEnd = input.args.size()-1;
+
+	int step = 1;
+	for (int i = dataStart; i <= dataEnd; i+= step) {
+		step = 1;
+		if (input.args[i].second != PARSER_WORD) {
+			return GM_ERROR_NOT_VALID_STRUCTURE;
+		}
+		int fBordStart = i + 1;
+		if (fBordStart > dataEnd) {
+			return GM_ERROR_NOT_VALID_STRUCTURE;
+		}
+		if (!(input.args[fBordStart].first == "{" && input.args[fBordStart].second == PARSER_FBORD)) {
+			return GM_ERROR_NOT_VALID_STRUCTURE;
+		}
+		//looking for } symbol
+		int fBordEnd;
+		for (fBordEnd = fBordStart; fBordEnd <= dataEnd && !(input.args[fBordEnd].first == "}" && input.args[fBordEnd].second == PARSER_FBORD); fBordEnd++) {}
+		//calculating step size
+		step = fBordEnd - fBordStart + 2;
+		//constructing data for FileParser parser
+		ParserOut data;
+		data.args.push_back(input.args[i]);
+		pair <string, string> temp;
+		temp.first = "empty";
+		temp.second = PARSER_WORD;
+		data.args.push_back(temp);
+		for (int id = fBordStart; id <= fBordEnd; id++) {
+			data.args.push_back(input.args[id]);
+		}
+//		data.print();
+		if (data.args[0].first == "unit") {
+			addUnit(data, &units);
+		}
+
+	}
+
+
+
+	for (int i = 0; i < units.size(); i++) {
+		cout << "unit " << units[i].preset.name << " on cell " << units[i].x << " " << units[i].y << " in team " << units[i].team << endl;
+	}
+	return GM_NO_ERROR;
 }
 
 int GameMaster::searchSpell(string name) {
@@ -392,6 +531,7 @@ int GameMaster::searchBuilding(string name) {
 	}
 	return -1;
 }
+
 
 LiveUnitPreset* GameMaster::getUnitPreset(string name){
 	int id = searchUnit(name);
