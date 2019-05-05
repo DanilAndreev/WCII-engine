@@ -12,6 +12,8 @@ using namespace std;
 int main()
 {
 	new ThreadDescriptor();
+
+/*
 	defaultConsole = new Console();
 	MScreen* scr = new MScreen(85, 30);
 	scr->setCord(cordScr(30, 2));
@@ -34,18 +36,19 @@ int main()
 	field->setCell(cordScr(6, 4), obstacle2);
 	field->setCell(cordScr(6, 5), obstacle3);
 	field->setCell(cordScr(7, 4), obstacle4);
-
+*/
 //	gameMaster->dirFilenames(".\\spells","spell");
+	gameMaster = new GameMaster();
 
-	gameController = new Controller(field, scr,  defaultConsole);
+//	gameController = new Controller(field, scr,  defaultConsole);
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-	gameMaster = new GameMaster();
 
 //--------------------------------------------------------------------------
 // Testing load game
-	
+
+/*
 	Exitcode exitcode = gameMaster->loadGame("test");
 	switch (exitcode) {
 	case GM_ERROR_ALLOCATING_MEMORY:
@@ -63,7 +66,7 @@ int main()
 	default:
 		break;
 	}
-
+*/
 //---------------------------------------------------------------------------
 //	gameMaster->readSpells();
 //	gameMaster->readUnits();
@@ -91,9 +94,9 @@ int main()
 	}
 
 
-	field->freeElements();
-	scr->freeElements();
-	delete scr;
+//	field->freeElements();
+//	scr->freeElements();
+//	delete scr;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

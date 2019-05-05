@@ -50,6 +50,7 @@ int Field::setCell(cordScr cords, Unit* target) {
 		if (checkFree(cords, target->getType())) {
 			target->setup(cords, 1, 1, this->scr);
 			members->add(target);
+			cout << "setted to cell";
 			return 1;
 		}
 	}

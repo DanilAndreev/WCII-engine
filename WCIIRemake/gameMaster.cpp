@@ -25,12 +25,17 @@ GameMaster::GameMaster() {
 	readSpells();
 	readUnits();
 	readBuildings();
-/*
-	this->field = new Field(10,10);
-	if (gameController->setField(this->field)){
-		cout << "setted new field" << endl;
+	this->field = new Field(40,20);
+	MScreen* scr = new MScreen(40, 20);
+	scr->setCord(cordScr(30, 2));
+	
+
+	Controller* oldgc = gameController;
+	gameController = new Controller(this->field, scr, defaultConsole);
+	if (oldgc) {
+		delete oldgc;
 	}
-*/
+	loadGame("test");
 }
 
 GameMaster::~GameMaster() {
@@ -501,6 +506,9 @@ Exitcode GameMaster::loadGame(string savename) {
 
 	for (int i = 0; i < units.size(); i++) {
 		cout << "unit " << units[i].preset.name << " on cell " << units[i].x << " " << units[i].y << " in team " << units[i].team << endl;
+		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team); //---------------------------------------------------------------------
+		cout << "setting cell" << endl;
+		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
 	}
 	return GM_NO_ERROR;
 }
