@@ -10,10 +10,89 @@ player{
 }
 
 unit{
+    symbol: 'D';
     x: 10;
     y: 10;
     health: 10;
     width: 1;
     heigth: 1;
+    team: 1;
+    cooldown: 10000;
+}
+unit{
+    symbol: 'E';
+    x: 11;
+    y: 10;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 1;
+    cooldown: 10000;
+}
+
+unit{
+    symbol: 'N';
+    x: 12;
+    y: 10;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 1;
+    cooldown: 10000;
+}
+
+unit{
+    symbol: 'Y';
+    x: 13;
+    y: 10;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 1;
+    cooldown: 10000;
+}
+
+unit{
+    symbol: 'A';
+    x: 14;
+    y: 10;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 1;
+    cooldown: 10000;
+}
+
+unit{
+    symbol: 'L';
+    x: 11;
+    y: 11;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
+}
+
+unit{
+    symbol: 'O';
+    x: 12;
+    y: 11;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
+}
+
+unit{
+    symbol: 'X';
+    x: 13;
+    y: 11;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
 }
 

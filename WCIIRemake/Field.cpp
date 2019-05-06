@@ -50,7 +50,6 @@ int Field::setCell(cordScr cords, Unit* target) {
 		if (checkFree(cords, target->getType())) {
 			target->setup(cords, 1, 1, this->scr);
 			members->add(target);
-			cout << "setted to cell";
 			return 1;
 		}
 	}
@@ -74,8 +73,6 @@ void Field::render() {
 	for (int i = 0; i < members->count(); i++) {
 		((Screenable*)(members->get(i)))->render();
 	}
-
-
 }
 
 bool Field::classifyEvent(Command_c* command) {

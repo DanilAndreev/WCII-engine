@@ -1,18 +1,22 @@
 // WCIIRemake.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-#include "pch.h"
 
+
+#include "pch.h"
+/*
 Console* defaultConsole;
 Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 ConsoleCommandController* defaultConComCon;
 GameMaster* gameMaster;
+*/
+/*
 
 using namespace std;
 int main()
 {
 	new ThreadDescriptor();
-
+*/
 /*
 	defaultConsole = new Console();
 	MScreen* scr = new MScreen(85, 30);
@@ -38,13 +42,15 @@ int main()
 	field->setCell(cordScr(7, 4), obstacle4);
 */
 //	gameMaster->dirFilenames(".\\spells","spell");
+
+/*
 	gameMaster = new GameMaster();
 
 //	gameController = new Controller(field, scr,  defaultConsole);
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-
+*/
 //--------------------------------------------------------------------------
 // Testing load game
 
@@ -85,6 +91,7 @@ int main()
 //----------------------------------------------------------------------------
 
 
+/*
 	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
 	if (evHdlrThread) {
 		HANDLE eventHandlerHandle = evHdlrThread->getThreadHandle();
@@ -92,12 +99,12 @@ int main()
 			WaitForSingleObject(eventHandlerHandle, INFINITE);
 		}
 	}
-
+*/
 
 //	field->freeElements();
 //	scr->freeElements();
 //	delete scr;
-}
+//}
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

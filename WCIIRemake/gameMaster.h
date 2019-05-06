@@ -11,13 +11,12 @@
 #include "UnitInterpretor.h"
 
 template <class Tmpl>
-struct fieldableData {
+struct placeableData {
 	Tmpl preset;
 	int x;
 	int y;
 	int team;
 };
-
 
 
 class GameMaster : public Obj {
@@ -27,6 +26,7 @@ private:
 	vector <SpellPreset> spellsPresets;
 	DynArr players;
 	Field* field;
+	MScreen* scr;
 public:
 	GameMaster();
 	~GameMaster();
@@ -45,6 +45,7 @@ private:
 	int searchSpell(string name);
 	int searchUnit(string name);
 	int searchBuilding(string name);
-	Exitcode addUnit(ParserOut data, vector<fieldableData<LiveUnitPreset>>* arr);
+	Exitcode addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr);
+	Exitcode addField(ParserOut data, placeableData<FieldPreset> *writeTo);
 };
 

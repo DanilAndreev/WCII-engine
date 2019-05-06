@@ -3,6 +3,13 @@
 #include "Screenable.h"
 
 
+class FieldPreset {
+public:
+	int width;
+	int heigth;
+	
+};
+
 class Unit;
 
 class Field : public Screenable {
@@ -13,6 +20,7 @@ class Field : public Screenable {
 	public:
 		Field(int width, int heigth);
 		Field() : Field(30, 30) {}
+		Field(FieldPreset preset) : Field(preset.width, preset.heigth) {}
 		virtual ~Field();
 		DynArr* getMembers();
 		void freeElements(); // Удалить всех детей поля(из пямяти, указатели останутся, но будут указывать в небо)

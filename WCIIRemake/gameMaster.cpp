@@ -26,16 +26,21 @@ GameMaster::GameMaster() {
 	readUnits();
 	readBuildings();
 	this->field = new Field(40,20);
-	MScreen* scr = new MScreen(40, 20);
-	scr->setCord(cordScr(30, 2));
-	
+	this->scr = new MScreen(40, 20);
+	scr->setCord(cordScr(50, 2));
+	scr->addElement(cordScr(2, 2), this->field->getWidth(), this->field->getHeigth(), this->field);
+
 
 	Controller* oldgc = gameController;
 	gameController = new Controller(this->field, scr, defaultConsole);
 	if (oldgc) {
 		delete oldgc;
 	}
+	LiveUnit* tunit = new LiveUnit();
+
+
 	loadGame("test");
+
 }
 
 GameMaster::~GameMaster() {
@@ -150,12 +155,9 @@ Exitcode GameMaster::ParseUnit(string filename, LiveUnitPreset* writeTo) {
 	delete parser;
 	Exitcode exitcode = ParseUnit(input, writeTo);
 	if (exitcode == GM_NO_ERROR) {
-		cout << "Successfuly loaded unit: " << (*writeTo).name << endl;
 	}
 	return exitcode;
 }
-
-
 
 void GameMaster::readUnits() {
 	string directory = ".\\units";
@@ -251,12 +253,6 @@ Exitcode GameMaster::readParseSpell(string filename) {
 	return GM_NO_ERROR;
 }
 
-
-
-
-
-
-
 void GameMaster::readSpells() {
 	string directory = ".\\spells";
 	string filetype = "spell";
@@ -286,8 +282,6 @@ void GameMaster::readSpells() {
 		}
 	}
 }
-
-
 
 Exitcode GameMaster::readParseBuilding(string filename) {
 	ParserOut input;
@@ -351,8 +345,6 @@ Exitcode GameMaster::readParseBuilding(string filename) {
 	return GM_NO_ERROR;
 }
 
-
-
 void GameMaster::readBuildings() {
 	string directory = ".\\buildings";
 	string filetype = "building";
@@ -383,14 +375,52 @@ void GameMaster::readBuildings() {
 	}
 }
 
-
-
 bool GameMaster::saveGame() {
 	return false;
 }
 
+Exitcode GameMaster::addField(ParserOut data, placeableData<FieldPreset> *writeTo) {
+	FieldPreset preset;
+	Exitcode exitcode;
 
-Exitcode GameMaster::addUnit(ParserOut data, vector<fieldableData<LiveUnitPreset>>* arr) {
+	UnInSearchTargets targets("field");
+	targets.addTarget(SearchTarget("width", PARSER_NUMBER, "20"));
+	targets.addTarget(SearchTarget("heigth", PARSER_NUMBER, "45"));
+	targets.addTarget(SearchTarget("x", PARSER_NUMBER, "2"));
+	targets.addTarget(SearchTarget("y", PARSER_NUMBER, "2"));
+
+	UnitInterpretor* interpretor = new UnitInterpretor();
+	if (!interpretor) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	interpretor->init(targets);
+	exitcode = interpretor->interpret(data);
+	if (exitcode != GM_NO_ERROR) {
+		return exitcode;
+	}
+	targets = interpretor->getTargets();
+	delete interpretor;
+
+
+	int width = targets.targets[0].temp_int;
+	int heigth = targets.targets[1].temp_int;
+	int x = targets.targets[2].temp_int;
+	int y = targets.targets[3].temp_int;
+
+	preset.width = width;
+	preset.heigth = heigth;
+
+	placeableData<FieldPreset> temp;
+	temp.preset = preset;
+	temp.x = x;
+	temp.y = y;
+
+	*writeTo = temp;
+
+	return GM_NO_ERROR;
+}
+
+Exitcode GameMaster::addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr) {
 	LiveUnitPreset preset;
 	Exitcode exitcode = ParseUnit(data, &preset);
 	if (exitcode != GM_NO_ERROR) {
@@ -420,7 +450,7 @@ Exitcode GameMaster::addUnit(ParserOut data, vector<fieldableData<LiveUnitPreset
 	int team = targets.targets[2].temp_int;
 
 
-	fieldableData<LiveUnitPreset> temp;
+	placeableData<LiveUnitPreset> temp;
 	temp.preset = preset;
 	temp.x = x;
 	temp.y = y;
@@ -450,8 +480,8 @@ Exitcode GameMaster::loadGame(string savename) {
 //	input.print();
 
 	//adding temp arrays
-	vector<fieldableData<LiveUnitPreset>> units;
-
+	vector<placeableData<LiveUnitPreset>> units;
+	placeableData<FieldPreset> field;
 
 	//parsing file
 	if (input.args.size() < 2) {
@@ -499,15 +529,21 @@ Exitcode GameMaster::loadGame(string savename) {
 		if (data.args[0].first == "unit") {
 			addUnit(data, &units);
 		}
+		if (data.args[0].first == "field") {
+			addField(data, &field);
+		}
 
 	}
 
+	Field* oldField = this->field;
+	this->field = new Field(field.preset);
+	if (oldField) {
+		delete oldField;
+	}
 
 
 	for (int i = 0; i < units.size(); i++) {
-		cout << "unit " << units[i].preset.name << " on cell " << units[i].x << " " << units[i].y << " in team " << units[i].team << endl;
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team); //---------------------------------------------------------------------
-		cout << "setting cell" << endl;
 		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
 	}
 	return GM_NO_ERROR;
