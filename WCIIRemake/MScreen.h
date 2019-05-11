@@ -29,12 +29,13 @@ public:
 	void draw(); // отрисоваться (графически)
 	virtual void render(); // отрисоваться(просчитаться)
 	char *buff;
-	virtual void operateEvent(Command_c command);
+	virtual void operateEvent(Command_c* command);
 private:
-	void classifyEvent(Command_c command);
+	void classifyEvent(Command_c* command);
 //MScreen COMMANDS(EVENTS)
 protected:
-	bool exitGameEvent(Command_c command);
-	bool renderScreenEvent(Command_c command);
-	bool drawScreenEvent(Command_c command);
+	bool exitGameEvent(Command_c* command);
+	bool renderScreenEvent(Command_c* command);
+	bool drawScreenEvent(Command_c* command);
+	bool stopEvent(Command_c* command);
 };

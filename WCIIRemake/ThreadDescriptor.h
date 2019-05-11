@@ -13,6 +13,8 @@ public:
 	ThreadId addThread(Threadable* thread);
 	int getIndexByDescriptror(ThreadId targetDescriptor); // returns array index of thread or -1 if not found
 	bool stopThread(ThreadId targetDescriptor);
+	bool stopThread(ThreadId targetDescriptor, string message);
+	bool stopThreadNoWait(ThreadId targetDescriptor);
 	Threadable* getThread(ThreadId targetDescriptor);
 private:
 	static ThreadId getFreeId();

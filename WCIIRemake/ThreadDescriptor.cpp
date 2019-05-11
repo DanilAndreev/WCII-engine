@@ -3,6 +3,7 @@
 
 ThreadDescriptor* gameThreads;
 ThreadId ThreadDescriptor::freeId = 0;
+extern Console* defaultConsole;
 
 ThreadDescriptor::ThreadDescriptor() {
 	if (gameThreads == NULL) {
@@ -34,6 +35,36 @@ int ThreadDescriptor::getIndexByDescriptror(ThreadId targetDescriptor) {
 }
 
 bool ThreadDescriptor::stopThread(ThreadId targetDescriptor) {
+/*
+	int index = getIndexByDescriptror(targetDescriptor);
+	if (index != -1) {
+		HANDLE handle = getT(index)->getHandle();
+		getT(index)->stopThread();
+		defaultConsole->warning("Waiting for thread finish");
+		WaitForSingleObject(handle, INFINITE);
+		return true;
+	}
+	return false;
+*/
+	return stopThread(targetDescriptor, "");
+}
+
+bool ThreadDescriptor::stopThread(ThreadId targetDescriptor, string message) {
+	int index = getIndexByDescriptror(targetDescriptor);
+	if (index != -1) {
+		HANDLE handle = getT(index)->getHandle();
+		getT(index)->stopThread();
+		if (message.length() != 0) {
+			//			defaultConsole->warning("Waiting for thread finish");
+			cout << "Waiting for thread " << message << " finish" << endl;
+		}
+		WaitForSingleObject(handle, INFINITE);
+		return true;
+	}
+	return false;
+}
+
+bool ThreadDescriptor::stopThreadNoWait(ThreadId targetDescriptor) {
 	int index = getIndexByDescriptror(targetDescriptor);
 	if (index != -1) {
 		getT(index)->stopThread();

@@ -8,17 +8,19 @@ GameMaster* gameMaster;
 
 
 int main() {
-	new ThreadDescriptor();
-	gameMaster = new GameMaster();
-	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
-
 //	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	new ThreadDescriptor();
+	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
+	gameMaster = new GameMaster();
 
-	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
-	if (evHdlrThread) {
-		HANDLE eventHandlerHandle = evHdlrThread->getThreadHandle();
-		if (eventHandlerHandle) {
-			WaitForSingleObject(eventHandlerHandle, INFINITE);
+
+//	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
+	GameAlifeTHREAD* HgameAlifeThread = (GameAlifeTHREAD*)(gameThreads->getThread(gameMaster->getGameAlifeTHREADDescriptor()));
+
+	if (HgameAlifeThread) {
+		HANDLE gameAlifeHandle = HgameAlifeThread->getThreadHandle();
+		if (gameAlifeHandle) {
+			WaitForSingleObject(gameAlifeHandle, INFINITE);
 		}
 	}
 }

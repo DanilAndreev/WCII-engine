@@ -41,7 +41,7 @@ char Unit::getValue() {
 
 
 void Unit::render() {
-	if (scr != NULL) {
+	if (scr != NULL) { 
 		scr->putToBuff(this->cords, this->value);
 	}
 }

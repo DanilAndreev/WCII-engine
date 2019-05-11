@@ -4,6 +4,9 @@
 
 extern Console* defaultConsole;
 extern Controller* gameController;
+extern ThreadDescriptor* gameThreads;
+extern ConsoleCommandController* defaultConComCon;
+
 
 extern const char* PARSER_DQDATA;
 extern const char* PARSER_QDATA;
@@ -22,6 +25,17 @@ using namespace std;
 
 
 GameMaster::GameMaster() {
+	//creating game alife thread
+	this->GameAlifeTHREADDescriptor = 0;
+	this->gameAlifeThreadIsRunning = true;
+	GameAlifeTHREAD* tempTHREAD = new GameAlifeTHREAD(this);
+	if (!tempTHREAD) {
+		defaultConsole->error("Error allocating memory");
+		exit(EXIT_FAILURE);
+	}
+	this->GameAlifeTHREADDescriptor = tempTHREAD->getDescriptor();
+	tempTHREAD->startThread();
+
 	readSpells();
 	readUnits();
 	readBuildings();
@@ -32,19 +46,20 @@ GameMaster::GameMaster() {
 
 
 	Controller* oldgc = gameController;
-	gameController = new Controller(this->field, scr, defaultConsole);
+	gameController = new Controller(this->field, scr, defaultConsole, this);
 	if (oldgc) {
 		delete oldgc;
 	}
 	LiveUnit* tunit = new LiveUnit();
-
+	this->field->setCell(cordScr(1,1), tunit);
 
 	loadGame("test");
 
 }
 
 GameMaster::~GameMaster() {
-	
+	//this->gameAlifeThreadIsRunning = false;
+	gameThreads->stopThread(this->GameAlifeTHREADDescriptor);
 }
 
 typedef vector<string> stringvec;
@@ -460,6 +475,7 @@ Exitcode GameMaster::addUnit(ParserOut data, vector<placeableData<LiveUnitPreset
 }
 
 Exitcode GameMaster::loadGame(string savename) {
+	//gameController->throwCommand(&defaultConComCon->parseCommand("stop threads -lg -ccc"));
 	//loading data from file
 	string path = "saves/" + savename + ".wcsave";
 	FileReader* reader = new FileReader(path);
@@ -535,17 +551,41 @@ Exitcode GameMaster::loadGame(string savename) {
 
 	}
 
+
+	Command_c tempEvent;
+	gameController->throwCommand(&defaultConComCon->parseCommand("stop threads -lg -ccc"));
+	gameController->throwCommand(&defaultConComCon->parseCommand("pause -command_input"));
+	Sleep(1000);
+	delete gameController;
+	this->field->freeElements();
+//	delete this->field;
 	Field* oldField = this->field;
 	this->field = new Field(field.preset);
 	if (oldField) {
 		delete oldField;
 	}
-
-
+	delete this->scr;
+//	delete defaultConComCon;
+	this->scr = new MScreen(field.preset.width, field.preset.heigth);
+	this->scr->setCord(cordScr(60, 2));
+	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
 	for (int i = 0; i < units.size(); i++) {
-		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team); //---------------------------------------------------------------------
+		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
 		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
 	}
+
+
+
+	gameController = new Controller(this->field, this->scr, defaultConsole, this);
+
+	defaultConComCon->setConsole(defaultConsole);
+	defaultConComCon->setController(gameController);
+
+	gameController->throwCommand(&defaultConComCon->parseCommand("unpause -command_input"));
+
+//	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
+
+
 	return GM_NO_ERROR;
 }
 
@@ -583,4 +623,65 @@ LiveUnitPreset* GameMaster::getUnitPreset(string name){
 		return &(creaturePresets[id]);
 	}
 	return NULL;
+}
+
+ThreadId GameMaster::getGameAlifeTHREADDescriptor() {
+	return this->GameAlifeTHREADDescriptor;
+}
+
+bool GameMaster::classifyEvent(Command_c* command) {
+	if (*command == "exitgame") {
+		exitgameEvent(command);
+	}
+	if (*command == "stop") {
+		stopEvent(command);
+	}
+	if (*command == "load") {
+		loadEvent(command);
+	}
+	return false;
+}
+
+
+void GameMaster::operateEvent(Command_c* command) {
+	classifyEvent(command);
+}
+
+
+//Game Master commands(events)
+bool GameMaster::exitgameEvent(Command_c* command) {
+	cout << "exiting game" << endl;
+	if (command->args.size() == 1) {
+		if (command->args[0].first == "exitgame") {
+			this->gameAlifeThreadIsRunning = false;
+			if (gameThreads->stopThread(this->GameAlifeTHREADDescriptor)) {
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+//DONE: write stopthread event and check flag -lg, if it is -> stop all threads ecxluding gameAlifeThread
+bool GameMaster::stopEvent(Command_c* command){ 
+	if (command->args.size() >= 2) {
+		if (command->args[1].first == "threads" && command->args[1].second == "command") {
+			if (!command->checkFlag("-lg")) {
+				gameThreads->stopThread(this->GameAlifeTHREADDescriptor, "GameAlifeTHREAD");
+				cout << "stpping gameLife thread by event" << endl;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+bool GameMaster::loadEvent(Command_c* command) {
+	if (command->args.size() >= 3) {
+		if (command->args[1].second == "command" && command->args[1].first== "game" && command->args[2].second == "command") {
+			this->loadGame(command->args[2].first);
+			return true;
+		}
+	}
+	return false;
 }

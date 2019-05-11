@@ -3,8 +3,12 @@
 
 extern Console* defaultConsole;
 extern ThreadDescriptor* gameThreads;
+extern ConsoleCommandController* defaultConComCon;
 
-Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
+
+Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole, GameMaster* gameMaster) {
+	eventHandlerIsPaused = false;
+	this->eventHandlerDescriptor = 0;
 	if (ioconsole != NULL) {
 		this->console = ioconsole;
 	}
@@ -16,7 +20,8 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole) {
 	this->members = new DynArr();
 	members->add(field);
 	members->add(screen);
-	members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	members->add(gameMaster);
+	//members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	dataWriting = false;
 
 	EventHndlrTHREAD* eventHandler = new EventHndlrTHREAD(this);
@@ -42,6 +47,15 @@ bool Controller::setField(Field* field) {
 	}
 	return false;
 }
+
+bool Controller::setScreen(MScreen* screen) {
+	return this->screen = screen;
+}
+
+bool Controller::setConsole(Console* console) {
+	return this->console = console;
+}
+
 
 Command_c Controller::getEventFromQueue() {
 	while (dataWriting) {
@@ -73,8 +87,20 @@ bool Controller::EventQueueIsEmpty() {
 	return false;
 }
 
+void Controller::pauseEventHandler() {
+	this->eventHandlerIsPaused = true;
+}
+
+void Controller::unpauseEventHandler() {
+	this->eventHandlerIsPaused = false;
+}
+
 DynArr * Controller::getMembers() {
 	return this->members;
+}
+
+bool Controller::addEventableMember(Obj* target) {
+	return members->add(target);
 }
 
 ThreadId Controller::getEventHandlerDescriptor()
@@ -88,12 +114,14 @@ Command_c* Controller::throwCommand(Command_c* command) {
 	//	command.printCommand();
 //	Command_c* eventCommand = new Command_c();
 //	*eventCommand = command;
+	defaultConComCon->operateEvent(command);
 	for (int i = 0; i < members->count(); i++) {
 		Obj* object = members->get(i);
 		if (object) {
 			object->operateEvent(command);
 		}
 	}
+	this->operateEvent(command);
 	return command;
 }
 
@@ -102,6 +130,10 @@ void Controller::operateEvent(Command_c* command) {
 	if (*command == "exitgame") {
 		exitGame(command);
 	}
+	if (*command == "stop") {
+		stopEvent(command);
+	}
+
 }
 
 //CONTROLLER COMMANDS(EVENTS)
@@ -112,6 +144,18 @@ bool Controller::exitGame(Command_c* command) {
 	if (command->args.size() == 1) {
 		console->message("Stopping EventHandler");
 		return gameThreads->stopThread(eventHandlerDescriptor);
+	}
+	return false;
+}
+
+
+bool Controller::stopEvent(Command_c* command) {
+	if (command->args.size() >= 2) {
+		if (command->args[1].first == "threads" && command->args[1].second == "command") {
+			gameThreads->stopThreadNoWait(this->eventHandlerDescriptor);
+			cout << "stpping eventHandler thread by event" << endl;
+			return true;
+		}
 	}
 	return false;
 }

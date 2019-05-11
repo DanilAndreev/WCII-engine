@@ -12,6 +12,7 @@ Threadable::Threadable() {
 
 
 Threadable::~Threadable() {
+	this->isRunning = false;
 	gameThreads->delById(gameThreads->getIndexByDescriptror(this->getDescriptor()));
 }
 
@@ -22,6 +23,10 @@ bool Threadable::setDescriptor(ThreadId id) {
 
 ThreadId Threadable::getDescriptor() {
 	return this->threadId;
+}
+
+HANDLE Threadable::getHandle() {
+	return this->threadHandle;
 }
 
 void Threadable::startThread() {

@@ -87,10 +87,10 @@ bool Field::classifyEvent(Command_c* command) {
 }
 
 void Field::operateEvent(Command_c* command) {
-	classifyEvent(command);
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);
 	}
+	classifyEvent(command);
 }
 
 //Field commands(Events)

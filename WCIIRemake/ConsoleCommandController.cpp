@@ -31,11 +31,23 @@ ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controlle
 	else {
 		cout << "Error allocating memory" << endl;
 	}
+	this->isPaused = false;
+	this->isRunning = true;
 	ConComConTHRD->startThread();
 }
 
 
 ConsoleCommandController::~ConsoleCommandController() {
+	this->isRunning = false;
+	gameThreads->stopThread(this->ConComConTHRDescriptor);
+}
+
+bool ConsoleCommandController::setController(Controller* mainController) {
+	return this->mainController = mainController;
+}
+
+bool ConsoleCommandController::setConsole(Console* ioconsole) {
+	return this->console = ioconsole;
 }
 
 bool ConsoleCommandController::readCondition(char character) {
@@ -103,29 +115,80 @@ Command_c ConsoleCommandController::parseCommand(string command)
 	return command_c;
 }
 
+void ConsoleCommandController::pause() {
+	this->isPaused = true;
+}
+
+void ConsoleCommandController::unpause() {
+	this->isPaused = false;
+}
+
 Command_c ConsoleCommandController::getCommand() {
 	string command;
 	command = console->getLine();
 	return parseCommand(command);
 }
 
-void ConsoleCommandController::throwCommand(Command_c command) {
-	mainController->addEventToQueue(command);
+void ConsoleCommandController::throwCommand(Command_c* command) {
+	mainController->addEventToQueue(*command);
 }
 
-void ConsoleCommandController::operateEvent(Command_c command) {
-	if (command == "exitgame") {
+void ConsoleCommandController::operateEvent(Command_c* command) {
+	if (*command == "exitgame") {
 		exitGame(command);
+	}
+	if (*command == "stop") {
+		stopEvent(command);
+	}
+	if (*command == "pause") {
+		pauseEvent(command);
+	}
+	if (*command == "unpause") {
+		unpauseEvent(command);
 	}
 }
 
 //CONSOLE COMMAND CONTROLLER COMMANDS(EVENTS)
 
-bool ConsoleCommandController::exitGame(Command_c command) {
-	if (command.args.size() == 1) {
+bool ConsoleCommandController::exitGame(Command_c* command) {
+	if (command->args.size() == 1) {
 		return gameThreads->stopThread(ConComConTHRDescriptor);
 	}
 	return false;
 }
 
+
+bool ConsoleCommandController::stopEvent(Command_c* command) {
+	if (command->args.size() >= 2) {
+		if (command->args[1].first == "threads" && command->args[1].second == "command") {
+			if (!command->checkFlag("-ccc")) {
+				gameThreads->stopThread(ConComConTHRDescriptor, "ConsoleCommandControllerTHREAD");
+				fprintf(stdin, "\n");
+				cout << "stpping Console Command Controller thread by event" << endl;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ConsoleCommandController::pauseEvent(Command_c* command) {
+	if (command->args.size() >= 1) {
+		if (command->checkFlag("-command_input")) {
+			this->pause();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool ConsoleCommandController::unpauseEvent(Command_c* command) {
+	if (command->args.size() >= 1) {
+		if (command->checkFlag("-command_input")) {
+			this->unpause();
+		}
+		return true;
+	}
+	return false;
+}
 

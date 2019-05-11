@@ -19,6 +19,7 @@ public:
 	virtual ~Threadable();
 	bool setDescriptor(ThreadId id);
 	ThreadId getDescriptor();
+	HANDLE getHandle();
 	void startThread();
 	void stopThread();
 protected:

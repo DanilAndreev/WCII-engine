@@ -5,6 +5,7 @@
 #include "Command_c.h"
 #include <queue>
 #include "EventHndlrTHREAD.h"
+#include "GameMaster.h"
 
 class Controller : public Obj {
 private:
@@ -14,17 +15,23 @@ private:
 	DynArr* members;
 	queue <Command_c> eventQueue;
 //	bool EventHandlerRunning;
-
 	bool dataWriting;
 	ThreadId eventHandlerDescriptor;
 public:
-	Controller(Field* ifield, MScreen* screen, Console* ioconsole);
+	bool eventHandlerIsPaused;
+public:	
+	Controller(Field* ifield, MScreen* screen, Console* ioconsole, GameMaster* gameMaster);
 	~Controller();
 	bool setField(Field* field);
+	bool setScreen(MScreen* screen);
+	bool setConsole(Console* console);
 	Command_c getEventFromQueue(); // Pop the event from processing queue
 	void addEventToQueue(Command_c command); // Add the event to processing queue
 	bool EventQueueIsEmpty();
+	void pauseEventHandler();
+	void unpauseEventHandler();
 	DynArr* getMembers();
+	bool addEventableMember(Obj* target);
 	ThreadId getEventHandlerDescriptor();
 	Command_c* throwCommand(Command_c* command);
 	virtual void operateEvent(Command_c* command); // Process phe incoming event
@@ -32,6 +39,7 @@ public:
 //CONTROLLER COMMANDS(EVENTS)
 protected:
 	bool exitGame(Command_c* command);
+	bool stopEvent(Command_c* command);
 
 };
 

@@ -301,12 +301,6 @@ bool LiveUnit::moveEvent(Command_c* command) {
 	return false;
 }
 
-bool LiveUnit::stopEvent(Command_c* command) {
-	gameThreads->stopThread(MoveToTHRDDescriptor);
-	gameThreads->stopThread(AttackTHRDDescriptor);
-	return true;
-}
-
 bool LiveUnit::attackEvent(Command_c* command) {
 	if (command->args.size() == 3) {
 		if (command->args[1].second == "number" && command->args[2].second == "number") {
@@ -347,3 +341,33 @@ bool LiveUnit::attackEvent(Command_c* command) {
 	return false;
 }
 
+
+bool LiveUnit::stopEvent(Command_c* command) {
+	if (command->args.size() >= 2) {
+		if (command->args[1].first == "threads" && command->args[1].second == "command") {
+
+/*
+			HANDLE MoveToTHREADHandle = NULL;
+			HANDLE AttackTHREADHandle = NULL;
+
+			Threadable* MoveToTHREAD = gameThreads->getThread(MoveToTHRDDescriptor);
+			Threadable* AttackTHREAD = gameThreads->getThread(AttackTHRDDescriptor);
+			if (MoveToTHREAD) {
+				MoveToTHREADHandle = MoveToTHREAD->getHandle();
+			}
+			if (AttackTHREAD) {
+				AttackTHREADHandle = AttackTHREAD->getHandle();
+			}
+
+*/
+			gameThreads->stopThread(MoveToTHRDDescriptor, "MoveToThread");
+			gameThreads->stopThread(AttackTHRDDescriptor, "AttackTHREAD");
+//			cout << "waiting for stop attack and move to threads" << endl;
+//			WaitForSingleObject(MoveToTHREADHandle, INFINITE);
+//			WaitForSingleObject(AttackTHREADHandle, INFINITE);
+			cout << "stpping MoveTo and Attack threads by event" << endl;
+			return true;
+		}
+	}
+	return false;
+}

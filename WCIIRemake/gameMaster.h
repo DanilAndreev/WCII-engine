@@ -9,6 +9,7 @@
 #include "pch.h"
 #include "Exitcode.h"
 #include "UnitInterpretor.h"
+#include "GameAlifeThread.h"
 
 template <class Tmpl>
 struct placeableData {
@@ -20,13 +21,17 @@ struct placeableData {
 
 
 class GameMaster : public Obj {
-private:
+private:	
 	vector <LiveUnitPreset> creaturePresets;
 	vector <BuildingPreset> buildingPresets;
 	vector <SpellPreset> spellsPresets;
 	DynArr players;
 	Field* field;
 	MScreen* scr;
+	//---------------
+	ThreadId GameAlifeTHREADDescriptor;
+public:
+	bool gameAlifeThreadIsRunning;
 public:
 	GameMaster();
 	~GameMaster();
@@ -37,7 +42,8 @@ public:
 	bool saveGame();
 	Exitcode loadGame(string savename);
 	LiveUnitPreset* getUnitPreset(string name);
-private:
+	ThreadId getGameAlifeTHREADDescriptor();
+protected:
 	Exitcode ParseUnit(string filename, LiveUnitPreset* writeTo);
 	Exitcode ParseUnit(ParserOut input, LiveUnitPreset* writeTo);
 	Exitcode readParseSpell(string filename);
@@ -47,5 +53,12 @@ private:
 	int searchBuilding(string name);
 	Exitcode addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr);
 	Exitcode addField(ParserOut data, placeableData<FieldPreset> *writeTo);
+	bool classifyEvent(Command_c* command);
+	virtual void operateEvent(Command_c* command);
+protected:
+	//GameMaster commands(events)
+	bool exitgameEvent(Command_c* command);
+	bool stopEvent(Command_c* command);
+	bool loadEvent(Command_c* command);
 };
 

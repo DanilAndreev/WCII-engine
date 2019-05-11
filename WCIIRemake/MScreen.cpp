@@ -28,8 +28,23 @@ void MScreen::setRatio(int width, int heigth) {
 }
 
 MScreen::~MScreen() {
-	delete[] buff;
+	for (int y = 0; y < heigth; y++) {
+		for (int x = 0; x < width; x++) {
+			COORD cord;
+			cord.X = x + this->cords.x;
+			cord.Y = y + this->cords.y;
+			DWORD result;
+			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+			//LPCTSTR character = (LPCTSTR) (buff[y*width + x]);
+			//cout << buff[x, y] << endl;
+			//WriteConsoleOutputCharacter(hStdOut, character, 1, cord, &result); // WriteConsoleOutputCharacter
+			char fill = ' ';
+			WriteConsoleOutputCharacterA(hStdOut, &fill, 1, cord, &result); // WriteConsoleOutputCharacter
+		}
+	}
+
 	delete elements;
+	delete[] buff;
 }
 void MScreen::freeElements() {
 	elements->freeItems();
@@ -98,7 +113,6 @@ void MScreen::draw() {
 			WriteConsoleOutputCharacterA(hStdOut, &buff[y*width + x], 1, cord, &result); // WriteConsoleOutputCharacter
 		}
 	}
-
 }
 
 void MScreen::render() {
@@ -121,34 +135,37 @@ void MScreen::render() {
 	}
 }
 
-void MScreen::operateEvent(Command_c command) {
+void MScreen::operateEvent(Command_c* command) {
 	classifyEvent(command);
 }
 
-void MScreen::classifyEvent(Command_c command) {
-	if (command == "exitGame") {
+void MScreen::classifyEvent(Command_c* command) {
+	if (*command == "exitGame") {
 		exitGameEvent(command);
 	}
-	if (command == "render") {
+	if (*command == "render") {
 		renderScreenEvent(command);
 	}
-	if (command == "draw") {
+	if (*command == "draw") {
 		drawScreenEvent(command);
+	}
+	if (*command == "stop") {
+		stopEvent(command);
 	}
 }
 
 //MScreen COMMANDS(EVENTS)
 
-bool MScreen::exitGameEvent(Command_c command) {
-	if (command.args.size() == 1) {
+bool MScreen::exitGameEvent(Command_c* command) {
+	if (command->args.size() == 1) {
 		return gameThreads->stopThread(screenDrawingTHRDDescriptor);
 	}
 	return false;
 }
 
-bool MScreen::renderScreenEvent(Command_c command) {
-	if (command.args.size() >= 2) {
-		if (command.args[1].first != "screen") {
+bool MScreen::renderScreenEvent(Command_c* command) {
+	if (command->args.size() >= 2) {
+		if (command->args[1].first != "screen") {
 			return false;
 		}
 	}
@@ -156,29 +173,40 @@ bool MScreen::renderScreenEvent(Command_c command) {
 		return false;
 	}
 
-	if (command.args.size() > 2) {
-		if (command.args[2].first == "All") {
+	if (command->args.size() > 2) {
+		if (command->args[2].first == "All") {
 			render();
 			return true;
 		}
 	}
-	if (command.args.size() == 2 && this->selected) {
+	if (command->args.size() == 2 && this->selected) {
 		render();
 		return true;
 	}
 	return false;
 }
 
-bool MScreen::drawScreenEvent(Command_c command) {
-	if (command.args.size() > 1) {
-		if (command.args[1].first == "All") {
+bool MScreen::drawScreenEvent(Command_c* command) {
+	if (command->args.size() > 1) {
+		if (command->args[1].first == "All") {
 			draw();
 			return true;
 		}
 	}
-	if (command.args.size() == 1 && this->selected) {
+	if (command->args.size() == 1 && this->selected) {
 		draw();
 		return true;
+	}
+	return false;
+}
+
+bool MScreen::stopEvent(Command_c* command) {
+	if (command->args.size() >= 2) {
+		if (command->args[1].first == "threads" && command->args[1].second == "command") {
+			gameThreads->stopThread(screenDrawingTHRDDescriptor);
+			cout << "stpping ScreenDrawingTHREAD and Attack threads by event" << endl;
+			return true;
+		}
 	}
 	return false;
 }
