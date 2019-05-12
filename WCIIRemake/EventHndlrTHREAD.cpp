@@ -10,7 +10,6 @@ EventHndlrTHREAD::~EventHndlrTHREAD() {
 }
 
 void EventHndlrTHREAD::threadFunction() {
-	cout << "EventHndlrTHREAD start" << endl;
 	Controller* cparent = (Controller*)parent;
 	while (isRunning) {
 		if (!cparent->eventHandlerIsPaused) {

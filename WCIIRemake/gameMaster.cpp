@@ -553,10 +553,12 @@ Exitcode GameMaster::loadGame(string savename) {
 
 
 	Command_c tempEvent;
-	gameController->throwCommand(&defaultConComCon->parseCommand("stop threads -lg -ccc"));
+	gameController->throwCommand(&defaultConComCon->parseCommand("stop threads -lg -ccc -eh"));
 	gameController->throwCommand(&defaultConComCon->parseCommand("pause -command_input"));
+//	Sleep(1000);
+//	delete gameController;
+	gameController->pauseEventHandler();
 	Sleep(1000);
-	delete gameController;
 	this->field->freeElements();
 //	delete this->field;
 	Field* oldField = this->field;
@@ -576,11 +578,18 @@ Exitcode GameMaster::loadGame(string savename) {
 
 
 
-	gameController = new Controller(this->field, this->scr, defaultConsole, this);
+	//gameController = new Controller(this->field, this->scr, defaultConsole, this);
+/*
+	gameController->setField(this->field);
+	gameController->setScreen(this->scr);
+	gameController->setConsole(defaultConsole);
+*/
+	gameController->setup(defaultConsole, this->scr, this->field, this);
 
 	defaultConComCon->setConsole(defaultConsole);
 	defaultConComCon->setController(gameController);
 
+	gameController->unpauseEventHandler();
 	gameController->throwCommand(&defaultConComCon->parseCommand("unpause -command_input"));
 
 //	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);

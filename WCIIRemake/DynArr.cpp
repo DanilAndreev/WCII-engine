@@ -91,6 +91,12 @@ int DynArr::del(Obj* target) {
 	return 1;
 }
 
+void DynArr::clear() {
+	for (int i = 0; i < this->count(); i++) {
+		delById(i);
+	}
+}
+
 void DynArr::delById(int index) {
 	if (index >= len) {
 		return;

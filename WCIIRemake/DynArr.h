@@ -21,6 +21,7 @@ class DynArr : public Obj {
 		virtual bool add(Obj* source); // добавить даный елемент в массив
 		virtual void delById(int index); // удалить елемент по указанному индексу из массива (не из памяти, только с массива!!!)
 		virtual int del(Obj* target); // удалить указанный елемент из массива (передаем указатель на целевой елемент) (не из памяти, только с массива!!!)
+		void clear();
 	private:
 		bool waitThreadQueue();
 };

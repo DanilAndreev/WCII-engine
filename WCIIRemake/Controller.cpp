@@ -43,17 +43,37 @@ Controller::~Controller() {
 bool Controller::setField(Field* field) {
 	if (field) {
 		this->field = field;
+		this->members->add(field);
 		return true;
 	}
 	return false;
 }
 
 bool Controller::setScreen(MScreen* screen) {
-	return this->screen = screen;
+	if (screen) {
+		this->screen = screen;
+		this->members->add(field);
+		return true;
+	}
+	return false;
 }
 
 bool Controller::setConsole(Console* console) {
-	return this->console = console;
+	if (console) {
+		this->console = console;
+		this->members->add(console);
+		return true;
+	}
+	return false;
+}
+
+bool Controller::setup(Console* console, MScreen* screen, Field* field, GameMaster* gameMaster) {
+	this->clearMembers();
+	this->setField(field);
+	this->setConsole(console);
+	this->setScreen(screen);
+	this->members->add(gameMaster);
+	return true;
 }
 
 
@@ -88,11 +108,17 @@ bool Controller::EventQueueIsEmpty() {
 }
 
 void Controller::pauseEventHandler() {
+	cout << "Paused event handler" << endl;
 	this->eventHandlerIsPaused = true;
 }
 
 void Controller::unpauseEventHandler() {
+	cout << "Unpaused event handler" << endl;
 	this->eventHandlerIsPaused = false;
+}
+
+void Controller::clearMembers() {
+	this->members->clear();
 }
 
 DynArr * Controller::getMembers() {
@@ -114,14 +140,19 @@ Command_c* Controller::throwCommand(Command_c* command) {
 	//	command.printCommand();
 //	Command_c* eventCommand = new Command_c();
 //	*eventCommand = command;
-	defaultConComCon->operateEvent(command);
-	for (int i = 0; i < members->count(); i++) {
-		Obj* object = members->get(i);
-		if (object) {
-			object->operateEvent(command);
+	if (!this->eventHandlerIsPaused) {
+		defaultConComCon->operateEvent(command);
+		for (int i = 0; i < members->count(); i++) {
+			Obj* object = members->get(i);
+			if (object) {
+				object->operateEvent(command);
+			}
 		}
+		this->operateEvent(command);
 	}
-	this->operateEvent(command);
+	else {
+		cout << "cannot operate event: EventHandlerPaused" << endl;
+	}
 	return command;
 }
 
@@ -152,8 +183,11 @@ bool Controller::exitGame(Command_c* command) {
 bool Controller::stopEvent(Command_c* command) {
 	if (command->args.size() >= 2) {
 		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-			gameThreads->stopThreadNoWait(this->eventHandlerDescriptor);
-			cout << "stpping eventHandler thread by event" << endl;
+			if (!command->checkFlag("-eh")) {
+				gameThreads->stopThreadNoWait(this->eventHandlerDescriptor);
+				cout << "stpping eventHandler thread by event" << endl;
+
+			}
 			return true;
 		}
 	}
