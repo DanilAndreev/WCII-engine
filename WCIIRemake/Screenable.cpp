@@ -2,7 +2,7 @@
 #include "Screenable.h"
 
 
-Screenable::Screenable(cordScr cords, int width, int heigth, MScreen* scr) {
+Screenable::Screenable(cordScr cords, int width, int heigth, MScreen* scr) : Obj("Screeanble") {
 	this->cords.x = cords.x;
 	this->cords.y = cords.y;
 	this->scr = scr;
@@ -10,7 +10,7 @@ Screenable::Screenable(cordScr cords, int width, int heigth, MScreen* scr) {
 	this->heigth = heigth;
 }
 
-Screenable::Screenable() {
+Screenable::Screenable(){
 	cordScr cords;
 	cords.x = 0;
 	cords.y = 0;

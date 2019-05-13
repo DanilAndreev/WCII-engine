@@ -6,26 +6,13 @@ extern ThreadDescriptor* gameThreads;
 extern ConsoleCommandController* defaultConComCon;
 
 
-Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole, GameMaster* gameMaster) {
+Controller::Controller(Field* ifield, MScreen* iscreen, Console* ioconsole, GameMaster* igameMaster) {
+	setDescription("Controller");
+	this->members = new DynArr();
 	eventHandlerIsPaused = false;
 	this->eventHandlerDescriptor = 0;
-	if (ioconsole != NULL) {
-		this->console = ioconsole;
-	}
-	else {
-		this->console = defaultConsole;
-	}
-	this->screen = screen;
-//	this->screen->setDescription("Screen");
-	this->field = ifield;
-//	this->field->setDescription("Field");
-	this->members = new DynArr();
-	members->add(field);
-	members->get(members->count() - 1)->setDescription("Field");
-	members->add(screen);
-	members->get(members->count() - 1)->setDescription("Screen");
-	members->add(gameMaster);
-	members->get(members->count()-1)->setDescription("GameMaster");
+	setup(ioconsole, iscreen, ifield, igameMaster);
+
 	//members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	dataWriting = false;
 
@@ -43,6 +30,7 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole, GameM
 
 
 Controller::~Controller() {
+	delete members;
 }
 
 bool Controller::setField(Field* field) {
@@ -54,22 +42,25 @@ bool Controller::setField(Field* field) {
 	return false;
 }
 
-bool Controller::setScreen(MScreen* screen) {
+bool Controller::setScreen(MScreen* ascreen) {
 	if (screen) {
-		this->screen = screen;
-		this->members->add(field);
+		this->screen = ascreen;
+		this->members->add(ascreen);
 		return true;
 	}
 	return false;
 }
 
-bool Controller::setConsole(Console* console) {
-	if (console) {
-		this->console = console;
-		this->members->add(console);
-		return true;
+bool Controller::setConsole(Console* ioconsole) {
+	if (ioconsole != NULL) {
+		this->console = ioconsole;
+	} 
+	else {
+		this->console = defaultConsole;
 	}
-	return false;
+	if (!console) throw new exception("hren kakayato");
+	this->members->add(console);
+	return true;
 }
 
 bool Controller::setup(Console* console, MScreen* screen, Field* field, GameMaster* gameMaster) {
@@ -78,8 +69,8 @@ bool Controller::setup(Console* console, MScreen* screen, Field* field, GameMast
 	this->setConsole(console);
 	this->setScreen(screen);
 	this->members->add(gameMaster);
-	this->members->add(console);
-	this->members->add(screen);
+//	this->members->add(console);
+//	this->members->add(screen);
 	return true;
 }
 
@@ -126,6 +117,9 @@ void Controller::unpauseEventHandler() {
 
 void Controller::clearMembers() {
 	this->members->clear();
+	field = NULL;
+	screen = NULL;
+	console = NULL;
 }
 
 DynArr * Controller::getMembers() {
@@ -147,17 +141,19 @@ ThreadId Controller::getEventHandlerDescriptor() {
 }
 
 
-
 Command_c* Controller::throwCommand(Command_c* command) {
 	//	command.printCommand();
 //	Command_c* eventCommand = new Command_c();
 //	*eventCommand = command;
+
+/*
 	cout << "Controller members: ";
 	for (int i = 0; i < members->count(); i++) {
-		cout << members->get(i)->getDescription() << " ";
+		Obj* o = members->get(i);
+		cout << o->getDescription() << " ";
 	}
 	cout << endl;
-
+*/
 
 	if (!this->eventHandlerIsPaused) {
 		defaultConComCon->operateEvent(command);

@@ -68,6 +68,7 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->threadFlag = false;
 	this->health = health;
 */
+	setDescription("LiveUnit");
 	this->attackLength = attackLength;
 	this->MoveToTHRDDescriptor = 0;
 	this->AttackTHRDDescriptor = 0;

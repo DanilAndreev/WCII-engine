@@ -9,7 +9,7 @@ using namespace std;
 
 
 class Obj{
-	private:
+	protected:
 		const char *className;
 		static ID freeID;
 		string description;

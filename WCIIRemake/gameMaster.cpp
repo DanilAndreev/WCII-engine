@@ -25,6 +25,7 @@ using namespace std;
 
 
 GameMaster::GameMaster() {
+	setDescription("GameMaster");
 	//creating game alife thread
 	this->GameAlifeTHREADDescriptor = 0;
 	this->gameAlifeThreadIsRunning = true;
@@ -39,12 +40,12 @@ GameMaster::GameMaster() {
 	readSpells();
 	readUnits();
 	readBuildings();
+
 	this->field = new Field(40,20);
 	this->scr = new MScreen(40, 20);
 	scr->setCord(cordScr(50, 2));
 	scr->addElement(cordScr(2, 2), this->field->getWidth(), this->field->getHeigth(), this->field);
-
-
+	
 	Controller* oldgc = gameController;
 	gameController = new Controller(this->field, scr, defaultConsole, this);
 	if (oldgc) {
@@ -553,24 +554,31 @@ Exitcode GameMaster::loadGame(string savename) {
 
 
 	Command_c tempEvent;
-	gameController->throwCommand(&defaultConComCon->parseCommand("stop threads -lg -ccc -eh"));
-	gameController->throwCommand(&defaultConComCon->parseCommand("pause -command_input"));
+	tempEvent = defaultConComCon->parseCommand("stop threads -lg -ccc -eh");
+	gameController->throwCommand(&tempEvent);
+	tempEvent = defaultConComCon->parseCommand("pause -command_input");
+	gameController->throwCommand(&tempEvent);
 //	Sleep(1000);
 //	delete gameController;
 	gameController->pauseEventHandler();
 	Sleep(1000);
+
+
 	this->field->freeElements();
-//	delete this->field;
-	Field* oldField = this->field;
+	delete this->field;
+//	Field* oldField = this->field;
 	this->field = new Field(field.preset);
+/*
 	if (oldField) {
 		delete oldField;
 	}
+*/
 	delete this->scr;
 //	delete defaultConComCon;
 	this->scr = new MScreen(field.preset.width, field.preset.heigth);
 	this->scr->setCord(cordScr(60, 2));
 	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
+	
 	for (int i = 0; i < units.size(); i++) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
 		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
@@ -590,7 +598,9 @@ Exitcode GameMaster::loadGame(string savename) {
 	defaultConComCon->setController(gameController);
 
 	gameController->unpauseEventHandler();
-	gameController->throwCommand(&defaultConComCon->parseCommand("unpause -command_input"));
+	tempEvent = defaultConComCon->parseCommand("unpause -command_input");
+
+	gameController->throwCommand(&tempEvent);
 
 //	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 

@@ -11,6 +11,7 @@ DynArr::DynArr() {
 
 
 DynArr::~DynArr() {
+	this->len = 0;
 	delete[] array;
 }
 
@@ -52,6 +53,9 @@ bool DynArr::waitThreadQueue() {
 }
 
 bool DynArr::add(Obj* source) {
+	if (!source)
+		return false;
+
 	if (!waitThreadQueue()) {
 		cout << "Failed to add element to DynArr" << endl;
 		return false;
@@ -92,9 +96,16 @@ int DynArr::del(Obj* target) {
 }
 
 void DynArr::clear() {
+/*
 	for (int i = 0; i < this->count(); i++) {
 		delById(i);
 	}
+*/
+	notBusy = false;
+	delete[] this->array;
+	len = 0;
+	array = new Obj * [len];
+	notBusy = true;
 }
 
 void DynArr::delById(int index) {

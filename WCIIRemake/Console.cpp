@@ -4,8 +4,8 @@
 
 
 Console::Console() {
+	setDescription("Console");
 }
-
 
 Console::~Console() {
 }

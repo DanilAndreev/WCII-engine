@@ -5,9 +5,9 @@ extern Console* defaultConsole;
 extern GameMaster* gameMaster;
 
 
-Field::Field(int width, int heigth) {
+Field::Field(int width, int heigth){
+	setDescription("Field");
 	fieldLen = width * heigth;
-
 	this->width = width;
 	this->heigth = heigth;
 	members = new DynArr();
@@ -50,7 +50,6 @@ int Field::setCell(cordScr cords, Unit* target) {
 		if (checkFree(cords, target->getType())) {
 			target->setup(cords, 1, 1, this->scr);
 			members->add(target);
-			members->get(members->count() - 1)->setDescription(string("Unit ")+target->getValue());
 			return 1;
 		}
 	}
@@ -88,12 +87,13 @@ bool Field::classifyEvent(Command_c* command) {
 }
 
 void Field::operateEvent(Command_c* command) {
+/*
 	cout << "Field members: ";
 	for (int i = 0; i < members->count(); i++) {
 		cout << members->get(i)->getDescription() << " ";
 	}
 	cout << endl;
-
+*/
 
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);

@@ -5,6 +5,7 @@
 extern ThreadDescriptor* gameThreads;
 
 MScreen::MScreen(int width, int heigth) {
+	setDescription("MScreen");
 	elements = new DynArr();
 	this->heigth = heigth;
 	this->width = width;
@@ -43,6 +44,9 @@ MScreen::~MScreen() {
 		}
 	}
 
+
+	gameThreads->stopThread(this->screenDrawingTHRDDescriptor);
+//	elements->freeItems();  //-----------------------------------------------------------------------------------CAUTION
 	delete elements;
 	delete[] buff;
 }

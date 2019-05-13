@@ -10,6 +10,7 @@ GameMaster* gameMaster;
 int main() {
 //	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	new ThreadDescriptor();
+	defaultConsole = new Console();
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 	gameMaster = new GameMaster();
 
