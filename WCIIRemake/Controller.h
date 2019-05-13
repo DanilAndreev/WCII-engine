@@ -33,6 +33,7 @@ public:
 	void unpauseEventHandler();
 	void clearMembers();
 	DynArr* getMembers();
+	bool addEventableMember(Obj * target, string description);
 	bool addEventableMember(Obj* target);
 	ThreadId getEventHandlerDescriptor();
 	Command_c* throwCommand(Command_c* command);

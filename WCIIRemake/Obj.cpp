@@ -17,6 +17,14 @@ Obj::Obj(const char* className) {
 Obj::~Obj() {
 }
 
+void Obj::setDescription(string description) {
+	this->description = description;
+}
+
+string Obj::getDescription() {
+	return this->description;
+}
+
 ID Obj::getId()
 {
 	return this->id;

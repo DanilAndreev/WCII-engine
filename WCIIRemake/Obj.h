@@ -2,6 +2,7 @@
 #include "Command_c.h"
 #include "ID.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class Obj{
 	private:
 		const char *className;
 		static ID freeID;
+		string description;
 	protected:
 		bool selected;
 		ID id;
@@ -18,6 +20,8 @@ class Obj{
 		Obj();
 		Obj(const char* className);
 		virtual ~Obj();
+		void setDescription(string description);
+		string getDescription();
 		ID getId();
 		const char* getClassName(); // return the class name
 		virtual void operateEvent(Command_c* command);

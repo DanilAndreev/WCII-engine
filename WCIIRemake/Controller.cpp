@@ -16,11 +16,16 @@ Controller::Controller(Field* ifield, MScreen* screen, Console* ioconsole, GameM
 		this->console = defaultConsole;
 	}
 	this->screen = screen;
+//	this->screen->setDescription("Screen");
 	this->field = ifield;
+//	this->field->setDescription("Field");
 	this->members = new DynArr();
 	members->add(field);
+	members->get(members->count() - 1)->setDescription("Field");
 	members->add(screen);
+	members->get(members->count() - 1)->setDescription("Screen");
 	members->add(gameMaster);
+	members->get(members->count()-1)->setDescription("GameMaster");
 	//members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	dataWriting = false;
 
@@ -73,6 +78,8 @@ bool Controller::setup(Console* console, MScreen* screen, Field* field, GameMast
 	this->setConsole(console);
 	this->setScreen(screen);
 	this->members->add(gameMaster);
+	this->members->add(console);
+	this->members->add(screen);
 	return true;
 }
 
@@ -125,12 +132,17 @@ DynArr * Controller::getMembers() {
 	return this->members;
 }
 
-bool Controller::addEventableMember(Obj* target) {
+bool Controller::addEventableMember(Obj* target, string description) {
 	return members->add(target);
 }
 
-ThreadId Controller::getEventHandlerDescriptor()
-{
+bool Controller::addEventableMember(Obj* target) {
+	return addEventableMember(target, "no description");
+}
+
+
+
+ThreadId Controller::getEventHandlerDescriptor() {
 	return eventHandlerDescriptor;
 }
 
@@ -140,6 +152,13 @@ Command_c* Controller::throwCommand(Command_c* command) {
 	//	command.printCommand();
 //	Command_c* eventCommand = new Command_c();
 //	*eventCommand = command;
+	cout << "Controller members: ";
+	for (int i = 0; i < members->count(); i++) {
+		cout << members->get(i)->getDescription() << " ";
+	}
+	cout << endl;
+
+
 	if (!this->eventHandlerIsPaused) {
 		defaultConComCon->operateEvent(command);
 		for (int i = 0; i < members->count(); i++) {
