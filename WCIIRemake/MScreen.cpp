@@ -29,6 +29,7 @@ void MScreen::setRatio(int width, int heigth) {
 }
 
 MScreen::~MScreen() {
+	gameThreads->stopThread(this->screenDrawingTHRDDescriptor);
 	for (int y = 0; y < heigth; y++) {
 		for (int x = 0; x < width; x++) {
 			COORD cord;
@@ -45,7 +46,6 @@ MScreen::~MScreen() {
 	}
 
 
-	gameThreads->stopThread(this->screenDrawingTHRDDescriptor);
 //	elements->freeItems();  //-----------------------------------------------------------------------------------CAUTION
 	delete elements;
 	delete[] buff;
