@@ -31,6 +31,7 @@ class Field : public Screenable {
 		bool classifyEvent(Command_c* command);
 		virtual void operateEvent(Command_c* command);
 		//Field commands(Events)
-		bool spawn(Command_c* command);
+		bool spawnEvent(Command_c* command);
+		bool writeEvent(Command_c* command);
 };
 

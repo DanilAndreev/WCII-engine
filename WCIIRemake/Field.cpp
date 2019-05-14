@@ -71,7 +71,7 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 void Field::render() {
 
 	for (int i = 0; i < members->count(); i++) {
-		((Screenable*)(members->get(i)))->render();
+	((Screenable*)(members->get(i)))->render();
 	}
 }
 
@@ -80,21 +80,17 @@ bool Field::classifyEvent(Command_c* command) {
 
 	}
 	if (*command == "spawn") {
-		return spawn(command);
+		return spawnEvent(command);
+	}
+
+	if (*command == "write") {
+		return writeEvent(command);
 	}
 
 	return false;
 }
 
 void Field::operateEvent(Command_c* command) {
-/*
-	cout << "Field members: ";
-	for (int i = 0; i < members->count(); i++) {
-		cout << members->get(i)->getDescription() << " ";
-	}
-	cout << endl;
-*/
-
 	for (int i = 0; i < members->count(); i++) {
 		members->get(i)->operateEvent(command);
 	}
@@ -105,7 +101,7 @@ void Field::operateEvent(Command_c* command) {
 
 //spawn unit 10(x) 10(y) 1(team) 100(health) 100(attackLen) 1(type) v(value) 1000(cooldown) 100
 //spawn building 10(x) 10(y) 1(team) 100(health) 1(type) v(value) 
-bool Field::spawn(Command_c* command) {
+bool Field::spawnEvent(Command_c* command) {
 	if (command->args.size() == 10) {
 		if (command->args[1].first == "unit") {
 			if (command->args[2].second == "number" && command->args[3].second == "number" && command->args[4].second == "number" && command->args[5].second == "number" && command->args[6].second == "number" && command->args[7].second == "number" && command->args[8].second == "command" && command->args[9].second == "number" && command->args[10].second == "number" && command->args[11].second == "number") {
@@ -152,6 +148,22 @@ bool Field::spawn(Command_c* command) {
 					LiveUnit* unit = new LiveUnit(*preset, this, team);
 					this->setCell(cordScr(x, y), (Unit*)unit);
 				}
+			}
+		}
+	}
+	return false;
+}
+
+bool Field::writeEvent(Command_c* command) {
+	if (command->args.size() >= 3) {
+		if (command->args[0].second == "command" && command->args[1].second == "command" && command->args[2].second == "command" && command->args[3].second == "command") {
+			if (command->args[1].first == "data" && command->args[2].first == "to") {
+				FileWriter writer(command->args[3].first, ios::app);
+				writer << " field {";
+				writer << " width:" << this->width << ";";
+				writer << " heigth:" << this->heigth << ";";
+				writer << "}" << endl;
+				return true;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 #pragma once
 #include "Unit.h"
 #include "AttackTHREAD.h"
+#include "FileWriter.h"
 
 struct LiveUnitPreset {
 public:
@@ -61,6 +62,7 @@ protected:
 	bool tpEvent(Command_c* command);
 	bool moveEvent(Command_c* command);
 	bool stopEvent(Command_c * command);
+	bool writeEvent(Command_c* command);
 	bool attackEvent(Command_c* command);
 };
 

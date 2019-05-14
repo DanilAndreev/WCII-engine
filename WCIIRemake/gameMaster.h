@@ -39,7 +39,7 @@ public:
 	void readUnits();
 	void readSpells();
 	void readBuildings();
-	bool saveGame();
+	bool saveGame(string savename);
 	Exitcode loadGame(string savename);
 	LiveUnitPreset* getUnitPreset(string name);
 	ThreadId getGameAlifeTHREADDescriptor();
@@ -59,6 +59,7 @@ protected:
 	//GameMaster commands(events)
 	bool exitgameEvent(Command_c* command);
 	bool stopEvent(Command_c* command);
+	bool saveEvent(Command_c* command);
 	bool loadEvent(Command_c* command);
 };
 

@@ -256,6 +256,10 @@ bool LiveUnit::classifyEvent(Command_c* command) {
 		return getInfoEvent(command);
 	}
 
+	if (*command == "write") {
+		return writeEvent(command);
+	}
+
 	return false;
 }
 
@@ -376,6 +380,31 @@ bool LiveUnit::stopEvent(Command_c* command) {
 //			WaitForSingleObject(AttackTHREADHandle, INFINITE);
 //			cout << "stpping MoveTo and Attack threads by event" << endl;
 			return true;
+		}
+	}
+	return false;
+}
+
+bool LiveUnit::writeEvent(Command_c* command) {
+	if (command->args.size() >= 3) {
+		if (command->args[0].second == "command" && command->args[1].second == "command" && command->args[2].second == "command" && command->args[3].second == "command") {
+			if (command->args[1].first == "data" && command->args[2].first == "to") {
+				FileWriter writer(command->args[3].first, ios::app);
+				writer << " unit {";
+				writer << " x:" << this->cords.x << ";";
+				writer << " y:" << this->cords.y << ";";
+				writer << " symbol:\'" << this->value << "\';";
+				writer << " width:" << this->width << ";";
+				writer << " heigth:" << this->heigth << ";";
+				writer << " health:" << this->health << ";";
+				writer << " damage:" << this->attackPower << ";";
+				writer << " cooldown:" << this->cooldown<< ";";
+				writer << " attackRadius:" << this->attackLength << ";";
+				writer << " speedDelay:" << this->moveSpeed << ";";
+//				writer << "mana:" << this->m << ";";
+				writer << "}" << endl;
+				return true;
+			}
 		}
 	}
 	return false;

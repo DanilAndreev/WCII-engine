@@ -169,6 +169,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="FileParser.h" />
     <ClInclude Include="FileReader.h" />
+    <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameAlifeTHREAD.h" />
     <ClInclude Include="gameMaster.h" />
     <ClInclude Include="Exitcode.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FileParser.cpp" />
     <ClCompile Include="FileReader.cpp" />
+    <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameAlifeTHREAD.cpp" />
     <ClCompile Include="gameMaster.cpp" />
     <ClCompile Include="LiveUnit.cpp" />

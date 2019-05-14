@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "gameMaster.h"
 #include <comdef.h>
+#include "FileWriter.h"
 
 extern Console* defaultConsole;
 extern Controller* gameController;
@@ -391,7 +392,16 @@ void GameMaster::readBuildings() {
 	}
 }
 
-bool GameMaster::saveGame() {
+bool GameMaster::saveGame(string savename) {
+	string path = "saves/";
+	path += savename + ".wcsave";
+	{
+		FileWriter writer(path, ios::out);
+		writer << "save " << savename << endl;
+	}
+	Command_c tempEvent = defaultConComCon->parseCommand(string("write data to ")+path);
+	gameController->throwCommand(&tempEvent);
+	defaultConsole->message(string("Succesfully saved: ") + savename);
 	return false;
 }
 
@@ -661,6 +671,9 @@ bool GameMaster::classifyEvent(Command_c* command) {
 	if (*command == "load") {
 		loadEvent(command);
 	}
+	if (*command == "save") {
+		saveEvent(command);
+	}
 	return false;
 }
 
@@ -698,6 +711,16 @@ bool GameMaster::stopEvent(Command_c* command){
 
 //				cout << "stpping gameLife thread by event" << endl;
 			}
+			return true;
+		}
+	}
+	return false;
+}
+
+bool GameMaster::saveEvent(Command_c* command) {
+	if (command->args.size() >= 3) {
+		if (command->args[1].second == "command" && command->args[1].first == "game" && command->args[1].second == "command" && command->args[2].second == "command") {
+			this->saveGame(command->args[2].first);
 			return true;
 		}
 	}
