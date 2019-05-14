@@ -161,12 +161,12 @@
     <ClInclude Include="ConsoleCommandController.h" />
     <ClInclude Include="ConsoleCommandControllerTHREAD.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="cordScr.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="EventHndlrTHREAD.h" />
     <ClInclude Include="eventReturnData.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
-    <ClInclude Include="cordScr.h" />
     <ClInclude Include="FileParser.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="GameAlifeTHREAD.h" />
@@ -198,6 +198,7 @@
     <ClCompile Include="ConsoleCommandController.cpp" />
     <ClCompile Include="ConsoleCommandControllerTHREAD.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="cordScr.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="EventHndlrTHREAD.cpp" />
     <ClCompile Include="eventReturnData.cpp" />

@@ -162,9 +162,14 @@ bool ConsoleCommandController::stopEvent(Command_c* command) {
 	if (command->args.size() >= 2) {
 		if (command->args[1].first == "threads" && command->args[1].second == "command") {
 			if (!command->checkFlag("-ccc")) {
-				gameThreads->stopThread(ConComConTHRDescriptor, "ConsoleCommandControllerTHREAD");
+				//gameThreads->stopThread(ConComConTHRDescriptor, "ConsoleCommandControllerTHREAD");
+				HANDLE temp_handle;
+				if ((temp_handle = gameThreads->stopThread(ConComConTHRDescriptor)) != NULL) {
+					command->data.push_back(temp_handle);
+				}
+
 				fprintf(stdin, "\n");
-				cout << "stpping Console Command Controller thread by event" << endl;
+//				cout << "stpping Console Command Controller thread by event" << endl;
 			}
 			return true;
 		}

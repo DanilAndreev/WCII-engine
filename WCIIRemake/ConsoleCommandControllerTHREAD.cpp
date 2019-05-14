@@ -11,7 +11,7 @@ ConsoleCommandControllerTHREAD::~ConsoleCommandControllerTHREAD() {
 }
 
 void ConsoleCommandControllerTHREAD::threadFunction() {
-	cout << "ConsoleCommandControllerTHREAD start" << endl;
+//	cout << "ConsoleCommandControllerTHREAD start" << endl;
 
 	ConsoleCommandController* ConParent = (ConsoleCommandController*)parent;
 	ConParent->console->message("Command: ");
@@ -28,5 +28,5 @@ void ConsoleCommandControllerTHREAD::threadFunction() {
 		}
 	}
 	isRunning = false;
-	cout << "ConsoleCommandControllerTHREAD stopping" << endl;
+//	cout << "ConsoleCommandControllerTHREAD stopping" << endl;
 }

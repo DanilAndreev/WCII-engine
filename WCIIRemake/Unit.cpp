@@ -42,7 +42,11 @@ char Unit::getValue() {
 
 void Unit::render() {
 	if (scr != NULL) { 
-		scr->putToBuff(this->cords, this->value);
+		cordScr shift;
+		if (field) {
+			shift = this->field->getCord();
+		}
+		scr->putToBuff(this->cords + shift, this->value);
 	}
 }
 

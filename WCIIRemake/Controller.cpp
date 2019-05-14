@@ -106,12 +106,12 @@ bool Controller::EventQueueIsEmpty() {
 }
 
 void Controller::pauseEventHandler() {
-	cout << "Paused event handler" << endl;
+//	cout << "Paused event handler" << endl;
 	this->eventHandlerIsPaused = true;
 }
 
 void Controller::unpauseEventHandler() {
-	cout << "Unpaused event handler" << endl;
+//	cout << "Unpaused event handler" << endl;
 	this->eventHandlerIsPaused = false;
 }
 
@@ -199,9 +199,14 @@ bool Controller::stopEvent(Command_c* command) {
 	if (command->args.size() >= 2) {
 		if (command->args[1].first == "threads" && command->args[1].second == "command") {
 			if (!command->checkFlag("-eh")) {
-				gameThreads->stopThreadNoWait(this->eventHandlerDescriptor);
-				cout << "stpping eventHandler thread by event" << endl;
-
+				gameThreads->stopThread(this->eventHandlerDescriptor);
+//				cout << "stpping eventHandler thread by event" << endl;
+			}
+			if (command->checkFlag("-wait")) {
+//				cout << "Waiting for objects" << endl;
+				for (int i = 0; i < command->data.size(); i++) {
+					WaitForSingleObject(command->data[i].eventHandle,INFINITE);
+				}
 			}
 			return true;
 		}

@@ -46,7 +46,7 @@ public:
 	ThreadId getMoveToTHRDDescriptor();
 	cordScr* getMoveDest();
 	bool goTo(cordScr* dest, bool & flag);
-	bool attack();
+	bool attack(bool & flag); // attacks the available nearby unit, flag for checking if thread not stopped
 	time_t getLastAttackTime();
 	bool setLastAttackTime(time_t iclock);
 	time_t getCooldown();

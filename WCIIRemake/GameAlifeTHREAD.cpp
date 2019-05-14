@@ -16,11 +16,11 @@ HANDLE GameAlifeTHREAD::getThreadHandle() {
 }
 
 void GameAlifeTHREAD::threadFunction() {
-	cout << "GameAlifeTHREAD start" << endl;
+//	cout << "GameAlifeTHREAD start" << endl;
 
 	GameMaster* gmparent = (GameMaster*)parent;
 	while (/*gmparent->gameAlifeThreadIsRunning && */this->isRunning) {
 		Sleep(SKIP_TIMEOUT);
 	}
-	cout << "GameAlifeTHREAD stopping" << endl;
+//	cout << "GameAlifeTHREAD stopping" << endl;
 }

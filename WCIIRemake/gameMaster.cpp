@@ -553,8 +553,10 @@ Exitcode GameMaster::loadGame(string savename) {
 	}
 
 
+	defaultConsole->message(string("Loading save: ") + savename);
+
 	Command_c tempEvent;
-	tempEvent = defaultConComCon->parseCommand("stop threads -lg -ccc -eh");
+	tempEvent = defaultConComCon->parseCommand("stop threads -lg -ccc -eh -wait");
 	gameController->throwCommand(&tempEvent);
 	tempEvent = defaultConComCon->parseCommand("pause -command_input");
 	gameController->throwCommand(&tempEvent);
@@ -576,7 +578,7 @@ Exitcode GameMaster::loadGame(string savename) {
 	delete this->scr;
 //	delete defaultConComCon;
 	this->scr = new MScreen(field.preset.width, field.preset.heigth);
-	this->scr->setCord(cordScr(60, 2));
+	this->scr->setCord(cordScr(40, 2));
 	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
 	
 	for (int i = 0; i < units.size(); i++) {
@@ -605,6 +607,7 @@ Exitcode GameMaster::loadGame(string savename) {
 //	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
 
 
+	defaultConsole->message(string("Succesfully loaded: ") + savename);
 	return GM_NO_ERROR;
 }
 
@@ -686,8 +689,14 @@ bool GameMaster::stopEvent(Command_c* command){
 	if (command->args.size() >= 2) {
 		if (command->args[1].first == "threads" && command->args[1].second == "command") {
 			if (!command->checkFlag("-lg")) {
-				gameThreads->stopThread(this->GameAlifeTHREADDescriptor, "GameAlifeTHREAD");
-				cout << "stpping gameLife thread by event" << endl;
+				//gameThreads->stopThread(this->GameAlifeTHREADDescriptor, "GameAlifeTHREAD");
+
+				HANDLE temp_handle;
+				if ((temp_handle = gameThreads->stopThread(GameAlifeTHREADDescriptor)) != NULL) {
+					command->data.push_back(temp_handle);
+				}
+
+//				cout << "stpping gameLife thread by event" << endl;
 			}
 			return true;
 		}

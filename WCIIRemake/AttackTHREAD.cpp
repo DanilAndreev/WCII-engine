@@ -12,7 +12,7 @@ AttackTHREAD::~AttackTHREAD() {
 }
 
 void AttackTHREAD::threadFunction() {
-	cout << "AttackTHREAD start" << endl;
+//	cout << "AttackTHREAD start" << endl;
 	LiveUnit* LUParent = (LiveUnit*)parent;
 	time_t temp = clock() - LUParent->getLastAttackTime();
 	if (isRunning && temp < LUParent->getCooldown()) { // checking if after recreating thread cooldown weren't finished
@@ -20,7 +20,7 @@ void AttackTHREAD::threadFunction() {
 		Sleep(temp);
 	}
 	while (isRunning) {
-		if (isRunning && !(LUParent->moveNoAttack) && LUParent->attack()) {
+		if (isRunning && !(LUParent->moveNoAttack) && LUParent->attack(isRunning)) {
 			Sleep(LUParent->getCooldown());
 		}
 		else {
@@ -40,5 +40,5 @@ void AttackTHREAD::threadFunction() {
 
 	}
 	this->isRunning = false;
-	cout << "AttackTHREAD stopping" << endl;
+//	cout << "AttackTHREAD stopping" << endl;
 }

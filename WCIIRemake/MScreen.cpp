@@ -207,8 +207,15 @@ bool MScreen::drawScreenEvent(Command_c* command) {
 bool MScreen::stopEvent(Command_c* command) {
 	if (command->args.size() >= 2) {
 		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-			gameThreads->stopThread(screenDrawingTHRDDescriptor);
-			cout << "stpping ScreenDrawingTHREAD and Attack threads by event" << endl;
+//			gameThreads->stopThread(screenDrawingTHRDDescriptor);
+
+			HANDLE temp_handle;
+			if ((temp_handle = gameThreads->stopThread(screenDrawingTHRDDescriptor)) != NULL) {
+				command->data.push_back(temp_handle);
+			}
+
+
+//			cout << "stpping ScreenDrawingTHREAD and Attack threads by event" << endl;
 			return true;
 		}
 	}

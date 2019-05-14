@@ -34,36 +34,26 @@ int ThreadDescriptor::getIndexByDescriptror(ThreadId targetDescriptor) {
 
 }
 
-bool ThreadDescriptor::stopThread(ThreadId targetDescriptor) {
-/*
-	int index = getIndexByDescriptror(targetDescriptor);
-	if (index != -1) {
-		HANDLE handle = getT(index)->getHandle();
-		getT(index)->stopThread();
-		defaultConsole->warning("Waiting for thread finish");
-		WaitForSingleObject(handle, INFINITE);
-		return true;
-	}
-	return false;
-*/
-	return stopThread(targetDescriptor, "");
-}
 
-bool ThreadDescriptor::stopThread(ThreadId targetDescriptor, string message) {
+HANDLE ThreadDescriptor::stopThread(ThreadId targetDescriptor) {
 	int index = getIndexByDescriptror(targetDescriptor);
 	if (index != -1) {
 		HANDLE handle = getT(index)->getHandle();
 		getT(index)->stopThread();
+/*
 		if (message.length() != 0) {
 			//			defaultConsole->warning("Waiting for thread finish");
 			cout << "Waiting for thread " << message << " finish" << endl;
 		}
-		WaitForSingleObject(handle, INFINITE);
-		return true;
+*/
+//		WaitForSingleObject(handle, INFINITE);
+		return handle;
 	}
-	return false;
+	return NULL;
 }
 
+
+/*
 bool ThreadDescriptor::stopThreadNoWait(ThreadId targetDescriptor) {
 	int index = getIndexByDescriptror(targetDescriptor);
 	if (index != -1) {
@@ -72,6 +62,7 @@ bool ThreadDescriptor::stopThreadNoWait(ThreadId targetDescriptor) {
 	}
 	return false;
 }
+*/
 
 Threadable * ThreadDescriptor::getThread(ThreadId targetDescriptor) {
 	for (int i = 0; i < this->len; i++) {

@@ -116,7 +116,7 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 	return true;
 }
 
-bool LiveUnit::attack() {
+bool LiveUnit::attack(bool & flag) {
 	DynArr* members = field->getMembers();
 	for (int i = 0; i < members->count(); i++) {
 		Unit* unt = (Unit*)(members->get(i));
@@ -362,12 +362,19 @@ bool LiveUnit::stopEvent(Command_c* command) {
 			}
 
 */
-			gameThreads->stopThread(MoveToTHRDDescriptor, "MoveToThread");
-			gameThreads->stopThread(AttackTHRDDescriptor, "AttackTHREAD");
-//			cout << "waiting for stop attack and move to threads" << endl;
+			//gameThreads->stopThread(MoveToTHRDDescriptor, "MoveToThread");
+			HANDLE temp_handle;
+			if ( (temp_handle = gameThreads->stopThread(MoveToTHRDDescriptor)) != NULL ) {
+				command->data.push_back(temp_handle);
+			}
+//			gameThreads->stopThread(AttackTHRDDescriptor, "AttackTHREAD");
+			if ((temp_handle = gameThreads->stopThread(AttackTHRDDescriptor)) != NULL) {
+				command->data.push_back(temp_handle);
+			}
+			//			cout << "waiting for stop attack and move to threads" << endl;
 //			WaitForSingleObject(MoveToTHREADHandle, INFINITE);
 //			WaitForSingleObject(AttackTHREADHandle, INFINITE);
-			cout << "stpping MoveTo and Attack threads by event" << endl;
+//			cout << "stpping MoveTo and Attack threads by event" << endl;
 			return true;
 		}
 	}

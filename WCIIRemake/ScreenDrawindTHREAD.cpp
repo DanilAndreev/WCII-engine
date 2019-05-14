@@ -12,14 +12,14 @@ ScreenDrawindTHREAD::~ScreenDrawindTHREAD() {
 }
 
 void ScreenDrawindTHREAD::threadFunction() {
-	cout << "ScreenDrawindTHREAD start" << endl;
+//	cout << "ScreenDrawindTHREAD start" << endl;
 	MScreen* ScrParent = (MScreen*)parent;
 	while (isRunning) {
 		ScrParent->render();
 		Sleep(100);
 	}
 	isRunning = false;
-	cout << "ScreenDrawindTHREAD stopping" << endl;
+//	cout << "ScreenDrawindTHREAD stopping" << endl;
 }
 
 
