@@ -25,6 +25,7 @@ LiveUnitPreset::LiveUnitPreset(string name, string beautyName, string fraction, 
 	this->cost = cost;
 	this->eats = eats;
 	this->productionTime = productionTime;
+	this->speedDelay = speedDelay;
 }
 
 LiveUnitPreset::~LiveUnitPreset()
@@ -89,12 +90,12 @@ ThreadId LiveUnit::getMoveToTHRDDescriptor()
 
 
 
-bool LiveUnit::goTo(cordScr* dest) {
+bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 	threadFlag = true;
 
 	FastPath* fastpath = new FastPath(this->field, this);
 	int timeoutCounter = 0;
-	while (timeoutCounter <= TimeoutTimes && this->health > 0) {
+	while (flag && timeoutCounter <= TimeoutTimes && this->health > 0) {
 		int direction = fastpath->solveDirection(*dest);
 		if (direction == -1) {
 			break;

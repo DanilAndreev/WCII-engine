@@ -45,7 +45,7 @@ public:
 	~LiveUnit();
 	ThreadId getMoveToTHRDDescriptor();
 	cordScr* getMoveDest();
-	bool goTo(cordScr* dest);
+	bool goTo(cordScr* dest, bool & flag);
 	bool attack();
 	time_t getLastAttackTime();
 	bool setLastAttackTime(time_t iclock);

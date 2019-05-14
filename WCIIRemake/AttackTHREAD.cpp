@@ -15,21 +15,21 @@ void AttackTHREAD::threadFunction() {
 	cout << "AttackTHREAD start" << endl;
 	LiveUnit* LUParent = (LiveUnit*)parent;
 	time_t temp = clock() - LUParent->getLastAttackTime();
-	if (temp < LUParent->getCooldown()) { // checking if after recreating thread cooldown weren't finished
+	if (isRunning && temp < LUParent->getCooldown()) { // checking if after recreating thread cooldown weren't finished
 		time_t deleteMe = clock();
 		Sleep(temp);
 	}
 	while (isRunning) {
-		if (!(LUParent->moveNoAttack) && LUParent->attack()) {
+		if (isRunning && !(LUParent->moveNoAttack) && LUParent->attack()) {
 			Sleep(LUParent->getCooldown());
 		}
 		else {
-			if (LUParent->getCord() != *(LUParent->getMoveDest())) {
-				LUParent->goTo(LUParent->getMoveDest());
+			if (isRunning && LUParent->getCord() != *(LUParent->getMoveDest())) {
+				LUParent->goTo(LUParent->getMoveDest(), isRunning);
 				//Sleep(1000);  //it is a stop in the goTo()
 			}
 			else {
-				if (LUParent->moveNoAttack) {
+				if (isRunning && LUParent->moveNoAttack) {
 					LUParent->moveNoAttack = false;
 				}
 				Sleep(DEFAULTUNITSLEEP);
