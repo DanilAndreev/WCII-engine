@@ -25,7 +25,7 @@ public:
 	int search(string target); // returns index of first matched requested value in the command or -1 if not found
 public:
 	friend bool operator==(const Command_c& left, string right);
-	friend bool operator<<(const Command_c& ledt, const Command_c& right);
+	friend bool operator^=(const Command_c& ledt, const Command_c& right);
 protected:
 	bool readCondition(char character);
 	string commandType(char character);

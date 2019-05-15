@@ -72,6 +72,11 @@ bool operator==(const Command_c & left, string right) {
 	return left.args[0].first == right;
 }
 
+bool operator^=(const Command_c& ledt, const Command_c& right) {
+
+	return false;
+}
+
 
 //Parser
 bool Command_c::readCondition(char character) {

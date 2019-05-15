@@ -18,6 +18,7 @@ unit{
     heigth: 1;
     team: 1;
     cooldown: 10000;
+    speedDelay: 10;
 }
 unit{
     symbol: 'E';
