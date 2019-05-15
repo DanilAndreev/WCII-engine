@@ -146,7 +146,7 @@ bool Field::spawnEvent(Command_c* command) {
 					int y = stoi(command->args[6].first);
 					int team = stoi(command->args[2].first);
 					LiveUnit* unit = new LiveUnit(*preset, this, team);
-					this->setCell(cordScr(x, y), (Unit*)unit);
+					return this->setCell(cordScr(x, y), (Unit*)unit);
 				}
 			}
 		}

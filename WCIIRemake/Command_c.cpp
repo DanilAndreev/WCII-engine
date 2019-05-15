@@ -8,11 +8,14 @@ Command_c::Command_c() {
 }
 
 Command_c::Command_c(string arg) {
+/*
 	ParserPosition = 0;
 	pair <string, string> command;
 	command.first = arg;
 	command.second = "command";
 	args.push_back(command);
+*/
+	this-parseCommand(arg);
 }
 
 Command_c::Command_c(int notUsed, const char* s1, ...) {
@@ -131,6 +134,7 @@ bool Command_c::parseCommand(string command)
 		args.push_back(command);
 		return false;
 	}
+	this->args.clear();
 	pair <string, string> temp;
 	temp = nextToken(command);
 	for (int i = 0; temp.second != "end"; i++) {

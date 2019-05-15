@@ -1,0 +1,13 @@
+save testsave2
+ unit { x:10; y:10; symbol:'D'; width:1; heigth:1; health:10; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:9; y:11; symbol:'E'; width:1; heigth:1; health:10; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:8; y:11; symbol:'N'; width:1; heigth:1; health:10; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:11; y:9; symbol:'Y'; width:1; heigth:1; health:10; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:9; y:9; symbol:'A'; width:1; heigth:1; health:10; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:10; y:11; symbol:'#'; width:1; heigth:1; health:0; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:12; y:12; symbol:'O'; width:1; heigth:1; health:10; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:8; y:9; symbol:'X'; width:1; heigth:1; health:10; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:12; y:9; symbol:'X'; width:1; heigth:1; health:10; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:11; y:12; symbol:'X'; width:1; heigth:1; health:10; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:11; y:11; symbol:'X'; width:1; heigth:1; health:10; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ field { width:60; heigth:30;}

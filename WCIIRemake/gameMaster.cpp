@@ -158,6 +158,7 @@ Exitcode GameMaster::ParseUnit(ParserOut input, LiveUnitPreset *writeTo) {
 //	this->creaturePresets.push_back(tempCreaturePreset);
 //	tempCreaturePreset.print();
 //	defaultConsole->message("Succesfully loaded ");
+//	cout << "Successfuly loaded unit: " << tempCreaturePreset.name << endl;
 	*writeTo = tempCreaturePreset;
 	return GM_NO_ERROR;
 }
@@ -191,6 +192,7 @@ void GameMaster::readUnits() {
 		switch (exitcode) {
 		case GM_NO_ERROR:
 			this->creaturePresets.push_back(lupreset);
+			cout << "Successfuly loaded unit: " << lupreset.name << endl;
 			break;
 		case GM_ERROR_ALLOCATING_MEMORY:
 			defaultConsole->error("Error allocating memory");
@@ -565,10 +567,11 @@ Exitcode GameMaster::loadGame(string savename) {
 
 	defaultConsole->message(string("Loading save: ") + savename);
 
-	Command_c tempEvent;
-	tempEvent = defaultConComCon->parseCommand("stop threads -lg -ccc -eh -wait");
+	Command_c tempEvent("stop threads -lg -ccc -eh -wait");
+//	tempEvent = defaultConComCon->parseCommand("stop threads -lg -ccc -eh -wait");
 	gameController->throwCommand(&tempEvent);
-	tempEvent = defaultConComCon->parseCommand("pause -command_input");
+//	tempEvent = defaultConComCon->parseCommand("pause -command_input");
+	tempEvent = Command_c("pause -command_input");
 	gameController->throwCommand(&tempEvent);
 //	Sleep(1000);
 //	delete gameController;
@@ -610,8 +613,8 @@ Exitcode GameMaster::loadGame(string savename) {
 	defaultConComCon->setController(gameController);
 
 	gameController->unpauseEventHandler();
-	tempEvent = defaultConComCon->parseCommand("unpause -command_input");
-
+//	tempEvent = defaultConComCon->parseCommand("unpause -command_input");
+	tempEvent = Command_c("unpause -command_input");
 	gameController->throwCommand(&tempEvent);
 
 //	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);

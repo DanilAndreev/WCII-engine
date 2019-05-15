@@ -23,7 +23,7 @@
     <ProjectGuid>{B868E2B1-F0D3-47FC-A393-CFAACEB89431}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WCIIRemake</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -179,7 +179,9 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ParserOut.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="Screenable.h" />
     <ClInclude Include="ScreenDrawindTHREAD.h" />
     <ClInclude Include="SearchTarget.h" />
@@ -221,7 +223,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Screenable.cpp" />
     <ClCompile Include="backup.cpp" />
     <ClCompile Include="ScreenDrawindTHREAD.cpp" />
