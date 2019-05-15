@@ -10,7 +10,7 @@ GameMaster* gameMaster;
 int main() {
 //	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 	Command_c command("spawn team 1 unit berserker 10 10 -t -g");
-	Command_c pattern("spawn team input_number unit input_command input_number input_number -t -g");
+	Command_c pattern("spawn team input_number unit input_command input_number input_number");
 	if (pattern ^= command) {
 		cout << "Command is patterned" << endl;
 	}
@@ -33,4 +33,5 @@ int main() {
 			WaitForSingleObject(gameAlifeHandle, INFINITE);
 		}
 	}
+
 }

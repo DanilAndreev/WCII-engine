@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Command_c.h"
 
+bool compareArg(pair<string, string> firstArg, pair<string, string> secondArg);
+
 
 Command_c::Command_c() {
 	ParserPosition = 0;
@@ -72,9 +74,23 @@ bool operator==(const Command_c & left, string right) {
 	return left.args[0].first == right;
 }
 
-bool operator^=(const Command_c& ledt, const Command_c& right) {
-
-	return false;
+bool operator^=(const Command_c& left, const Command_c& right) {
+	if (left.args.size() > right.args.size()) {
+		return false;
+	}
+	for (int i = 0; i < left.args.size(); i++) {
+		if (!compareArg(left.args[i], right.args[i])) {
+			return false;
+		}
+	}
+	if (right.args.size() > left.args.size()) {
+		for (int i = left.args.size(); i < right.args.size(); i++) {
+			if (right.args[i].second != "flag") {
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 
@@ -146,5 +162,16 @@ bool Command_c::parseCommand(string command)
 		this->args.push_back(temp);
 		temp = nextToken(command);
 	}
+	return true;
+}
+
+bool compareArg(pair<string, string> firstArg, pair<string, string> secondArg) {
+	if (firstArg.first == "input_number" && secondArg.second != "number") {
+		return false;
+	}
+	if (firstArg.first == "input_command" && secondArg.second != "command") {
+		return false;
+	}
+	
 	return true;
 }

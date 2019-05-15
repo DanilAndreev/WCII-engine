@@ -7,6 +7,8 @@ extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 
 ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController) {
+	this->fillCommandPatterns();
+
 	if (ioconsole != NULL) {
 		this->console = ioconsole;
 	}
@@ -29,17 +31,27 @@ ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controlle
 		this->ConComConTHRDescriptor  = ConComConTHRD->getDescriptor();
 	}
 	else {
-		cout << "Error allocating memory" << endl;
+		defaultConsole->error("Error allocating memory");
 	}
 	this->isPaused = false;
 	this->isRunning = true;
 	ConComConTHRD->startThread();
+
+	ConsoleCommandHandlerTHREAD* ConsoleComandHandleThread = new ConsoleCommandHandlerTHREAD(this);
+	if (ConsoleComandHandleThread) {
+		this->CommandHandlerTHRDDescriptor = ConsoleComandHandleThread->getDescriptor();
+		ConsoleComandHandleThread->startThread();
+	}
+	else {
+		defaultConsole->error("Error allocating memory");
+	}
 }
 
 
 ConsoleCommandController::~ConsoleCommandController() {
 	this->isRunning = false;
 	gameThreads->stopThread(this->ConComConTHRDescriptor);
+	gameThreads->stopThread(this->CommandHandlerTHRDDescriptor);
 }
 
 bool ConsoleCommandController::setController(Controller* mainController) {
@@ -129,8 +141,19 @@ Command_c ConsoleCommandController::getCommand() {
 	return parseCommand(command);
 }
 
-void ConsoleCommandController::throwCommand(Command_c* command) {
-	mainController->addEventToQueue(*command);
+bool ConsoleCommandController::operateConsoleCommand(Command_c command) {
+	if (selectSymbPattern ^= command) {
+		this->mainController->addEventToQueue(Command_c(string("select ")+command.args[1].first));
+		return true;
+	}
+
+
+	return false;
+}
+
+void ConsoleCommandController::throwCommand(Command_c* command) { //--------------------------------------------------------------MODIFIED
+//	mainController->addEventToQueue(*command);
+	this->addCommandToQueue(*command);
 }
 
 void ConsoleCommandController::operateEvent(Command_c* command) {
@@ -197,3 +220,38 @@ bool ConsoleCommandController::unpauseEvent(Command_c* command) {
 	return false;
 }
 
+
+Command_c ConsoleCommandController::getCommandFromQueue() {
+	Command_c command;
+	command = commandQueue.front();
+	commandQueue.pop();
+	return command;
+}
+
+bool ConsoleCommandController::addCommandToQueue(Command_c command) {
+	this->commandQueue.push(command);
+	return true;
+}
+
+bool ConsoleCommandController::commandQueueIsEmpty() {
+	return this->commandQueue.empty();
+}
+
+void ConsoleCommandController::fillCommandPatterns() {
+	this->commandPatterns.push_back(selectCordsPattern);
+	this->commandPatterns.push_back(selectSymbPattern);
+	this->commandPatterns.push_back(selectIdPattern);
+	this->commandPatterns.push_back(moveToPattern);
+}
+
+void ConsoleCommandController::handleCommand(bool & flag) {
+	if (flag) {
+		if (!commandQueueIsEmpty()) {
+			Command_c temp = getCommandFromQueue();
+			operateConsoleCommand(temp);
+		}
+		else {
+			Sleep(10);
+		}
+	}
+}
