@@ -10,16 +10,19 @@
 const ConsoleCommandPattern selectCordsPattern("select input_number input_number", 
 												"selectCordsPattern", 
 												"select [int:x] [int:y]",
-												selectCordsCommnad);
+												ConsoleCommandController::selectCordsCommand);
 const ConsoleCommandPattern selectSymbPattern("select input_command",
 												"selectSymbPattern", 
-												"select [cahr:symbol]");
+												"select [cahr:symbol]",
+												ConsoleCommandController::selectSymbCommand);
 const ConsoleCommandPattern selectIdPattern("select input_number",
 												"selectIdPattern",
-												"select [int:id]");
+												"select [int:id]",
+												ConsoleCommandController::selectIdCommand);
 const ConsoleCommandPattern moveToPattern("move to input_number input_number",
 												"moveToPattern", 
-												"move to [int:x] [int:y]");
+												"move to [int:x] [int:y]",
+												ConsoleCommandController::moveToCommand);
 
 class ConsoleCommandController : public Obj{
 protected:
@@ -59,10 +62,10 @@ protected:
 	virtual void fillCommandPatterns();
 public:
 //CONSOLE COMMAND CONTROLLER COMMANDS Functions
-	void selectCordsCommnad(Command_c command);
-	void selectSymbCommand(Command_c command);
-	void selectIdCommnad(Command_c command);
-	void moveToCommand(Command_c command);
+	static void selectCordsCommand(Command_c command);
+	static void selectSymbCommand(Command_c command);
+	static void selectIdCommand(Command_c command);
+	static void moveToCommand(Command_c command);
 
 //CONSOLE COMMAND CONTROLLER EVENTS
 protected:
