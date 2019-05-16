@@ -688,7 +688,7 @@ void GameMaster::operateEvent(Command_c* command) {
 
 //Game Master commands(events)
 bool GameMaster::exitgameEvent(Command_c* command) {
-	cout << "exiting game" << endl;
+//	cout << "exiting game" << endl;
 	if (command->args.size() == 1) {
 		if (command->args[0].first == "exitgame") {
 			this->gameAlifeThreadIsRunning = false;

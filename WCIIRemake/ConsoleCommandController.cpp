@@ -166,27 +166,55 @@ bool ConsoleCommandController::commandQueueIsEmpty() {
 }
 
 void ConsoleCommandController::fillCommandPatterns() {
-	const ConsoleCommandPattern selectCordsPattern("select input_number input_number",
+	const ConsoleCommandPattern selectCordsPattern(
+		"select input_number input_number",
 		"selectCordsPattern",
 		"select [int:x] [int:y]",
 		ConsoleCommandController::selectCordsCommand);
-	const ConsoleCommandPattern selectSymbPattern("select input_command",
+	const ConsoleCommandPattern selectSymbPattern(
+		"select input_command",
 		"selectSymbPattern",
-		"select [cahr:symbol]",
+		"select [char:symbol]",
 		ConsoleCommandController::selectSymbCommand);
-	const ConsoleCommandPattern selectIdPattern("select input_number",
+	const ConsoleCommandPattern selectIdPattern(
+		"select input_number",
 		"selectIdPattern",
 		"select [int:id]",
 		ConsoleCommandController::selectIdCommand);
-	const ConsoleCommandPattern moveToPattern("move to input_number input_number",
+	const ConsoleCommandPattern moveToPattern(
+		"move to input_number input_number",
 		"moveToPattern",
 		"move to [int:x] [int:y]",
 		ConsoleCommandController::moveToCommand);
+	const ConsoleCommandPattern attackCordsPattern(
+		"attack input_number input_number",
+		"attackPattern",
+		"attack [int:x] [int:y]",
+		ConsoleCommandController::attackCordsCommand);
+	const ConsoleCommandPattern exitGamePattern(
+		"exit game",
+		"exitGamePattern",
+		"exit game",
+		ConsoleCommandController::exitGameCommand);
+	const ConsoleCommandPattern saveGamePattern(
+		"save game input_command",
+		"saveGamePattern",
+		"save game [string:savename]",
+		ConsoleCommandController::saveGameCommand);
+	const ConsoleCommandPattern loadGamePattern(
+		"load game input_command",
+		"loadGamePattern",
+		"load game [string:savename]",
+		ConsoleCommandController::loadGameCommand);
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
 	this->commandPatterns.push_back(selectIdPattern);
 	this->commandPatterns.push_back(moveToPattern);
+	this->commandPatterns.push_back(attackCordsPattern);
+	this->commandPatterns.push_back(exitGamePattern);
+	this->commandPatterns.push_back(saveGamePattern);
+	this->commandPatterns.push_back(loadGamePattern);
 }
 
 
@@ -227,15 +255,16 @@ bool ConsoleCommandController::operateConsoleCommand(Command_c* command, bool sh
 void ConsoleCommandController::selectCordsCommand(Command_c* command, Obj* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
-		throw exception("Bad input class type");
+		throw new exception("Bad input class type");
 	}
-	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first + " " + command->args[2].first));
+	Command_c tempEvent(Command_c(string("select ") + command->args[1].first + " " + command->args[2].first));
+	parent->mainController->addEventToQueue(tempEvent);
 }
 
 void ConsoleCommandController::selectSymbCommand(Command_c* command, Obj* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
-		throw exception("Bad input class type");
+		throw new exception("Bad input class type");
 	}
 	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first));
 }
@@ -243,7 +272,7 @@ void ConsoleCommandController::selectSymbCommand(Command_c* command, Obj* oParen
 void ConsoleCommandController::selectIdCommand(Command_c* command, Obj* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
-		throw exception("Bad input class type");
+		throw new exception("Bad input class type");
 	}
 	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first));
 }
@@ -251,9 +280,46 @@ void ConsoleCommandController::selectIdCommand(Command_c* command, Obj* oParent)
 void ConsoleCommandController::moveToCommand(Command_c* command, Obj* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
-		throw exception("Bad input class type");
+		throw new exception("Bad input class type");
 	}
-	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[2].first + " " + command->args[3].first));
+	Command_c tempEvent(string("move to ") + command->args[2].first + " " + command->args[3].first);
+	parent->mainController->addEventToQueue(tempEvent);
+}
+
+void ConsoleCommandController::attackCordsCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	parent->mainController->addEventToQueue(Command_c(string("attack ") + command->args[1].first + " " + command->args[2].first));
+}
+
+void ConsoleCommandController::exitGameCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent("exitgame");
+	parent->mainController->addEventToQueue(tempEvent);
+	defaultConsole->message("Exiting game");
+}
+
+void ConsoleCommandController::saveGameCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent(string("save game ") + command->args[2].first);
+	parent->mainController->addEventToQueue(tempEvent);
+}
+
+void ConsoleCommandController::loadGameCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent(string("load game ") + command->args[2].first);
+	parent->mainController->addEventToQueue(tempEvent);
 }
 
 

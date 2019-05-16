@@ -58,7 +58,7 @@ bool Controller::setConsole(Console* ioconsole) {
 	else {
 		this->console = defaultConsole;
 	}
-	if (!console) throw new exception("hren kakayato");
+	if (!console) throw new exception("error");
 	this->members->add(console);
 	return true;
 }
@@ -188,7 +188,7 @@ void Controller::operateEvent(Command_c* command) {
 
 bool Controller::exitGame(Command_c* command) {
 	if (command->args.size() == 1) {
-		console->message("Stopping EventHandler");
+//		console->message("Stopping EventHandler");
 		return gameThreads->stopThread(eventHandlerDescriptor);
 	}
 	return false;

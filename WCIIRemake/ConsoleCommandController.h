@@ -51,8 +51,11 @@ public:
 	static void selectSymbCommand(Command_c* command, Obj* oParent);
 	static void selectIdCommand(Command_c* command, Obj* oParent);
 	static void moveToCommand(Command_c* command, Obj* oParent);
-
-//CONSOLE COMMAND CONTROLLER EVENTS
+	static void attackCordsCommand(Command_c* command, Obj* oParent);
+	static void exitGameCommand(Command_c* command, Obj* oParent);
+	static void saveGameCommand(Command_c* command, Obj* oParent);
+	static void loadGameCommand(Command_c* command, Obj* oParent);
+	//CONSOLE COMMAND CONTROLLER EVENTS
 protected:
 	bool exitGame(Command_c* command);
 	bool stopEvent(Command_c* command);
