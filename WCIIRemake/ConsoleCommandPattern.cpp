@@ -2,10 +2,11 @@
 #include "ConsoleCommandPattern.h"
 
 
-ConsoleCommandPattern::ConsoleCommandPattern(string command, string name, string usingHelpMessage, void (*callback_func)(Command_c)) : Command_c(command) {
+ConsoleCommandPattern::ConsoleCommandPattern(string command, string name, string usingHelpMessage, void (*callback_func)(Command_c*, Obj*)/*, Obj* parent*/) : Command_c(command) {
 	this->name = name;
 	this->usingHelpMessage = usingHelpMessage;
 	this->callback_func = callback_func;
+	//this->parent = parent;
 }
 
 ConsoleCommandPattern::~ConsoleCommandPattern() {

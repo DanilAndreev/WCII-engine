@@ -156,11 +156,13 @@
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AttackTHREAD.h" />
     <ClInclude Include="Building.h" />
+    <ClInclude Include="CommandPatterns.h" />
     <ClInclude Include="Command_c.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleCommandController.h" />
     <ClInclude Include="ConsoleCommandControllerTHREAD.h" />
     <ClInclude Include="ConsoleCommandHandlerTHREAD.h" />
+    <ClInclude Include="ConsoleCommandPattern.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="cordScr.h" />
     <ClInclude Include="DynArr.h" />
@@ -174,6 +176,7 @@
     <ClInclude Include="GameAlifeTHREAD.h" />
     <ClInclude Include="gameMaster.h" />
     <ClInclude Include="Exitcode.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="ID.h" />
     <ClInclude Include="LiveUnit.h" />
     <ClInclude Include="MScreen.h" />
@@ -197,11 +200,13 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AttackTHREAD.cpp" />
     <ClCompile Include="Building.cpp" />
+    <ClCompile Include="CommandPatterns.cpp" />
     <ClCompile Include="Command_c.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleCommandController.cpp" />
     <ClCompile Include="ConsoleCommandControllerTHREAD.cpp" />
     <ClCompile Include="ConsoleCommandHandlerTHREAD.cpp" />
+    <ClCompile Include="ConsoleCommandPattern.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="cordScr.cpp" />
     <ClCompile Include="DynArr.cpp" />

@@ -3,28 +3,13 @@
 #include "pch.h"
 #include "Command_c.h"
 #include "ConsoleCommandPattern.h"
+#include "CommandPatterns.h"
 #include "Obj.h"
 #include "ConsoleCommandControllerTHREAD.h"
 #include "ConsoleCommandHandlerTHREAD.h"
 
-const ConsoleCommandPattern selectCordsPattern("select input_number input_number", 
-												"selectCordsPattern", 
-												"select [int:x] [int:y]",
-												ConsoleCommandController::selectCordsCommand);
-const ConsoleCommandPattern selectSymbPattern("select input_command",
-												"selectSymbPattern", 
-												"select [cahr:symbol]",
-												ConsoleCommandController::selectSymbCommand);
-const ConsoleCommandPattern selectIdPattern("select input_number",
-												"selectIdPattern",
-												"select [int:id]",
-												ConsoleCommandController::selectIdCommand);
-const ConsoleCommandPattern moveToPattern("move to input_number input_number",
-												"moveToPattern", 
-												"move to [int:x] [int:y]",
-												ConsoleCommandController::moveToCommand);
 
-class ConsoleCommandController : public Obj{
+class ConsoleCommandController : public Obj, public CommandPatterns{
 protected:
 	Controller* mainController;
 	int ParserPosition;
@@ -50,7 +35,6 @@ public:
 	pair <string, string> nextToken(string command);
 	void initParser();
 	Command_c getCommand();
-	bool operateConsoleCommand(Command_c command);
 	void throwCommand(Command_c* command);
 	void operateEvent(Command_c* command);
 
@@ -61,11 +45,12 @@ protected:
 	bool commandQueueIsEmpty();
 	virtual void fillCommandPatterns();
 public:
-//CONSOLE COMMAND CONTROLLER COMMANDS Functions
-	static void selectCordsCommand(Command_c command);
-	static void selectSymbCommand(Command_c command);
-	static void selectIdCommand(Command_c command);
-	static void moveToCommand(Command_c command);
+	bool operateConsoleCommand(Command_c* command, bool showHelp);
+	//CONSOLE COMMAND CONTROLLER COMMANDS Functions
+	static void selectCordsCommand(Command_c* command, Obj* oParent);
+	static void selectSymbCommand(Command_c* command, Obj* oParent);
+	static void selectIdCommand(Command_c* command, Obj* oParent);
+	static void moveToCommand(Command_c* command, Obj* oParent);
 
 //CONSOLE COMMAND CONTROLLER EVENTS
 protected:

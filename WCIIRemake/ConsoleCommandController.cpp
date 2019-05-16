@@ -141,20 +141,122 @@ Command_c ConsoleCommandController::getCommand() {
 	return parseCommand(command);
 }
 
-bool ConsoleCommandController::operateConsoleCommand(Command_c command) {
-	if (selectSymbPattern ^= command) {
-		this->mainController->addEventToQueue(Command_c(string("select ")+command.args[1].first));
-		return true;
-	}
-
-
-	return false;
-}
 
 void ConsoleCommandController::throwCommand(Command_c* command) { //--------------------------------------------------------------MODIFIED
 //	mainController->addEventToQueue(*command);
 	this->addCommandToQueue(*command);
 }
+
+
+
+Command_c ConsoleCommandController::getCommandFromQueue() {
+	Command_c command;
+	command = commandQueue.front();
+	commandQueue.pop();
+	return command;
+}
+
+bool ConsoleCommandController::addCommandToQueue(Command_c command) {
+	this->commandQueue.push(command);
+	return true;
+}
+
+bool ConsoleCommandController::commandQueueIsEmpty() {
+	return this->commandQueue.empty();
+}
+
+void ConsoleCommandController::fillCommandPatterns() {
+	const ConsoleCommandPattern selectCordsPattern("select input_number input_number",
+		"selectCordsPattern",
+		"select [int:x] [int:y]",
+		ConsoleCommandController::selectCordsCommand);
+	const ConsoleCommandPattern selectSymbPattern("select input_command",
+		"selectSymbPattern",
+		"select [cahr:symbol]",
+		ConsoleCommandController::selectSymbCommand);
+	const ConsoleCommandPattern selectIdPattern("select input_number",
+		"selectIdPattern",
+		"select [int:id]",
+		ConsoleCommandController::selectIdCommand);
+	const ConsoleCommandPattern moveToPattern("move to input_number input_number",
+		"moveToPattern",
+		"move to [int:x] [int:y]",
+		ConsoleCommandController::moveToCommand);
+
+	this->commandPatterns.push_back(selectCordsPattern);
+	this->commandPatterns.push_back(selectSymbPattern);
+	this->commandPatterns.push_back(selectIdPattern);
+	this->commandPatterns.push_back(moveToPattern);
+}
+
+
+void ConsoleCommandController::handleCommand(bool& flag) {
+	if (flag) {
+		if (!commandQueueIsEmpty()) {
+			Command_c temp = getCommandFromQueue();
+			operateConsoleCommand(&temp, true);
+		}
+		else {
+			Sleep(10);
+		}
+	}
+}
+
+bool ConsoleCommandController::operateConsoleCommand(Command_c* command, bool showHelp) {
+	for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
+		if (commandPatterns[i] ^= *command) {
+			commandPatterns[i].callback_func(command, this);
+			return true;
+		}
+	}
+
+	if (showHelp) {
+		defaultConsole->error("Invalid command");
+		for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
+			if ( commandPatterns[i] == *command ) {
+				defaultConsole->warning(string("Usage: ") + commandPatterns[i].usingHelpMessage);
+			}
+		}
+	}
+	return false;
+}
+
+
+//CONSOLE COMMAND CONTROLLER COMMANDS Fuctions
+	
+void ConsoleCommandController::selectCordsCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw exception("Bad input class type");
+	}
+	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first + " " + command->args[2].first));
+}
+
+void ConsoleCommandController::selectSymbCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw exception("Bad input class type");
+	}
+	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first));
+}
+
+void ConsoleCommandController::selectIdCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw exception("Bad input class type");
+	}
+	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first));
+}
+
+void ConsoleCommandController::moveToCommand(Command_c* command, Obj* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw exception("Bad input class type");
+	}
+	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[2].first + " " + command->args[3].first));
+}
+
+
 
 void ConsoleCommandController::operateEvent(Command_c* command) {
 	if (*command == "exitgame") {
@@ -170,6 +272,7 @@ void ConsoleCommandController::operateEvent(Command_c* command) {
 		unpauseEvent(command);
 	}
 }
+
 
 //CONSOLE COMMAND CONTROLLER COMMANDS(EVENTS)
 
@@ -221,37 +324,3 @@ bool ConsoleCommandController::unpauseEvent(Command_c* command) {
 }
 
 
-Command_c ConsoleCommandController::getCommandFromQueue() {
-	Command_c command;
-	command = commandQueue.front();
-	commandQueue.pop();
-	return command;
-}
-
-bool ConsoleCommandController::addCommandToQueue(Command_c command) {
-	this->commandQueue.push(command);
-	return true;
-}
-
-bool ConsoleCommandController::commandQueueIsEmpty() {
-	return this->commandQueue.empty();
-}
-
-void ConsoleCommandController::fillCommandPatterns() {
-	this->commandPatterns.push_back(selectCordsPattern);
-	this->commandPatterns.push_back(selectSymbPattern);
-	this->commandPatterns.push_back(selectIdPattern);
-	this->commandPatterns.push_back(moveToPattern);
-}
-
-void ConsoleCommandController::handleCommand(bool & flag) {
-	if (flag) {
-		if (!commandQueueIsEmpty()) {
-			Command_c temp = getCommandFromQueue();
-			operateConsoleCommand(temp);
-		}
-		else {
-			Sleep(10);
-		}
-	}
-}

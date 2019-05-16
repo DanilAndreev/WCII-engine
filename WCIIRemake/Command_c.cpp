@@ -70,8 +70,12 @@ int Command_c::search(string target) {
 
 
 
-bool operator==(const Command_c & left, string right) {
+bool operator==(const Command_c& left, string right) {
 	return left.args[0].first == right;
+}
+
+bool operator==(const Command_c& left, const Command_c& right) {
+	return left.args[0].first == right.args[0].first;
 }
 
 bool operator^=(const Command_c& left, const Command_c& right) {
@@ -172,6 +176,11 @@ bool compareArg(pair<string, string> firstArg, pair<string, string> secondArg) {
 	if (firstArg.first == "input_command" && secondArg.second != "command") {
 		return false;
 	}
-	
+	if (firstArg.first != "input_command" && firstArg.first != "input_number") {
+		if (firstArg.first != secondArg.first) {
+			return false;
+		}
+	}
+
 	return true;
 }
