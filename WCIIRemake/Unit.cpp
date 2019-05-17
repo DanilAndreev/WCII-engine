@@ -3,6 +3,7 @@
 
 extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
+extern Console* defaultConsole;
 
 Unit::Unit(char value, int type, Field* field, int health, int team) {
 	this->team = team;
@@ -98,6 +99,60 @@ bool Unit::getDamage(int damage) {
 
 void Unit::stopAllThreads() {
 }
+
+void Unit::fillCommandPatterns() {
+	const ConsoleCommandPattern selectIdPattern(
+		"select team input_number id input_number",
+		"selectIdPattern",
+		"select team [int:team] id [int::id]",
+		Unit::selectIdCommand);
+	const ConsoleCommandPattern dammageIdPattern(
+		"damaage id input_number power input_number",
+		"damageIdPattern",
+		"damage id [int:id] power [int::power]",
+		Unit::damageIdCommand);
+	const ConsoleCommandPattern getInfoIdPattern(
+		"get info id input_number",
+		"getInfoIdPattern",
+		"get info id [int::id]",
+		Unit::getInfoIdCommand);
+	const ConsoleCommandPattern echoIdPattern(
+		"echo id input_number input_command",
+		"echoIdPattern",
+		"echo id [int:id] [quotes string:message]",
+		Unit::echoIdCommand);
+	const ConsoleCommandPattern getInfoUnitsPattern(
+		"get info units",
+		"getInfoUnitsPattern",
+		"get info units",
+		Unit::echoIdCommand);
+
+	this->commandPatterns.push_back(selectIdPattern);
+	this->commandPatterns.push_back(dammageIdPattern);
+	this->commandPatterns.push_back(getInfoIdPattern);
+	this->commandPatterns.push_back(echoIdPattern);
+}
+
+
+bool Unit::operateConsoleCommand(Command_c* command, bool showHelp) {
+	for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
+		if (commandPatterns[i] ^= *command) {
+			commandPatterns[i].callback_func(command, this);
+			return true;
+		}
+	}
+
+	if (showHelp) {
+		defaultConsole->error("Invalid command");
+		for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
+			if (commandPatterns[i] == *command) {
+				defaultConsole->warning(string("Usage: ") + commandPatterns[i].usingHelpMessage);
+			}
+		}
+	}
+	return false;
+}
+
 
 //UNIT COMMANDS(EVENTS)
 bool Unit::selectEvent(Command_c* command) {
@@ -208,4 +263,49 @@ bool Unit::getInfoEvent(Command_c* command) {
 
 
 	return false;
+}
+
+
+//select team [int:team] id [int:id]
+void Unit::selectIdCommand(Command_c * command, Obj * oParent) {
+	if (stoi(command->args[4].first) == this->id) {
+		this->selected = true;
+	}
+}
+
+//damage id [int:id] power [int:power]
+void Unit::damageIdCommand(Command_c * command, Obj * oParent) {
+	ID input_id = 0;
+	int input_damage = 0;
+	try {
+		input_id = stoull(command->args[2].first);
+		input_damage = stoi(command->args[4].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (input_id == this->id) {
+		this->getDamage(input_damage);
+	}
+}
+
+// get info id [int::id]
+void Unit::getInfoIdCommand(Command_c * command, Obj * oParent) {
+	ID input_id = 0;
+	try {
+		input_id = stoull(command->args[2].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (this->id == input_id) {
+		string temp;
+		temp += this->value;
+		command->data.push_back(eventReturnData(this->id, this->cords, this->className, this->health, temp, NULL));
+	}
+}
+
+
+
+void Unit::echoIdCommand(Command_c * command, Obj * oParent) {
 }

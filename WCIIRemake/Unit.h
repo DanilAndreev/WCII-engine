@@ -4,10 +4,11 @@
 #include "Screenable.h"
 #include "Threadable.h"
 #include "FastPath.h"
+#include "CommandPatterns.h"
 #include <ctime>
 #include <stdlib.h>
 
-class Unit : public Screenable{
+class Unit : public Screenable, public CommandPatterns {
 protected:
 	Field* field;
 	char value; //for debug
@@ -32,6 +33,8 @@ public:
 protected:
 	bool getDamage(int damage);
 	virtual void stopAllThreads();
+	virtual void fillCommandPatterns();
+	bool operateConsoleCommand(Command_c * command, bool showHelp);
 protected:
 	//UNIT COMMANDS(EVENTS)
 	bool selectEvent(Command_c* command);
@@ -39,5 +42,10 @@ protected:
 	bool damageEvent(Command_c* command);
 	bool getInfoEvent(Command_c * command);
 
+protected:
+	void selectIdCommand(Command_c* command, Obj* oParent);
+	void damageIdCommand(Command_c* command, Obj* oParent);
+	void getInfoIdCommand(Command_c* command, Obj* oParent);
+	void echoIdCommand(Command_c* command, Obj* oParent);
 };
 
