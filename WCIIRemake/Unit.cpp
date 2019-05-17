@@ -155,6 +155,8 @@ bool Unit::damageEvent(Command_c* command) {
 	return false;
 }
 
+
+
 bool Unit::getInfoEvent(Command_c* command) {
 	if (command->args.size() >= 3) {
 		if (command->args[1].second == "number" && command->args[2].second == "number") {

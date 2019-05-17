@@ -55,6 +55,8 @@ public:
 	static void exitGameCommand(Command_c* command, Obj* oParent);
 	static void saveGameCommand(Command_c* command, Obj* oParent);
 	static void loadGameCommand(Command_c* command, Obj* oParent);
+	static void spawnUnitPresetCommand(Command_c* command, Obj* oParent);
+	
 	//CONSOLE COMMAND CONTROLLER EVENTS
 protected:
 	bool exitGame(Command_c* command);

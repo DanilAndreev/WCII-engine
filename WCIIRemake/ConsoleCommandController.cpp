@@ -206,6 +206,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"loadGamePattern",
 		"load game [string:savename]",
 		ConsoleCommandController::loadGameCommand);
+	const ConsoleCommandPattern spawnUnitPresetPattern(
+		"spawn team input_number unit input_command input_number input_number",
+		"loadGamePattern",
+		"spawn team [int:team] unit [string:unit name] [int:x] [int:y]",
+		ConsoleCommandController::spawnUnitPresetCommand);
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
@@ -215,6 +220,7 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(exitGamePattern);
 	this->commandPatterns.push_back(saveGamePattern);
 	this->commandPatterns.push_back(loadGamePattern);
+	this->commandPatterns.push_back(spawnUnitPresetPattern);
 }
 
 
@@ -319,6 +325,15 @@ void ConsoleCommandController::loadGameCommand(Command_c* command, Obj* oParent)
 		throw new exception("Bad input class type");
 	}
 	Command_c tempEvent(string("load game ") + command->args[2].first);
+	parent->mainController->addEventToQueue(tempEvent);
+}
+
+void ConsoleCommandController::spawnUnitPresetCommand(Command_c * command, Obj * oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent(string("spawn team ") + command->args[2].first + " unit " + command->args[4].first + " " + command->args[5].first + " " + command->args[6].first);
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
