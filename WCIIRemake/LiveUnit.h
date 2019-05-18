@@ -63,8 +63,7 @@ public: //LIVEUNIT EVENTS
 	static void attackToCordsCommand(Command_c* command, Eventable* oParent);
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 	static void writeToCommand(Command_c* command, Eventable* oParent);
-	
-
+	static void stopMovementCommand(Command_c* command, Eventable* oParent);
 };
 
 // tp id [int:id] to [int:x] [int:y]
@@ -72,3 +71,4 @@ public: //LIVEUNIT EVENTS
 // attack id [int:id] to [int:x] [int:y]
 // stop threads 
 // write data to [string:filename]
+// stop id [int:id] movement

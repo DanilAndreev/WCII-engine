@@ -57,6 +57,7 @@ public:
 	static void saveGameCommand(Command_c* command, CommandPatterns* oParent);
 	static void loadGameCommand(Command_c* command, CommandPatterns* oParent);
 	static void spawnUnitPresetCommand(Command_c* command, CommandPatterns* oParent);
+	static void stopUnitsCommand(Command_c* command, CommandPatterns* oParent);
 protected:
 	virtual void fillEventPatterns();
 public:// CONSOLE COMMAND CONTROLLER EVENTS

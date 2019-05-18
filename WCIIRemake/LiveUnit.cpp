@@ -83,7 +83,6 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	AttackTHREAD* attackThread = new AttackTHREAD(this);
 	attackThread->startThread();
 	this->AttackTHRDDescriptor = attackThread->getDescriptor();
-
 }
 
 LiveUnit::~LiveUnit() {
@@ -105,7 +104,7 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 			return true;
 		}
 		if (direction == 0) {
-			timeoutCounter++;
+			//timeoutCounter++;
 			Sleep(100);
 		}
 		else {
@@ -242,12 +241,18 @@ void LiveUnit::fillEventPatterns() {
 		"writeToPattern",
 		"write data to [string:filename]",
 		LiveUnit::writeToCommand);
+	const EventPattern stopMovementPattern(
+		"stop id input_number movement",
+		"stopMovementPattern",
+		"stop id [int:id] movement",
+		LiveUnit::stopMovementCommand);
 
 	this->eventPatterns.push_back(tpToCordsPattern);
 	this->eventPatterns.push_back(moveToCordsPattern);
 	this->eventPatterns.push_back(stopThreadsPattern);
 	this->eventPatterns.push_back(attackToCordsPattern);
 	this->eventPatterns.push_back(writeToPattern);
+	this->eventPatterns.push_back(stopMovementPattern);
 }
 
 //LIVEUNIT EVENTS------------------------------------------------------------------------------------
@@ -372,5 +377,32 @@ void LiveUnit::writeToCommand(Command_c* command, Eventable* oParent) {
 	writer << " speedDelay:" << parent->moveSpeed << ";";
 	//writer << "mana:" << parent->mana << ";";
 	writer << "}" << endl;
+}
+
+void LiveUnit::stopMovementCommand(Command_c* command, Eventable* oParent) {
+	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	ID input_id = 0;
+	try {
+		input_id = stoull(command->args[2].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (parent->id == input_id) {
+		parent->moveDest = parent->cords;
+		//starting attack thread
+		gameThreads->stopThread(parent->AttackTHRDDescriptor);
+		AttackTHREAD* attackTHRD = new AttackTHREAD(parent);
+		if (attackTHRD) {
+			parent->AttackTHRDDescriptor = attackTHRD->getDescriptor();
+		}
+		else {
+			defaultConsole->error("Error allocating memory");
+		}
+		attackTHRD->startThread();
+	}
 }
 

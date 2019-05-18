@@ -44,7 +44,7 @@ bool Controller::setField(Field* field) {
 }
 
 bool Controller::setScreen(MScreen* ascreen) {
-	if (screen) {
+	if (ascreen) {
 		this->screen = ascreen;
 		this->members->add(ascreen);
 		return true;
