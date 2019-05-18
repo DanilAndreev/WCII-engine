@@ -140,7 +140,93 @@ void MScreen::render() {
 }
 
 void MScreen::operateEvent(Command_c* command) {
-	classifyEvent(command);
+	operateConsoleCommand(command, false);
+	//classifyEvent(command);
+}
+
+void MScreen::fillCommandPatterns() {
+	const ConsoleCommandPattern exitGamePattern(
+		"exitgame",
+		"exitGamePattern",
+		"exitgame",
+		MScreen::exitGameCommand);
+	const ConsoleCommandPattern renderScreenPattern(
+		"render screen id input_number",
+		"renderScreenPattern",
+		"render screen id [int:id]",
+		MScreen::renderScreenIdCommand);
+	const ConsoleCommandPattern drawScreenIdPattern(
+		"draw screen id input_number",
+		"drawScreenIdPattern",
+		"draw screen id [int:id]",
+		MScreen::drawScreenIdCommand);
+	const ConsoleCommandPattern stopThreadsPattern(
+		"stop threads",
+		"stopThreadsPattern",
+		"stop threads {flags}",
+		MScreen::stopThreadsCommand);
+
+	this->commandPatterns.push_back(exitGamePattern);
+	this->commandPatterns.push_back(renderScreenPattern);
+	this->commandPatterns.push_back(drawScreenIdPattern);
+	this->commandPatterns.push_back(stopThreadsPattern);
+}
+
+// exit game
+void MScreen::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
+	MScreen* parent = dynamic_cast<MScreen*>(oParent);
+	if (!parent) {
+		return;
+	}
+	gameThreads->stopThread(parent->screenDrawingTHRDDescriptor);
+}
+
+// render screen id [int:id]
+void MScreen::renderScreenIdCommand(Command_c* command, CommandPatterns* oParent) {
+	MScreen* parent = dynamic_cast<MScreen*>(oParent);
+	if (!parent) {
+		return;
+	}
+	ID input_id = 0;
+	try {
+		input_id = stoull(command->args[3].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (input_id == parent->id) {
+		parent->render();
+	}
+}
+
+// draw screen id [int:id]
+void MScreen::drawScreenIdCommand(Command_c* command, CommandPatterns* oParent) {
+	MScreen* parent = dynamic_cast<MScreen*>(oParent);
+	if (!parent) {
+		return;
+	}
+	ID input_id = 0;
+	try {
+		input_id = stoull(command->args[3].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (input_id == parent->id) {
+		parent->draw();
+	}
+}
+
+// stop threads
+void MScreen::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+	MScreen* parent = dynamic_cast<MScreen*>(oParent);
+	if (!parent) {
+		return;
+	}
+	HANDLE temp_handle;
+	if ((temp_handle = gameThreads->stopThread(parent->screenDrawingTHRDDescriptor)) != NULL) {
+		command->data.push_back(temp_handle);
+	}
 }
 
 void MScreen::classifyEvent(Command_c* command) {

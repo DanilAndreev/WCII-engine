@@ -26,6 +26,7 @@ using namespace std;
 
 
 GameMaster::GameMaster() {
+	this->fillCommandPatterns();
 	setDescription("GameMaster");
 	//creating game alife thread
 	this->GameAlifeTHREADDescriptor = 0;
@@ -683,8 +684,83 @@ bool GameMaster::classifyEvent(Command_c* command) {
 
 
 void GameMaster::operateEvent(Command_c* command) {
-	classifyEvent(command);
+	//classifyEvent(command);
+	operateConsoleCommand(command, false);
 }
+
+void GameMaster::fillCommandPatterns() {
+	const ConsoleCommandPattern  exitGamePattern(
+		"exitgame",
+		"exitGamePattern",
+		"exitgame",
+		GameMaster::exitGameCommand);
+	const ConsoleCommandPattern  stopThreadsPattern(
+		"stop threads",
+		"stopThreadsPattern",
+		"stop threads {flags}",
+		GameMaster::stopThreadsCommand);
+	const ConsoleCommandPattern  saveGamePattern(
+		"save game input_command",
+		"saveGamePattern",
+		"save game [string:savename]",
+		GameMaster::saveGameCommand);
+	const ConsoleCommandPattern  loadGamePattern(
+		"load game input_command",
+		"loadGamePattern",
+		"load game [string:savename]",
+		GameMaster::loadGameCommand);
+
+	this->commandPatterns.push_back(exitGamePattern);
+	this->commandPatterns.push_back(stopThreadsPattern);
+	this->commandPatterns.push_back(saveGamePattern);
+	this->commandPatterns.push_back(loadGamePattern);
+}
+
+// exitgame
+void GameMaster::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
+	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
+	if (!parent) {
+		return;
+	}
+	gameThreads->stopThread(parent->GameAlifeTHREADDescriptor);
+}
+
+// stop threads {flags}
+void GameMaster::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (!command->checkFlag("-lg")) {
+		HANDLE temp_handle;
+		if ((temp_handle = gameThreads->stopThread(parent->GameAlifeTHREADDescriptor)) != NULL) {
+			command->data.push_back(temp_handle);
+		}
+	}
+}
+
+// save game [string:savename]
+void GameMaster::saveGameCommand(Command_c* command, CommandPatterns* oParent) {
+	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
+	if (!parent) {
+		return;
+	}
+	string input_filename = command->args[2].first;
+	parent->saveGame(input_filename);
+}
+
+// load game [string:savename]
+void GameMaster::loadGameCommand(Command_c* command, CommandPatterns* oParent) {
+	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
+	if (!parent) {
+		return;
+	}
+	string input_filename = command->args[2].first;
+	parent->loadGame(input_filename);
+}
+
+
+
 
 
 //Game Master commands(events)

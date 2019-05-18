@@ -10,6 +10,7 @@
 #include "Exitcode.h"
 #include "UnitInterpretor.h"
 #include "GameAlifeThread.h"
+#include "CommandPatterns.h"
 
 template <class Tmpl>
 struct placeableData {
@@ -20,7 +21,7 @@ struct placeableData {
 };
 
 
-class GameMaster : public Obj {
+class GameMaster : public Obj, public CommandPatterns{
 private:	
 	vector <LiveUnitPreset> creaturePresets;
 	vector <BuildingPreset> buildingPresets;
@@ -55,6 +56,15 @@ protected:
 	Exitcode addField(ParserOut data, placeableData<FieldPreset> *writeTo);
 	bool classifyEvent(Command_c* command);
 	virtual void operateEvent(Command_c* command);
+
+protected:
+	virtual void fillCommandPatterns();
+public:
+	static void exitGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
+	static void saveGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void loadGameCommand(Command_c* command, CommandPatterns* oParent);
+
 protected:
 	//GameMaster commands(events)
 	bool exitgameEvent(Command_c* command);
