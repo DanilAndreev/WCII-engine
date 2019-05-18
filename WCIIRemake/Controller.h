@@ -7,8 +7,9 @@
 #include "EventHndlrTHREAD.h"
 #include "GameMaster.h"
 #include "CommandPatterns.h"
+#include "Eventable.h"
 
-class Controller :public Obj, public CommandPatterns{
+class Controller :public Obj, public Eventable {
 private:
 	Console* console;
 	Field* field;
@@ -41,10 +42,10 @@ public:
 	virtual void operateEvent(Command_c* command); // Process phe incoming event
 
 protected:
-	virtual void fillCommandPatterns();
+	virtual void fillEventPatterns();
 public:
-	static void exitGameCommand(Command_c* command, CommandPatterns* oParent);
-	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
+	static void exitGameCommand(Command_c* command, Eventable* oParent);
+	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 
 	
 //CONTROLLER COMMANDS(EVENTS)

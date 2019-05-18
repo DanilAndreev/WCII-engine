@@ -26,7 +26,7 @@ using namespace std;
 
 
 GameMaster::GameMaster() {
-	this->fillCommandPatterns();
+	this->fillEventPatterns();
 	setDescription("GameMaster");
 	//creating game alife thread
 	this->GameAlifeTHREADDescriptor = 0;
@@ -685,39 +685,39 @@ bool GameMaster::classifyEvent(Command_c* command) {
 
 void GameMaster::operateEvent(Command_c* command) {
 	//classifyEvent(command);
-	operateConsoleCommand(command, false);
+	operateEvents(command, false);
 }
 
-void GameMaster::fillCommandPatterns() {
-	const ConsoleCommandPattern  exitGamePattern(
+void GameMaster::fillEventPatterns() {
+	const EventPattern  exitGamePattern(
 		"exitgame",
 		"exitGamePattern",
 		"exitgame",
 		GameMaster::exitGameCommand);
-	const ConsoleCommandPattern  stopThreadsPattern(
+	const EventPattern  stopThreadsPattern(
 		"stop threads",
 		"stopThreadsPattern",
 		"stop threads {flags}",
 		GameMaster::stopThreadsCommand);
-	const ConsoleCommandPattern  saveGamePattern(
+	const EventPattern  saveGamePattern(
 		"save game input_command",
 		"saveGamePattern",
 		"save game [string:savename]",
 		GameMaster::saveGameCommand);
-	const ConsoleCommandPattern  loadGamePattern(
+	const EventPattern  loadGamePattern(
 		"load game input_command",
 		"loadGamePattern",
 		"load game [string:savename]",
 		GameMaster::loadGameCommand);
 
-	this->commandPatterns.push_back(exitGamePattern);
-	this->commandPatterns.push_back(stopThreadsPattern);
-	this->commandPatterns.push_back(saveGamePattern);
-	this->commandPatterns.push_back(loadGamePattern);
+	this->eventPatterns.push_back(exitGamePattern);
+	this->eventPatterns.push_back(stopThreadsPattern);
+	this->eventPatterns.push_back(saveGamePattern);
+	this->eventPatterns.push_back(loadGamePattern);
 }
 
 // exitgame
-void GameMaster::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
+void GameMaster::exitGameCommand(Command_c* command, Eventable* oParent) {
 	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
 	if (!parent) {
 		return;
@@ -726,7 +726,7 @@ void GameMaster::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
 }
 
 // stop threads {flags}
-void GameMaster::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+void GameMaster::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
 	if (!parent) {
 		return;
@@ -740,7 +740,7 @@ void GameMaster::stopThreadsCommand(Command_c* command, CommandPatterns* oParent
 }
 
 // save game [string:savename]
-void GameMaster::saveGameCommand(Command_c* command, CommandPatterns* oParent) {
+void GameMaster::saveGameCommand(Command_c* command, Eventable* oParent) {
 	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
 	if (!parent) {
 		return;
@@ -750,7 +750,7 @@ void GameMaster::saveGameCommand(Command_c* command, CommandPatterns* oParent) {
 }
 
 // load game [string:savename]
-void GameMaster::loadGameCommand(Command_c* command, CommandPatterns* oParent) {
+void GameMaster::loadGameCommand(Command_c* command, Eventable* oParent) {
 	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
 	if (!parent) {
 		return;

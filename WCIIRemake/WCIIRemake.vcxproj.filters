@@ -144,6 +144,12 @@
     <ClInclude Include="MultiTeamSelector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventPattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Eventable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -273,6 +279,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MultiTeamSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Eventable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

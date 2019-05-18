@@ -5,6 +5,7 @@
 extern ThreadDescriptor* gameThreads;
 
 MScreen::MScreen(int width, int heigth) {
+	fillEventPatterns();
 	setDescription("MScreen");
 	elements = new DynArr();
 	this->heigth = heigth;
@@ -140,40 +141,40 @@ void MScreen::render() {
 }
 
 void MScreen::operateEvent(Command_c* command) {
-	operateConsoleCommand(command, false);
+	operateEvents(command, false);
 	//classifyEvent(command);
 }
 
-void MScreen::fillCommandPatterns() {
-	const ConsoleCommandPattern exitGamePattern(
+void MScreen::fillEventPatterns() {
+	const EventPattern exitGamePattern(
 		"exitgame",
 		"exitGamePattern",
 		"exitgame",
 		MScreen::exitGameCommand);
-	const ConsoleCommandPattern renderScreenPattern(
+	const EventPattern renderScreenPattern(
 		"render screen id input_number",
 		"renderScreenPattern",
 		"render screen id [int:id]",
 		MScreen::renderScreenIdCommand);
-	const ConsoleCommandPattern drawScreenIdPattern(
+	const EventPattern drawScreenIdPattern(
 		"draw screen id input_number",
 		"drawScreenIdPattern",
 		"draw screen id [int:id]",
 		MScreen::drawScreenIdCommand);
-	const ConsoleCommandPattern stopThreadsPattern(
+	const EventPattern stopThreadsPattern(
 		"stop threads",
 		"stopThreadsPattern",
 		"stop threads {flags}",
 		MScreen::stopThreadsCommand);
 
-	this->commandPatterns.push_back(exitGamePattern);
-	this->commandPatterns.push_back(renderScreenPattern);
-	this->commandPatterns.push_back(drawScreenIdPattern);
-	this->commandPatterns.push_back(stopThreadsPattern);
+	this->eventPatterns.push_back(exitGamePattern);
+	this->eventPatterns.push_back(renderScreenPattern);
+	this->eventPatterns.push_back(drawScreenIdPattern);
+	this->eventPatterns.push_back(stopThreadsPattern);
 }
 
 // exit game
-void MScreen::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
+void MScreen::exitGameCommand(Command_c* command, Eventable* oParent) {
 	MScreen* parent = dynamic_cast<MScreen*>(oParent);
 	if (!parent) {
 		return;
@@ -182,7 +183,7 @@ void MScreen::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
 }
 
 // render screen id [int:id]
-void MScreen::renderScreenIdCommand(Command_c* command, CommandPatterns* oParent) {
+void MScreen::renderScreenIdCommand(Command_c* command, Eventable* oParent) {
 	MScreen* parent = dynamic_cast<MScreen*>(oParent);
 	if (!parent) {
 		return;
@@ -200,7 +201,7 @@ void MScreen::renderScreenIdCommand(Command_c* command, CommandPatterns* oParent
 }
 
 // draw screen id [int:id]
-void MScreen::drawScreenIdCommand(Command_c* command, CommandPatterns* oParent) {
+void MScreen::drawScreenIdCommand(Command_c* command, Eventable* oParent) {
 	MScreen* parent = dynamic_cast<MScreen*>(oParent);
 	if (!parent) {
 		return;
@@ -218,7 +219,7 @@ void MScreen::drawScreenIdCommand(Command_c* command, CommandPatterns* oParent) 
 }
 
 // stop threads
-void MScreen::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+void MScreen::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	MScreen* parent = dynamic_cast<MScreen*>(oParent);
 	if (!parent) {
 		return;

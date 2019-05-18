@@ -7,7 +7,7 @@ extern ConsoleCommandController* defaultConComCon;
 
 
 Controller::Controller(Field* ifield, MScreen* iscreen, Console* ioconsole, GameMaster* igameMaster) {
-	this->fillCommandPatterns();
+	this->fillEventPatterns();
 	setDescription("Controller");
 	this->members = new DynArr();
 	eventHandlerIsPaused = false;
@@ -174,7 +174,7 @@ Command_c* Controller::throwCommand(Command_c* command) {
 
 
 void Controller::operateEvent(Command_c* command) {
-	operateConsoleCommand(command, false);
+	operateEvents(command, false);
 
 	
 /*
@@ -187,25 +187,25 @@ void Controller::operateEvent(Command_c* command) {
 */
 }
 
-void Controller::fillCommandPatterns() {
-	const ConsoleCommandPattern exitGamePattern(
+void Controller::fillEventPatterns() {
+	const EventPattern exitGamePattern(
 		"exitgame",
 		"exitGamePattern",
 		"exitgame",
 		Controller::exitGameCommand);
-	const ConsoleCommandPattern stopThreadsPattern(
+	const EventPattern stopThreadsPattern(
 		"stop threads",
 		"stopThreadsPattern",
 		"stop threads {flags}",
 		Controller::stopThreadsCommand);
 
-	this->commandPatterns.push_back(exitGamePattern);
-	this->commandPatterns.push_back(stopThreadsPattern);
+	this->eventPatterns.push_back(exitGamePattern);
+	this->eventPatterns.push_back(stopThreadsPattern);
 }
 
 
 
-void Controller::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
+void Controller::exitGameCommand(Command_c* command, Eventable* oParent) {
 	Controller* parent = dynamic_cast<Controller*>(oParent);
 	if (!parent) {
 		return;
@@ -213,7 +213,7 @@ void Controller::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
 	gameThreads->stopThread(parent->eventHandlerDescriptor);
 }
 
-void Controller::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+void Controller::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	Controller* parent = dynamic_cast<Controller*>(oParent);
 	if (!parent) {
 		return;

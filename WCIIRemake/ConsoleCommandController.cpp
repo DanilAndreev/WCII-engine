@@ -9,6 +9,7 @@ extern ThreadDescriptor* gameThreads;
 ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController, int team) {
 	this->team = team;
 	this->fillCommandPatterns();
+	this->fillEventPatterns();
 
 	if (ioconsole != NULL) {
 		this->console = ioconsole;
@@ -445,9 +446,82 @@ void ConsoleCommandController::spawnUnitPresetCommand(Command_c * command, Comma
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
+void ConsoleCommandController::fillEventPatterns() {
+	const EventPattern exitGamePattern(
+		"exitgame",
+		"exitGamePattern",
+		"exitgame",
+		ConsoleCommandController::exitGameCommand);
+	const EventPattern stopThreadsPattern(
+		"stop threads",
+		"getInfoTeamUnitsPattern",
+		"stop threads {flags}",
+		ConsoleCommandController::stopThreadsCommand);
+	const EventPattern pausePattern(
+		"pause",
+		"getInfoTeamUnitsPattern",
+		"pause {flags}",
+		ConsoleCommandController::pauseCommand);
+	const EventPattern unpausePattern(
+		"unpause",
+		"getInfoTeamUnitsPattern",
+		"unpause {flags}",
+		ConsoleCommandController::unpauseCommand);
+
+	this->eventPatterns.push_back(exitGamePattern);
+	this->eventPatterns.push_back(stopThreadsPattern);
+	this->eventPatterns.push_back(pausePattern);
+	this->eventPatterns.push_back(unpausePattern);
+}
+
+void ConsoleCommandController::exitGameCommand(Command_c* command, Eventable* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		return;
+	}
+	gameThreads->stopThread(parent->ConComConTHRDescriptor);
+}
+
+void ConsoleCommandController::stopThreadsCommand(Command_c* command, Eventable* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (!command->checkFlag("-ccc")) {
+		HANDLE temp_handle;
+		if ((temp_handle = gameThreads->stopThread(parent->ConComConTHRDescriptor)) != NULL) {
+			command->data.push_back(temp_handle);
+		}
+
+		fprintf(stdin, "\n");
+	}
+}
+
+void ConsoleCommandController::pauseCommand(Command_c* command, Eventable* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (command->checkFlag("-command_input")) {
+		parent->pause();
+	}
+}
+
+void ConsoleCommandController::unpauseCommand(Command_c* command, Eventable* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (command->checkFlag("-command_input")) {
+		parent->unpause();
+	}
+}
+
 
 
 void ConsoleCommandController::operateEvent(Command_c* command) {
+	operateEvents(command, false);
+/*
 	if (*command == "exitgame") {
 		exitGame(command);
 	}
@@ -460,6 +534,7 @@ void ConsoleCommandController::operateEvent(Command_c* command) {
 	if (*command == "unpause") {
 		unpauseEvent(command);
 	}
+*/
 }
 
 

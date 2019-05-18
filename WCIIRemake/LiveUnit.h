@@ -2,6 +2,7 @@
 #include "Unit.h"
 #include "AttackTHREAD.h"
 #include "FileWriter.h"
+#include "Eventable.h"
 
 struct LiveUnitPreset {
 public:
@@ -58,14 +59,14 @@ private:
 	virtual void operateEvent(Command_c* command);
 	virtual void stopAllThreads();
 protected:
-	virtual void fillCommandPatterns();
+	virtual void fillEventPatterns();
 
 public:
-	static void tpToCordsCommand(Command_c* command, CommandPatterns* oParent);
-	static void moveToCordsCommand(Command_c* command, CommandPatterns* oParent);
-	static void attackToCordsCommand(Command_c* command, CommandPatterns* oParent);
-	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
-	static void writeToCommand(Command_c* command, CommandPatterns* oParent);
+	static void tpToCordsCommand(Command_c* command, Eventable* oParent);
+	static void moveToCordsCommand(Command_c* command, Eventable* oParent);
+	static void attackToCordsCommand(Command_c* command, Eventable* oParent);
+	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
+	static void writeToCommand(Command_c* command, Eventable* oParent);
 	
 //LIVEUNIT COMMANDS(EVENTS)
 protected:

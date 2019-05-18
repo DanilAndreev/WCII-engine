@@ -8,8 +8,9 @@
 #include "MultiTeamSelector.h"
 #include <ctime>
 #include <stdlib.h>
+#include "Eventable.h"
 
-class Unit : public Screenable, public CommandPatterns, public MultiTeamSelector {
+class Unit : public Screenable, public Eventable, public MultiTeamSelector {
 protected:
 	Field* field;
 	char value; //for debug
@@ -34,7 +35,6 @@ public:
 protected:
 	bool getDamage(int damage);
 	virtual void stopAllThreads();
-	virtual void fillCommandPatterns();
 protected:
 	//UNIT COMMANDS(EVENTS)
 	bool selectEvent(Command_c* command);
@@ -42,15 +42,17 @@ protected:
 	bool damageEvent(Command_c* command);
 	bool getInfoEvent(Command_c * command);
 
+protected:
+	virtual void fillEventPatterns();
 public:
-	static void selectIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void unselectIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void damageIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void getInfoIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void echoIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void getInfoUnitsCommand(Command_c* command, CommandPatterns* oParent);
-	static void getInfoTeamUnitsCommand(Command_c* command, CommandPatterns* oParent);
-	static void selectTeamCommand(Command_c* command, CommandPatterns* oParent);
+	static void selectIdCommand(Command_c* command, Eventable* oParent);
+	static void unselectIdCommand(Command_c* command, Eventable* oParent);
+	static void damageIdCommand(Command_c* command, Eventable* oParent);
+	static void getInfoIdCommand(Command_c* command, Eventable* oParent);
+	static void echoIdCommand(Command_c* command, Eventable* oParent);
+	static void getInfoUnitsCommand(Command_c* command, Eventable* oParent);
+	static void getInfoTeamUnitsCommand(Command_c* command, Eventable* oParent);
+	static void selectTeamCommand(Command_c* command, Eventable* oParent);
 };
 
 // select team [int:team] id [int:id]

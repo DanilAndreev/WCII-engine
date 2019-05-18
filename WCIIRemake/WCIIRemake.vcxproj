@@ -167,6 +167,8 @@
     <ClInclude Include="cordScr.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="EventHndlrTHREAD.h" />
+    <ClInclude Include="EventPattern.h" />
+    <ClInclude Include="Eventable.h" />
     <ClInclude Include="eventReturnData.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
@@ -212,6 +214,8 @@
     <ClCompile Include="cordScr.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="EventHndlrTHREAD.cpp" />
+    <ClCompile Include="EventPattern.cpp" />
+    <ClCompile Include="Eventable.cpp" />
     <ClCompile Include="eventReturnData.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />

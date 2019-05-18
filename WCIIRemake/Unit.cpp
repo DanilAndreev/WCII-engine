@@ -6,7 +6,7 @@ extern ThreadDescriptor* gameThreads;
 extern Console* defaultConsole;
 
 Unit::Unit(char value, int type, Field* field, int health, int team) {
-	this->fillCommandPatterns();
+	this->fillEventPatterns();
 	this->team = team;
 	this->value = value;
 	this->field = field;
@@ -75,7 +75,7 @@ bool Unit::classifyEvent(Command_c* command) {
 
 void Unit::operateEvent(Command_c* command) {
 //	classifyEvent(command);
-	operateConsoleCommand(command, false);
+	operateEvents(command, false);
 }
 
 
@@ -101,56 +101,56 @@ bool Unit::getDamage(int damage) {
 void Unit::stopAllThreads() {
 }
 
-void Unit::fillCommandPatterns() {
-	const ConsoleCommandPattern selectIdPattern(
+void Unit::fillEventPatterns() {
+	const EventPattern selectIdPattern(
 		"select team input_number id input_number",
 		"selectIdPattern",
 		"select team [int:team] id [int::id]",
 		Unit::selectIdCommand);
-	const ConsoleCommandPattern unselectIdPattern(
+	const EventPattern unselectIdPattern(
 		"unselect team input_number id input_number",
 		"unselectIdPattern",
 		"unselect team [int:team] id [int::id]",
 		Unit::unselectIdCommand);
-	const ConsoleCommandPattern selectTeamPattern(
+	const EventPattern selectTeamPattern(
 		"select team input_number",
 		"selectTeamPattern",
 		"select team [int:team] {flags}",
 		Unit::selectTeamCommand);
-	const ConsoleCommandPattern dammageIdPattern(
+	const EventPattern dammageIdPattern(
 		"damaage id input_number power input_number",
 		"damageIdPattern",
 		"damage id [int:id] power [int::power]",
 		Unit::damageIdCommand);
-	const ConsoleCommandPattern getInfoIdPattern(
+	const EventPattern getInfoIdPattern(
 		"get info id input_number",
 		"getInfoIdPattern",
 		"get info id [int::id]",
 		Unit::getInfoIdCommand);
-	const ConsoleCommandPattern echoIdPattern(
+	const EventPattern echoIdPattern(
 		"echo id input_number input_command",
 		"echoIdPattern",
 		"echo id [int:id] [quotes string:message]",
 		Unit::echoIdCommand);
-	const ConsoleCommandPattern getInfoUnitsPattern(
+	const EventPattern getInfoUnitsPattern(
 		"get info units",
 		"getInfoUnitsPattern",
 		"get info units",
 		Unit::getInfoUnitsCommand);
-	const ConsoleCommandPattern getInfoTeamUnitsPattern(
+	const EventPattern getInfoTeamUnitsPattern(
 		"get team input_number info units",
 		"getInfoTeamUnitsPattern",
 		"get team [int:team] info units",
 		Unit::getInfoTeamUnitsCommand);
 
-	this->commandPatterns.push_back(selectIdPattern);
-	this->commandPatterns.push_back(unselectIdPattern);
-	this->commandPatterns.push_back(selectTeamPattern);
-	this->commandPatterns.push_back(dammageIdPattern);
-	this->commandPatterns.push_back(getInfoIdPattern);
-	this->commandPatterns.push_back(echoIdPattern);
-	this->commandPatterns.push_back(getInfoUnitsPattern);
-	this->commandPatterns.push_back(getInfoTeamUnitsPattern);
+	this->eventPatterns.push_back(selectIdPattern);
+	this->eventPatterns.push_back(unselectIdPattern);
+	this->eventPatterns.push_back(selectTeamPattern);
+	this->eventPatterns.push_back(dammageIdPattern);
+	this->eventPatterns.push_back(getInfoIdPattern);
+	this->eventPatterns.push_back(echoIdPattern);
+	this->eventPatterns.push_back(getInfoUnitsPattern);
+	this->eventPatterns.push_back(getInfoTeamUnitsPattern);
 }
 
 //UNIT COMMANDS(EVENTS)
@@ -266,7 +266,7 @@ bool Unit::getInfoEvent(Command_c* command) {
 
 
 // select team [int:team] id [int:id]
-void Unit::selectIdCommand(Command_c * command, CommandPatterns* oParent) {
+void Unit::selectIdCommand(Command_c * command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -287,7 +287,7 @@ void Unit::selectIdCommand(Command_c * command, CommandPatterns* oParent) {
 }
 
 // unselect team [int:team] id [int::id]
-void Unit::unselectIdCommand(Command_c* command, CommandPatterns* oParent) {
+void Unit::unselectIdCommand(Command_c* command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -307,7 +307,7 @@ void Unit::unselectIdCommand(Command_c* command, CommandPatterns* oParent) {
 }
 
 // damage id [int:id] power [int:power]
-void Unit::damageIdCommand(Command_c * command, CommandPatterns* oParent) {
+void Unit::damageIdCommand(Command_c * command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -327,7 +327,7 @@ void Unit::damageIdCommand(Command_c * command, CommandPatterns* oParent) {
 }
 
 // get info id [int::id]
-void Unit::getInfoIdCommand(Command_c * command, CommandPatterns* oParent) {
+void Unit::getInfoIdCommand(Command_c * command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -348,7 +348,7 @@ void Unit::getInfoIdCommand(Command_c * command, CommandPatterns* oParent) {
 
 
 // echo id [int:id] [quotes string:message]
-void Unit::echoIdCommand(Command_c * command, CommandPatterns* oParent) {
+void Unit::echoIdCommand(Command_c * command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -366,7 +366,7 @@ void Unit::echoIdCommand(Command_c * command, CommandPatterns* oParent) {
 }
 
 // get info units
-void Unit::getInfoUnitsCommand(Command_c* command, CommandPatterns* oParent) {
+void Unit::getInfoUnitsCommand(Command_c* command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -377,7 +377,7 @@ void Unit::getInfoUnitsCommand(Command_c* command, CommandPatterns* oParent) {
 }
 
 // get team [int:team] info units
-void Unit::getInfoTeamUnitsCommand(Command_c* command, CommandPatterns* oParent) {
+void Unit::getInfoTeamUnitsCommand(Command_c* command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;
@@ -396,7 +396,7 @@ void Unit::getInfoTeamUnitsCommand(Command_c* command, CommandPatterns* oParent)
 
 
 // select team [int:team] {flags}
-void Unit::selectTeamCommand(Command_c* command, CommandPatterns* oParent) {
+void Unit::selectTeamCommand(Command_c* command, Eventable* oParent) {
 	Unit* parent = dynamic_cast<Unit*>(oParent);
 	if (!parent) {
 		return;

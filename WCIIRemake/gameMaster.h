@@ -11,6 +11,7 @@
 #include "UnitInterpretor.h"
 #include "GameAlifeThread.h"
 #include "CommandPatterns.h"
+#include "Eventable.h"
 
 template <class Tmpl>
 struct placeableData {
@@ -21,7 +22,7 @@ struct placeableData {
 };
 
 
-class GameMaster : public Obj, public CommandPatterns{
+class GameMaster : public Obj, public Eventable{
 private:	
 	vector <LiveUnitPreset> creaturePresets;
 	vector <BuildingPreset> buildingPresets;
@@ -58,12 +59,12 @@ protected:
 	virtual void operateEvent(Command_c* command);
 
 protected:
-	virtual void fillCommandPatterns();
+	virtual void fillEventPatterns();
 public:
-	static void exitGameCommand(Command_c* command, CommandPatterns* oParent);
-	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
-	static void saveGameCommand(Command_c* command, CommandPatterns* oParent);
-	static void loadGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void exitGameCommand(Command_c* command, Eventable* oParent);
+	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
+	static void saveGameCommand(Command_c* command, Eventable* oParent);
+	static void loadGameCommand(Command_c* command, Eventable* oParent);
 
 protected:
 	//GameMaster commands(events)

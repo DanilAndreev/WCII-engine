@@ -69,7 +69,7 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->threadFlag = false;
 	this->health = health;
 */
-	this->fillCommandPatterns();
+	this->fillEventPatterns();
 	setDescription("LiveUnit");
 	this->attackLength = attackLength;
 	this->MoveToTHRDDescriptor = 0;
@@ -265,7 +265,7 @@ bool LiveUnit::classifyEvent(Command_c* command) {
 
 void LiveUnit::operateEvent(Command_c* command) {
 //	classifyEvent(command);
-	operateConsoleCommand(command, false);
+	operateEvents(command, false);
 
 }
 
@@ -274,42 +274,42 @@ void LiveUnit::stopAllThreads() {
 	gameThreads->stopThread(MoveToTHRDDescriptor);
 }
 
-void LiveUnit::fillCommandPatterns() {
-	const ConsoleCommandPattern tpToCordsPattern(
+void LiveUnit::fillEventPatterns() {
+	const EventPattern tpToCordsPattern(
 		"tp id input_number to input_number input_number",
 		"tpToCordsPattern",
 		"tp id [int:id] to [int:x] [int:y]",
 		LiveUnit::tpToCordsCommand);
-	const ConsoleCommandPattern moveToCordsPattern(
+	const EventPattern moveToCordsPattern(
 		"move id input_number to input_number input_number",
 		"moveToCordsPattern",
 		"move id [int:id] to [int:x] [int:y]",
 		LiveUnit::moveToCordsCommand);
-	const ConsoleCommandPattern stopThreadsPattern(
+	const EventPattern stopThreadsPattern(
 		"stop threads",
 		"stopThreadsPattern",
 		"stop threads",
 		LiveUnit::stopThreadsCommand);
-	const ConsoleCommandPattern attackToCordsPattern(
+	const EventPattern attackToCordsPattern(
 		"attack id input_number to input_number input_number",
 		"attackToCordsPattern",
 		"attack id [int:id] to [int:x] [int:y]",
 		LiveUnit::attackToCordsCommand);
-	const ConsoleCommandPattern writeToPattern(
+	const EventPattern writeToPattern(
 		"write data to input_command",
 		"writeToPattern",
 		"write data to [string:filename]",
 		LiveUnit::writeToCommand);
 
-	this->commandPatterns.push_back(tpToCordsPattern);
-	this->commandPatterns.push_back(moveToCordsPattern);
-	this->commandPatterns.push_back(stopThreadsPattern);
-	this->commandPatterns.push_back(attackToCordsPattern);
-	this->commandPatterns.push_back(writeToPattern);
+	this->eventPatterns.push_back(tpToCordsPattern);
+	this->eventPatterns.push_back(moveToCordsPattern);
+	this->eventPatterns.push_back(stopThreadsPattern);
+	this->eventPatterns.push_back(attackToCordsPattern);
+	this->eventPatterns.push_back(writeToPattern);
 }
 
 // tp id [int:id] to [int:x] [int:y]
-void LiveUnit::tpToCordsCommand(Command_c* command, CommandPatterns* oParent) {
+void LiveUnit::tpToCordsCommand(Command_c* command, Eventable* oParent) {
 	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
 	if (!parent) {
 		return;
@@ -332,7 +332,7 @@ void LiveUnit::tpToCordsCommand(Command_c* command, CommandPatterns* oParent) {
 }
 
 // move id [int:id] to [int:x] [int:y]
-void LiveUnit::moveToCordsCommand(Command_c* command, CommandPatterns* oParent) {
+void LiveUnit::moveToCordsCommand(Command_c* command, Eventable* oParent) {
 	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
 	if (!parent) {
 		return;
@@ -364,7 +364,7 @@ void LiveUnit::moveToCordsCommand(Command_c* command, CommandPatterns* oParent) 
 }
 
 // attack id [int:id] to [int:x] [int:y]
-void LiveUnit::attackToCordsCommand(Command_c* command, CommandPatterns* oParent) {
+void LiveUnit::attackToCordsCommand(Command_c* command, Eventable* oParent) {
 	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
 	if (!parent) {
 		return;
@@ -397,7 +397,7 @@ void LiveUnit::attackToCordsCommand(Command_c* command, CommandPatterns* oParent
 }
 
 // stop threads
-void LiveUnit::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+void LiveUnit::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
 	if (!parent) {
 		return;
@@ -412,7 +412,7 @@ void LiveUnit::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) 
 }
 
 //write data to [string:filename]
-void LiveUnit::writeToCommand(Command_c* command, CommandPatterns* oParent) {
+void LiveUnit::writeToCommand(Command_c* command, Eventable* oParent) {
 	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
 	if (!parent) {
 		return;

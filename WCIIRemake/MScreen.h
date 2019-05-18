@@ -4,9 +4,10 @@
 #include "DynArr.h"
 #include "ScreenDrawindTHREAD.h"
 #include "CommandPatterns.h"
+#include "Eventable.h"
 
 
-class MScreen : public Screenable, public CommandPatterns {
+class MScreen : public Screenable, public Eventable {
 private:
 	DynArr* elements;
 //	int width;
@@ -31,12 +32,12 @@ public:
 	char *buff;
 	virtual void operateEvent(Command_c* command);
 protected:
-	virtual void fillCommandPatterns();
+	virtual void fillEventPatterns();
 public:
-	static void exitGameCommand(Command_c* command, CommandPatterns* oParent);
-	static void renderScreenIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void drawScreenIdCommand(Command_c* command, CommandPatterns* oParent);
-	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
+	static void exitGameCommand(Command_c* command, Eventable* oParent);
+	static void renderScreenIdCommand(Command_c* command, Eventable* oParent);
+	static void drawScreenIdCommand(Command_c* command, Eventable* oParent);
+	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 
 private:
 	void classifyEvent(Command_c* command);
