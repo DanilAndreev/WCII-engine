@@ -42,6 +42,9 @@ int FastPath::solveDirection(cordScr dest) {
 	if (minLen == firstLen) {
 		return 0;
 	}
+	if (minLen >= unit->getCord().lineLength(unit->getCord(), dest)) {
+		return 0;
+	}
 	return determineDirection(minCords);
 }
 

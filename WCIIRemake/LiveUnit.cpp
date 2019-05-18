@@ -72,22 +72,24 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->fillEventPatterns();
 	setDescription("LiveUnit");
 	this->attackLength = attackLength;
-	this->MoveToTHRDDescriptor = 0;
-	this->AttackTHRDDescriptor = 0;
 	this->moveNoAttack = false;
 	this->cooldown = cooldown;
 	this->moveSpeed = moveSpeed;
 	this->attackPower = attackPower;
+
+	this->moveDest = this->cords;
+
+	this->AttackTHRDDescriptor = 0;
+	AttackTHREAD* attackThread = new AttackTHREAD(this);
+	attackThread->startThread();
+	this->AttackTHRDDescriptor = attackThread->getDescriptor();
+
 }
 
 LiveUnit::~LiveUnit() {
 
 }
 
-ThreadId LiveUnit::getMoveToTHRDDescriptor()
-{
-	return this->MoveToTHRDDescriptor;
-}
 
 
 
@@ -96,10 +98,11 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 
 	FastPath* fastpath = new FastPath(this->field, this);
 	int timeoutCounter = 0;
-	while (flag && timeoutCounter <= TimeoutTimes && this->health > 0) {
+	if (flag && timeoutCounter <= TimeoutTimes && this->health > 0) {
 		int direction = fastpath->solveDirection(*dest);
 		if (direction == -1) {
-			break;
+//			break;
+			return true;
 		}
 		if (direction == 0) {
 			timeoutCounter++;
@@ -108,6 +111,7 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 		else {
 			timeoutCounter = 0;
 			move(direction);
+//			this->scr->render();
 			srand(time(NULL));
 			Sleep(this->moveSpeed + rand() % 20);
 		}
@@ -124,24 +128,10 @@ bool LiveUnit::attack(bool & flag) {
 		if (unt) {
 			cordScr tarCords = ((Unit*)(members->get(i)))->getCord();
 			if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0) {
-				// generating the event for damage
-/*
-				Command_c command;
-				pair <string, string> arg;
-				arg.first = "damage";
-				arg.second = "command";
-				command.args.push_back(arg);
-				arg.first = ((Unit*)(members->get(i)))->getValue();
-				arg.second = "command";
-				command.args.push_back(arg);
-				arg.first = to_string(30); //TODO: add the damage value to unit!!!
-				arg.second = "number";
-				command.args.push_back(arg);
-				gameController->addEventToQueue(command);
-*/				
 				string value = "";
 				int id = ((Unit*)(members->get(i)))->getId();
-				gameController->addEventToQueue(Command_c(0, "damage", to_string(id).data(), to_string(this->attackPower).data(), 0));
+				Command_c tempEvent = Command_c(0, "damage id", to_string(id).data(), "power", to_string(this->attackPower).data(), 0);
+				gameController->addEventToQueue(tempEvent);
 				this->lastAttackTime = clock();
 				return true;
 			}
@@ -224,7 +214,6 @@ cordScr * LiveUnit::getMoveDest() {
 
 void LiveUnit::stopAllThreads() {
 	gameThreads->stopThread(AttackTHRDDescriptor);
-	gameThreads->stopThread(MoveToTHRDDescriptor);
 }
 
 void LiveUnit::fillEventPatterns() {
@@ -347,7 +336,6 @@ void LiveUnit::attackToCordsCommand(Command_c* command, Eventable* oParent) {
 			defaultConsole->error("Error allocating memory");
 		}
 		attackTHRD->startThread();
-		cout << "unit: " << parent->id << " attacking" << endl;
 	}
 }
 
@@ -358,9 +346,6 @@ void LiveUnit::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 		return;
 	}
 	HANDLE temp_handle;
-	if ((temp_handle = gameThreads->stopThread(parent->MoveToTHRDDescriptor)) != NULL) {
-		command->data.push_back(temp_handle);
-	}
 	if ((temp_handle = gameThreads->stopThread(parent->AttackTHRDDescriptor)) != NULL) {
 		command->data.push_back(temp_handle);
 	}

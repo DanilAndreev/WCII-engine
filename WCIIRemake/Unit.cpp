@@ -63,12 +63,14 @@ bool Unit::getDamage(int damage) {
 		if (this->health < 0) {
 			health = 0;
 			this->value = '#';
+			this->type = 100;
 			stopAllThreads();
 		}
 		return true;
 	}
 	else {
 		this->value = '#';
+		this->type = 100;
 		stopAllThreads();
 	}
 	return false;
@@ -95,7 +97,7 @@ void Unit::fillEventPatterns() {
 		"select team [int:team] {flags}",
 		Unit::selectTeamCommand);
 	const EventPattern dammageIdPattern(
-		"damaage id input_number power input_number",
+		"damage id input_number power input_number",
 		"damageIdPattern",
 		"damage id [int:id] power [int::power]",
 		Unit::damageIdCommand);

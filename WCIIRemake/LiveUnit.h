@@ -32,7 +32,7 @@ public:
 class LiveUnit : public Unit {
 private:
 	cordScr moveDest;
-	ThreadId MoveToTHRDDescriptor;
+//	ThreadId MoveToTHRDDescriptor;
 	ThreadId AttackTHRDDescriptor;
 	time_t lastAttackTime;
 	time_t cooldown; // cooldown between attacks
@@ -45,7 +45,6 @@ public:
 	LiveUnit(LiveUnitPreset preset, Field* field, int team) : LiveUnit(preset.symbol, 1, field, preset.health, team, preset.attackRadius, preset.cooldown, preset.speedDelay, preset.damage) {}
 	LiveUnit() : LiveUnit('d', 1, NULL, 100, 0, 0, 1000, 1000, 40) {}
 	~LiveUnit();
-	ThreadId getMoveToTHRDDescriptor();
 	cordScr* getMoveDest();
 	bool goTo(cordScr* dest, bool & flag);
 	bool attack(bool & flag); // attacks the available nearby unit, flag for checking if thread not stopped

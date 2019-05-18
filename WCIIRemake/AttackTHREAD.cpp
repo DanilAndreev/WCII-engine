@@ -35,9 +35,6 @@ void AttackTHREAD::threadFunction() {
 				Sleep(DEFAULTUNITSLEEP);
 			}
 		}
-
-
-
 	}
 	this->isRunning = false;
 //	cout << "AttackTHREAD stopping" << endl;

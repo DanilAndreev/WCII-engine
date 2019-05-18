@@ -75,13 +75,6 @@ GameMaster::GameMaster() {
 
 
 	loadGame("test");
-
-	Sleep(1000);
-/*
-	Command_c tempC("attack id 82 to 20 20");
-	tempC.printCommand();
-	gameController->addEventToQueue(tempC);
-*/
 }
 
 GameMaster::~GameMaster() {
