@@ -177,6 +177,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"selectCordsPattern",
 		"select [int:x] [int:y]",
 		ConsoleCommandController::selectCordsCommand);
+	const ConsoleCommandPattern selectCordsAreaPattern(
+		"select area input_number input_number input_number input_number",
+		"selectCordsAreaPattern",
+		"select area [int:x1] [int:y1] [int:x2] [int:y2]",
+		ConsoleCommandController::selectCordsAreaCommand);
 	const ConsoleCommandPattern selectSymbPattern(
 		"select input_command",
 		"selectSymbPattern",
@@ -227,8 +232,8 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(saveGamePattern);
 	this->commandPatterns.push_back(loadGamePattern);
 	this->commandPatterns.push_back(spawnUnitPresetPattern);
+	this->commandPatterns.push_back(selectCordsAreaPattern);
 }
-
 
 void ConsoleCommandController::handleCommand(bool& flag) {
 	if (flag) {
@@ -245,27 +250,6 @@ void ConsoleCommandController::handleCommand(bool& flag) {
 void ConsoleCommandController::catchEvent(Command_c* command, bool showHelp) {
 	this->operateEvent(command, showHelp);
 }
-
-/*
-bool ConsoleCommandController::operateConsoleCommand(Command_c* command, bool showHelp) {
-	for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
-		if (commandPatterns[i] ^= *command) {
-			commandPatterns[i].callback_func(command, this);
-			return true;
-		}
-	}
-
-	if (showHelp) {
-		defaultConsole->error("Invalid command");
-		for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
-			if ( commandPatterns[i] == *command ) {
-				defaultConsole->warning(string("Usage: ") + commandPatterns[i].usingHelpMessage);
-			}
-		}
-	}
-	return false;
-}
-*/
 
 //CONSOLE COMMAND CONTROLLER COMMANDS Fuctions
 	
@@ -294,6 +278,60 @@ void ConsoleCommandController::selectCordsCommand(Command_c* command, CommandPat
 	parent->mainController->throwCommand(&clearSelectionInfoEvent);
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
 		if (objectsInfoEvent.data[i].cords == input_cord && objectsInfoEvent.data[i].team == parent->team) {
+			ID temp_id = objectsInfoEvent.data[i].objId;
+			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+			parent->mainController->addEventToQueue(tempEvent);
+		}
+	}
+}
+
+
+bool cordInArea(cordScr area_cord_1, cordScr area_cord_2, cordScr target_cord) {
+	if (area_cord_1 <= area_cord_2 ) {
+		return area_cord_1 <= target_cord && target_cord <= area_cord_2;
+	}
+	if (area_cord_2 <= area_cord_1) {
+		return cordInArea(area_cord_2, area_cord_1, target_cord);
+	}
+	if (area_cord_1.x <= area_cord_2.x && area_cord_1.y >= area_cord_2.y) {
+		return area_cord_1.x <= target_cord.x && target_cord.x <= area_cord_2.x && area_cord_2.y <= target_cord.y && target_cord.y <= area_cord_1.y;
+	}
+	if (area_cord_2.x <= area_cord_1.x && area_cord_2.y >= area_cord_1.y) {
+		return cordInArea(area_cord_2, area_cord_1, target_cord);
+	}
+	return false;
+}
+
+// select area [int:x1] [int:y1] [int:x2] [int:y2]
+void ConsoleCommandController::selectCordsAreaCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	int input_cord_x1 = 0;
+	int input_cord_y1 = 0;
+	int input_cord_x2 = 0;
+	int input_cord_y2 = 0;
+	try {
+		input_cord_x1 = stoi(command->args[2].first);
+		input_cord_y1 = stoi(command->args[3].first);
+		input_cord_x2 = stoi(command->args[4].first);
+		input_cord_y2 = stoi(command->args[5].first);
+	}
+	catch (...) {
+		return;
+	}
+	cordScr input_cord_1(input_cord_x1, input_cord_y1);
+	cordScr input_cord_2(input_cord_x2, input_cord_y2);
+
+	Command_c objectsInfoEvent(Command_c(string("get team ") + to_string(parent->team) + " info units"));
+	parent->mainController->throwCommand(&objectsInfoEvent);
+
+	Command_c clearSelectionInfoEvent(Command_c(string("select team ") + to_string(parent->team) + " -cl"));
+	parent->mainController->throwCommand(&clearSelectionInfoEvent);
+
+	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
+		if (cordInArea(input_cord_1, input_cord_2, objectsInfoEvent.data[i].cords) && objectsInfoEvent.data[i].team == parent->team) {
 			ID temp_id = objectsInfoEvent.data[i].objId;
 			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
 			parent->mainController->addEventToQueue(tempEvent);
@@ -413,6 +451,7 @@ void ConsoleCommandController::attackCordsCommand(Command_c* command, CommandPat
 	}
 }
 
+// exit game
 void ConsoleCommandController::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -423,6 +462,7 @@ void ConsoleCommandController::exitGameCommand(Command_c* command, CommandPatter
 	defaultConsole->message("Exiting game");
 }
 
+// save game [string:savename]
 void ConsoleCommandController::saveGameCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -432,6 +472,7 @@ void ConsoleCommandController::saveGameCommand(Command_c* command, CommandPatter
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
+// load game [string:savename]
 void ConsoleCommandController::loadGameCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -441,14 +482,18 @@ void ConsoleCommandController::loadGameCommand(Command_c* command, CommandPatter
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
+// spawn team [int:team] unit [string:unit name] [int:x] [int:y]
 void ConsoleCommandController::spawnUnitPresetCommand(Command_c * command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
 	}
-	Command_c tempEvent(string("spawn team ") + command->args[2].first + " unit " + command->args[4].first + " " + command->args[5].first + " " + command->args[6].first);
+	Command_c tempEvent(string("spawn team ") + command->args[2].first + " unit " + command->args[4].first + " cords " + command->args[5].first + " " + command->args[6].first);
 	parent->mainController->addEventToQueue(tempEvent);
 }
+
+
+// EVENT HANDLING SYSTEM
 
 void ConsoleCommandController::fillEventPatterns() {
 	const EventPattern exitGamePattern(

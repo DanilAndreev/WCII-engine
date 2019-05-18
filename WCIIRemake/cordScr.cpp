@@ -9,6 +9,22 @@ bool operator!=(const cordScr left, const cordScr right) {
 	return (left.x != right.x) || (left.y != right.y);
 }
 
+bool operator>(const cordScr left, const cordScr right) {
+	return left.x > right.x && left.y > right.y;
+}
+
+bool operator<(const cordScr left, const cordScr right) {
+	return left.x < right.x && left.y < right.y;
+}
+
+bool operator>=(const cordScr left, const cordScr right) {
+	return left.x >= right.x && left.y >= right.y;
+}
+
+bool operator<=(const cordScr left, const cordScr right) {
+	return left.x <= right.x && left.y <= right.y;
+}
+
 cordScr operator + (const cordScr left, const cordScr right) {
 	cordScr temp(left.x + right.x, left.y + right.y);
 	return temp;

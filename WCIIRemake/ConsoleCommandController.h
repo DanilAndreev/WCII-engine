@@ -48,6 +48,7 @@ protected:
 public:
 	//CONSOLE COMMAND CONTROLLER COMMANDS Functions
 	static void selectCordsCommand(Command_c* command, CommandPatterns* oParent);
+	static void selectCordsAreaCommand(Command_c* command, CommandPatterns* oParent);
 	static void selectSymbCommand(Command_c* command, CommandPatterns* oParent);
 	static void selectIdCommand(Command_c* command, CommandPatterns* oParent);
 	static void moveToCommand(Command_c* command, CommandPatterns* oParent);
@@ -56,7 +57,6 @@ public:
 	static void saveGameCommand(Command_c* command, CommandPatterns* oParent);
 	static void loadGameCommand(Command_c* command, CommandPatterns* oParent);
 	static void spawnUnitPresetCommand(Command_c* command, CommandPatterns* oParent);
-	
 protected:
 	virtual void fillEventPatterns();
 public:// CONSOLE COMMAND CONTROLLER EVENTS
@@ -66,7 +66,21 @@ public:// CONSOLE COMMAND CONTROLLER EVENTS
 	static void unpauseCommand(Command_c* command, Eventable* oParent);
 };
 
+//EVENTS:
 // exitgame
 // stop threads {flags}
 // pause {flags}
 // unpause {flags}
+
+//CONSOLE COMMANDS:
+/*
+spawn team [int:team] unit [string:unit name] [int:x] [int:y]
+load game [string:savename]
+save game [string:savename]
+exit game
+attack [int:x] [int:y]
+move to [int:x] [int:y]
+select [int:id]
+select [char:symbol]
+select [int:x] [int:y]
+*/

@@ -3,7 +3,7 @@
 using namespace std;
 
 // структура данных для хранения координат
-struct cordScr/* : public Obj */ {
+struct cordScr {
 public:
 	int x;
 	int y;
@@ -14,6 +14,10 @@ public:
 	int sqr(int input);
 	friend bool operator==(const cordScr left, const cordScr right);
 	friend bool operator!=(const cordScr left, const cordScr right);
+	friend bool operator>(const cordScr left, const cordScr right);
+	friend bool operator<(const cordScr left, const cordScr right);
+	friend bool operator>=(const cordScr left, const cordScr right);
+	friend bool operator<=(const cordScr left, const cordScr right);
 	friend cordScr operator + (const cordScr left, const cordScr right);
 	friend cordScr operator - (const cordScr left, const cordScr right);
 };
