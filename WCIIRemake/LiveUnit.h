@@ -55,28 +55,21 @@ public:
 private:
 	int findPath(cordScr destC); // запустить поиск пути(в процессе)
 	int move(int direction); //подвинуться на поле, direction: 1-up,2-down,3-rigth,4-left,5-up right,6-up left,7-down right,8-down left;
-	bool classifyEvent(Command_c* command);
-	virtual void operateEvent(Command_c* command);
 	virtual void stopAllThreads();
 protected:
 	virtual void fillEventPatterns();
-
-public:
+public: //LIVEUNIT EVENTS
 	static void tpToCordsCommand(Command_c* command, Eventable* oParent);
 	static void moveToCordsCommand(Command_c* command, Eventable* oParent);
 	static void attackToCordsCommand(Command_c* command, Eventable* oParent);
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 	static void writeToCommand(Command_c* command, Eventable* oParent);
 	
-//LIVEUNIT COMMANDS(EVENTS)
-protected:
-	bool tpEvent(Command_c* command);
-	bool moveEvent(Command_c* command);
-	bool stopEvent(Command_c * command);
-	bool writeEvent(Command_c* command);
-	bool attackEvent(Command_c* command);
+
 };
 
-// attack id [int:id] to [int:x] [int:y]
-// write data to [string:filename]
+// tp id [int:id] to [int:x] [int:y]
 // move id [int:id] to [int:x] [int:y]
+// attack id [int:id] to [int:x] [int:y]
+// stop threads 
+// write data to [string:filename]

@@ -10,7 +10,10 @@ Eventable::Eventable() {
 Eventable::~Eventable() {
 }
 
-bool Eventable::operateEvents(Command_c* command, bool showHelp) {
+void Eventable::fillEventPatterns() {
+}
+
+bool Eventable::operateEvent(Command_c* command, bool showHelp) {
 	for (unsigned int i = 0; i < this->eventPatterns.size(); i++) {
 		if (eventPatterns[i] ^= *command) {
 			eventPatterns[i].callback_func(command, this);
@@ -26,6 +29,9 @@ bool Eventable::operateEvents(Command_c* command, bool showHelp) {
 		}
 	}
 	return false;
+}
+
+void Eventable::catchEvent(Command_c* command, bool showHelp) {
 }
 
 EventPattern Eventable::searchPatternByName(string name) {

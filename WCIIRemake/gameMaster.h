@@ -22,7 +22,7 @@ struct placeableData {
 };
 
 
-class GameMaster : public Obj, public Eventable{
+class GameMaster : public Obj{
 private:	
 	vector <LiveUnitPreset> creaturePresets;
 	vector <BuildingPreset> buildingPresets;
@@ -55,22 +55,19 @@ protected:
 	int searchBuilding(string name);
 	Exitcode addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr);
 	Exitcode addField(ParserOut data, placeableData<FieldPreset> *writeTo);
-	bool classifyEvent(Command_c* command);
-	virtual void operateEvent(Command_c* command);
-
+	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	virtual void fillEventPatterns();
-public:
+public: //GAME MASTER EVENTS
 	static void exitGameCommand(Command_c* command, Eventable* oParent);
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 	static void saveGameCommand(Command_c* command, Eventable* oParent);
 	static void loadGameCommand(Command_c* command, Eventable* oParent);
-
-protected:
-	//GameMaster commands(events)
-	bool exitgameEvent(Command_c* command);
-	bool stopEvent(Command_c* command);
-	bool saveEvent(Command_c* command);
-	bool loadEvent(Command_c* command);
 };
+
+// exitgame
+// stop threads {flags}
+// save game [string:savename]
+// load game [string:savename]
+
 

@@ -1,14 +1,14 @@
 #pragma once
 #include "Command_c.h"
 #include "ID.h"
+#include "Eventable.h"
 #include <iostream>
 #include <string>
-
 using namespace std;
 
 
 
-class Obj{
+class Obj : public Eventable {
 	protected:
 		const char *className;
 		static ID freeID;
@@ -24,7 +24,6 @@ class Obj{
 		string getDescription();
 		ID getId();
 		const char* getClassName(); // return the class name
-		virtual void operateEvent(Command_c* command);
 	protected:
 		void setClassName(const char* className); // write down the class name
 	private:

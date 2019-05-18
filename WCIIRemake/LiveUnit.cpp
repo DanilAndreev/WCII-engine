@@ -222,53 +222,6 @@ cordScr * LiveUnit::getMoveDest() {
 	return &moveDest;
 }
 
-bool LiveUnit::classifyEvent(Command_c* command) {
-	if (*command == "select") {
-		return selectEvent(command);
-	}
-
-
-	if (*command == "echo" && this->selected) {
-		return echoEvent(command);
-	}
-
-	if (*command == "tp" && this->selected) {
-		return tpEvent(command);
-	}
-
-	if (*command == "move" && this->selected) {
-		return moveEvent(command);
-	}
-
-	if (*command == "damage") {
-		return damageEvent(command);
-	}
-
-	if (*command == "attack" && this->selected) {
-		return attackEvent(command);
-	}
-
-	if (*command == "stop" && this->selected) {
-		return stopEvent(command);
-	}
-	
-	if (*command == "getInfo") {
-		return getInfoEvent(command);
-	}
-
-	if (*command == "write") {
-		return writeEvent(command);
-	}
-
-	return false;
-}
-
-void LiveUnit::operateEvent(Command_c* command) {
-//	classifyEvent(command);
-	operateEvents(command, false);
-
-}
-
 void LiveUnit::stopAllThreads() {
 	gameThreads->stopThread(AttackTHRDDescriptor);
 	gameThreads->stopThread(MoveToTHRDDescriptor);
@@ -307,6 +260,8 @@ void LiveUnit::fillEventPatterns() {
 	this->eventPatterns.push_back(attackToCordsPattern);
 	this->eventPatterns.push_back(writeToPattern);
 }
+
+//LIVEUNIT EVENTS------------------------------------------------------------------------------------
 
 // tp id [int:id] to [int:x] [int:y]
 void LiveUnit::tpToCordsCommand(Command_c* command, Eventable* oParent) {
@@ -396,7 +351,7 @@ void LiveUnit::attackToCordsCommand(Command_c* command, Eventable* oParent) {
 	}
 }
 
-// stop threads
+// stop threads 
 void LiveUnit::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
 	if (!parent) {
@@ -434,97 +389,3 @@ void LiveUnit::writeToCommand(Command_c* command, Eventable* oParent) {
 	writer << "}" << endl;
 }
 
-//LIVEUNIT COMMANDS(EVENTS)
-
-bool LiveUnit::tpEvent(Command_c* command) {
-	if (command->args.size() == 3) {
-		if (command->args[1].second == "number" && command->args[2].second == "number") {
-			cordScr cords(stoi(command->args[1].first), stoi(command->args[2].first));
-			return field->changeCell(cords, this);
-		}
-	}
-	return false;
-}
-
-bool LiveUnit::moveEvent(Command_c* command) {
-	if (command->args.size() == 4) {
-		if (command->args[1].first == "to" && command->args[2].second == "number" && command->args[3].second == "number" && this->selected) {
-			this->moveDest = cordScr(stoi(command->args[2].first), stoi(command->args[3].first));
-
-
-			gameThreads->stopThread(AttackTHRDDescriptor);
-			AttackTHREAD* attackTHRD = new AttackTHREAD(this);
-			if (attackTHRD) {
-				this->AttackTHRDDescriptor = attackTHRD->getDescriptor();
-			}
-			else {
-				//cout << "Error allocating memory" << endl;
-				defaultConsole->error("Error allocating memory");
-			}
-			this->moveNoAttack = true;
-			attackTHRD->startThread();
-		}
-	}
-	return false;
-}
-
-bool LiveUnit::attackEvent(Command_c* command) {
-	if (command->args.size() == 3) {
-		if (command->args[1].second == "number" && command->args[2].second == "number") {
-			this->moveDest = cordScr(stoi(command->args[1].first), stoi(command->args[2].first));
-			//starting attack thread
-			gameThreads->stopThread(AttackTHRDDescriptor);
-			AttackTHREAD* attackTHRD = new AttackTHREAD(this);
-			if (attackTHRD) {
-				this->AttackTHRDDescriptor = attackTHRD->getDescriptor();
-			}
-			else {
-				defaultConsole->error("Error allocating memory");
-			}
-			attackTHRD->startThread();
-		}
-	}
-	return false;
-}
-
-
-bool LiveUnit::stopEvent(Command_c* command) {
-	if (command->args.size() >= 2) {
-		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-			HANDLE temp_handle;
-			if ( (temp_handle = gameThreads->stopThread(MoveToTHRDDescriptor)) != NULL ) {
-				command->data.push_back(temp_handle);
-			}
-			if ((temp_handle = gameThreads->stopThread(AttackTHRDDescriptor)) != NULL) {
-				command->data.push_back(temp_handle);
-			}
-			return true;
-		}
-	}
-	return false;
-}
-
-bool LiveUnit::writeEvent(Command_c* command) {
-	if (command->args.size() >= 3) {
-		if (command->args[0].second == "command" && command->args[1].second == "command" && command->args[2].second == "command" && command->args[3].second == "command") {
-			if (command->args[1].first == "data" && command->args[2].first == "to") {
-				FileWriter writer(command->args[3].first, ios::app);
-				writer << " unit {";
-				writer << " x:" << this->cords.x << ";";
-				writer << " y:" << this->cords.y << ";";
-				writer << " symbol:\'" << this->value << "\';";
-				writer << " width:" << this->width << ";";
-				writer << " heigth:" << this->heigth << ";";
-				writer << " health:" << this->health << ";";
-				writer << " damage:" << this->attackPower << ";";
-				writer << " cooldown:" << this->cooldown<< ";";
-				writer << " attackRadius:" << this->attackLength << ";";
-				writer << " speedDelay:" << this->moveSpeed << ";";
-//				writer << "mana:" << this->mana << ";";
-				writer << "}" << endl;
-				return true;
-			}
-		}
-	}
-	return false;
-}

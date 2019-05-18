@@ -157,14 +157,16 @@ Command_c* Controller::throwCommand(Command_c* command) {
 */
 
 	if (!this->eventHandlerIsPaused) {
-		defaultConComCon->operateEvent(command);
+		/*
+				defaultConComCon->operateEvent(command);
 		for (int i = 0; i < members->count(); i++) {
 			Obj* object = members->get(i);
 			if (object) {
-				object->operateEvent(command);
+				object->catchEvent(command, false);
 			}
 		}
-		this->operateEvent(command);
+*/
+		this->catchEvent(command, false);
 	}
 	else {
 		cout << "cannot operate event: EventHandlerPaused" << endl;
@@ -172,20 +174,14 @@ Command_c* Controller::throwCommand(Command_c* command) {
 	return command;
 }
 
-
-void Controller::operateEvent(Command_c* command) {
-	operateEvents(command, false);
-
-	
-/*
-	if (*command == "exitgame") {
-		exitGame(command);
+void Controller::catchEvent(Command_c* command, bool showHelp) {
+	defaultConComCon->operateEvent(command, showHelp);
+	for (int i = 0; i < members->count(); i++) {
+		members->get(i)->catchEvent(command, showHelp);
 	}
-	if (*command == "stop") {
-		stopEvent(command);
-	}
-*/
+	this->operateEvent(command, showHelp);
 }
+
 
 void Controller::fillEventPatterns() {
 	const EventPattern exitGamePattern(
@@ -204,7 +200,9 @@ void Controller::fillEventPatterns() {
 }
 
 
+//CONTROLLER EVENTS
 
+// exitgame
 void Controller::exitGameCommand(Command_c* command, Eventable* oParent) {
 	Controller* parent = dynamic_cast<Controller*>(oParent);
 	if (!parent) {
@@ -213,6 +211,7 @@ void Controller::exitGameCommand(Command_c* command, Eventable* oParent) {
 	gameThreads->stopThread(parent->eventHandlerDescriptor);
 }
 
+// stop threads {flags}
 void Controller::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	Controller* parent = dynamic_cast<Controller*>(oParent);
 	if (!parent) {
@@ -228,34 +227,4 @@ void Controller::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	}
 }
 
-//CONTROLLER COMMANDS(EVENTS)
 
-
-
-bool Controller::exitGame(Command_c* command) {
-	if (command->args.size() == 1) {
-//		console->message("Stopping EventHandler");
-		return gameThreads->stopThread(eventHandlerDescriptor);
-	}
-	return false;
-}
-
-
-bool Controller::stopEvent(Command_c* command) {
-	if (command->args.size() >= 2) {
-		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-			if (!command->checkFlag("-eh")) {
-				gameThreads->stopThread(this->eventHandlerDescriptor);
-//				cout << "stpping eventHandler thread by event" << endl;
-			}
-			if (command->checkFlag("-wait")) {
-//				cout << "Waiting for objects" << endl;
-				for (int i = 0; i < command->data.size(); i++) {
-					WaitForSingleObject(command->data[i].eventHandle,INFINITE);
-				}
-			}
-			return true;
-		}
-	}
-	return false;
-}

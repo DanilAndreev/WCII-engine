@@ -6,6 +6,7 @@ extern GameMaster* gameMaster;
 
 
 Field::Field(int width, int heigth){
+	fillEventPatterns();
 	setDescription("Field");
 	fieldLen = width * heigth;
 	this->width = width;
@@ -75,97 +76,150 @@ void Field::render() {
 	}
 }
 
-bool Field::classifyEvent(Command_c* command) {
-	if (*command == "select") {
-
-	}
-	if (*command == "spawn") {
-		return spawnEvent(command);
-	}
-
-	if (*command == "write") {
-		return writeEvent(command);
-	}
-
-	return false;
-}
-
-void Field::operateEvent(Command_c* command) {
+void Field::catchEvent(Command_c* command, bool showHelp) {
 	for (int i = 0; i < members->count(); i++) {
-		members->get(i)->operateEvent(command);
+		members->get(i)->operateEvent(command, showHelp);
 	}
-	classifyEvent(command);
+	operateEvent(command, showHelp);
 }
 
-//Field commands(Events)
-
-//spawn unit 10(x) 10(y) 1(team) 100(health) 100(attackLen) 1(type) v(value) 1000(cooldown) 100
-//spawn building 10(x) 10(y) 1(team) 100(health) 1(type) v(value) 
-bool Field::spawnEvent(Command_c* command) {
-	if (command->args.size() == 10) {
-		if (command->args[1].first == "unit") {
-			if (command->args[2].second == "number" && command->args[3].second == "number" && command->args[4].second == "number" && command->args[5].second == "number" && command->args[6].second == "number" && command->args[7].second == "number" && command->args[8].second == "command" && command->args[9].second == "number" && command->args[10].second == "number" && command->args[11].second == "number") {
-				int x = stoi(command->args[2].first);
-				int y = stoi(command->args[3].first);
-				int team = stoi(command->args[4].first);
-				int health = stoi(command->args[5].first);
-				int attackLength = stoi(command->args[6].first);
-				int type = stoi(command->args[7].first);
-				int value = command->args[8].first[0];
-				time_t cooldown = (time_t)stoi(command->args[9].first);
-				time_t moveSpeed = (time_t)stoi(command->args[10].first);
-				int attackPower = stoi(command->args[11].first);
-				LiveUnit* unit = new LiveUnit(value, type, this, health, team, attackLength, cooldown, moveSpeed, attackPower);
-				this->setCell(cordScr(x, y), (Unit*)unit);
-				return true;
-			}
-		}
-	}
-	if (command->args.size() == 8) {
-		if (command->args[1].first == "building") {
-			if (command->args[2].second == "number" && command->args[3].second == "number" && command->args[4].second == "number" && command->args[5].second == "number" && command->args[6].second == "number" && command->args[7].second == "command") {
-				int x = stoi(command->args[2].first);
-				int y = stoi(command->args[3].first);
-				int team = stoi(command->args[4].first);
-				int health = stoi(command->args[5].first);
-				int type = stoi(command->args[6].first);
-				int value = command->args[7].first[0];
-				Building* unit = new Building(value, type, this, health, team);
-				this->setCell(cordScr(x, y), (Unit*)unit);
-				return true;
-			}
-		}
-	}
-	// spawn team 1 unit berserker 10 10
-	if (command->args.size() == 7) {
-		if (command->args[1].first == "team" && command->args[2].second == "number" && command->args[3].second == "command" && command->args[4].second == "command" && command->args[5].second == "number" && command->args[6].second == "number") {
-			if (command->args[3].first == "unit") {
-				LiveUnitPreset* preset = gameMaster->getUnitPreset(command->args[4].first);
-				if (preset) {
-					int x = stoi(command->args[5].first);
-					int y = stoi(command->args[6].first);
-					int team = stoi(command->args[2].first);
-					LiveUnit* unit = new LiveUnit(*preset, this, team);
-					return this->setCell(cordScr(x, y), (Unit*)unit);
-				}
-			}
-		}
-	}
-	return false;
+void Field::fillEventPatterns() {
+	const EventPattern writeToPattern(
+		"write data to input_command",
+		"writeToPattern",
+		"write data to [string:savename]",
+		Field::writeDataToCommand);
+	const EventPattern spawnUnitArgsPattern(
+		"spawn unit cords input_number input_number team input_number health input_number attackLength input_number type input_number symbol input_command cooldown input_number speed input_number power input_number",
+		"spawnUnitArgsPattern",
+		"spawn unit cords [int:x] [int:y] team [int:team] health [int:health] attackLength [int:length] type [int:type] symbol [char:symbol] cooldown [int:cooldown] speed [int:speed] power [int:power]",
+		Field::spawnUnitArgsCommand);
+	const EventPattern spawnUnitPresetPattern(
+		"spawn team input_number unit input_command cords input_number input_number",
+		"spawnUnitPresetPattern",
+		"spawn team [int:team] unit [string:preset name] cords [int:x] [int:y]",
+		Field::spawnUnitPresetCommand);
+	const EventPattern spawnBuildingArgsPattern(
+		"spawn building cords input_number input_number team input_number health input_number type input_number symbol input_command",
+		"spawnBuildingArgsPattern",
+		"spawn building cords [int:x] [int:y] team [int:team] health [int:health] type [int:type] symbol [char:symbol]",
+		Field::spawnBuildingArgsCommand);
+	this->eventPatterns.push_back(writeToPattern);
+	this->eventPatterns.push_back(spawnUnitArgsPattern);
+	this->eventPatterns.push_back(spawnUnitPresetPattern);
+	this->eventPatterns.push_back(spawnBuildingArgsPattern);
 }
 
-bool Field::writeEvent(Command_c* command) {
-	if (command->args.size() >= 3) {
-		if (command->args[0].second == "command" && command->args[1].second == "command" && command->args[2].second == "command" && command->args[3].second == "command") {
-			if (command->args[1].first == "data" && command->args[2].first == "to") {
-				FileWriter writer(command->args[3].first, ios::app);
-				writer << " field {";
-				writer << " width:" << this->width << ";";
-				writer << " heigth:" << this->heigth << ";";
-				writer << "}" << endl;
-				return true;
-			}
-		}
+// FIELD EVENTS
+
+// write data to [string:savename]
+void Field::writeDataToCommand(Command_c* command, Eventable* oParent) {
+	Field* parent = dynamic_cast<Field*>(oParent);
+	if (!parent) {
+		return;
 	}
-	return false;
+	string input_filename = command->args[3].first;
+	FileWriter writer(input_filename, ios::app);
+	writer << " field {";
+	writer << " width:" << parent->width << ";";
+	writer << " heigth:" << parent->heigth << ";";
+	writer << "}" << endl;
+}
+
+// spawn unit cords [int:x] [int:y] team [int:team] health [int:health] attackLength [int:length] type [int:type] symbol [char:symbol] cooldown [int:cooldown] speed [int:speed] power [int:power]
+void Field::spawnUnitArgsCommand(Command_c* command, Eventable* oParent) {
+	Field* parent = dynamic_cast<Field*>(oParent);
+	if (!parent) {
+		return;
+	}
+//	ID input_id = 0;
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	int input_team = 0;
+	int input_health = 0;
+	int input_attackLength = 0;
+	int input_type = 0;
+	int input_cooldown = 0;
+	int input_speed = 0;
+	int input_power = 0;
+	try {
+		input_cord_x = stoi(command->args[3].first);
+		input_cord_y = stoi(command->args[4].first);
+		input_team = stoi(command->args[6].first);
+		input_health = stoi(command->args[8].first);
+		input_attackLength = stoi(command->args[10].first);
+		input_type = stoi(command->args[12].first);
+		input_cooldown = stoi(command->args[16].first);
+		input_speed = stoi(command->args[18].first);
+		input_power = stoi(command->args[20].first);
+		//input_id = stoull(command->args[4].first);
+	}
+	catch (...) {
+		return;
+	}
+	cordScr input_cords(input_cord_x, input_cord_y);
+	string input_string_symbol = command->args[14].first;
+	char input_symbol = input_string_symbol[0];
+
+	LiveUnit* unit = new LiveUnit(input_symbol, input_type, parent, input_health, input_team, input_attackLength, input_cooldown, input_speed, input_power);
+	parent->setCell(input_cords, (Unit*)unit);
+}
+
+// spawn team [int:team] unit [string:preset name] cords [int:x] [int:y]
+void Field::spawnUnitPresetCommand(Command_c* command, Eventable* oParent) {
+	Field* parent = dynamic_cast<Field*>(oParent);
+	if (!parent) {
+		return;
+	}
+	//ID input_id = 0;
+	int input_team = 0;
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_team = stoi(command->args[2].first);
+		input_cord_x = stoi(command->args[6].first);
+		input_cord_y = stoi(command->args[7].first);
+		//input_id = stoull(command->args[4].first);
+	}
+	catch (...) {
+		return;
+	}
+	cordScr input_cords(input_cord_x, input_cord_y);
+	string input_preset_name = command->args[4].first;
+	LiveUnitPreset* preset = gameMaster->getUnitPreset(input_preset_name);
+	if (preset) {
+		LiveUnit* unit = new LiveUnit(*preset, parent, input_team);
+		parent->setCell(input_cords, (Unit*)unit);
+	}
+}
+
+// spawn building cords [int:x] [int:y] team [int:team] health [int:health] type [int:type] symbol [char:symbol]
+void Field::spawnBuildingArgsCommand(Command_c* command, Eventable* oParent) {
+	Field* parent = dynamic_cast<Field*>(oParent);
+	if (!parent) {
+		return;
+	}
+	//	ID input_id = 0;
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	int input_team = 0;
+	int input_health = 0;
+	int input_type = 0;
+	try {
+		input_cord_x = stoi(command->args[3].first);
+		input_cord_y = stoi(command->args[4].first);
+		input_team = stoi(command->args[6].first);
+		input_health = stoi(command->args[8].first);
+		input_type = stoi(command->args[10].first);
+		//input_id = stoull(command->args[4].first);
+	}
+	catch (...) {
+		return;
+	}
+	cordScr input_cords(input_cord_x, input_cord_y);
+	string input_string_symbol = command->args[12].first;
+	char input_symbol = input_string_symbol[0];
+
+	Building* unit = new Building(input_symbol, input_type, parent, input_health, input_team);
+	parent->setCell(input_cords, (Unit*)unit);
 }

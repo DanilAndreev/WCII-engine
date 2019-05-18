@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "Eventable.h"
 
-class Unit : public Screenable, public Eventable, public MultiTeamSelector {
+class Unit : public Screenable, public MultiTeamSelector {
 protected:
 	Field* field;
 	char value; //for debug
@@ -30,21 +30,13 @@ public:
 	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
 	virtual void render(); // отрисоваться(просчитаться)
-	bool classifyEvent(Command_c* command);
-	virtual void operateEvent(Command_c* command);
+	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	bool getDamage(int damage);
 	virtual void stopAllThreads();
 protected:
-	//UNIT COMMANDS(EVENTS)
-	bool selectEvent(Command_c* command);
-	bool echoEvent(Command_c* command);
-	bool damageEvent(Command_c* command);
-	bool getInfoEvent(Command_c * command);
-
-protected:
 	virtual void fillEventPatterns();
-public:
+public:	//UNIT EVENTS
 	static void selectIdCommand(Command_c* command, Eventable* oParent);
 	static void unselectIdCommand(Command_c* command, Eventable* oParent);
 	static void damageIdCommand(Command_c* command, Eventable* oParent);

@@ -140,9 +140,11 @@ void MScreen::render() {
 	}
 }
 
-void MScreen::operateEvent(Command_c* command) {
-	operateEvents(command, false);
-	//classifyEvent(command);
+void MScreen::catchEvent(Command_c* command, bool showHelp) {
+	for (int i = 0; i < elements->count(); i++) {
+		elements->get(i)->catchEvent(command, showHelp);
+	}
+	this->operateEvent(command, showHelp);
 }
 
 void MScreen::fillEventPatterns() {
@@ -172,6 +174,8 @@ void MScreen::fillEventPatterns() {
 	this->eventPatterns.push_back(drawScreenIdPattern);
 	this->eventPatterns.push_back(stopThreadsPattern);
 }
+
+//MScreen EVENTS
 
 // exit game
 void MScreen::exitGameCommand(Command_c* command, Eventable* oParent) {
@@ -230,81 +234,4 @@ void MScreen::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	}
 }
 
-void MScreen::classifyEvent(Command_c* command) {
-	if (*command == "exitGame") {
-		exitGameEvent(command);
-	}
-	if (*command == "render") {
-		renderScreenEvent(command);
-	}
-	if (*command == "draw") {
-		drawScreenEvent(command);
-	}
-	if (*command == "stop") {
-		stopEvent(command);
-	}
-}
 
-//MScreen COMMANDS(EVENTS)
-
-bool MScreen::exitGameEvent(Command_c* command) {
-	if (command->args.size() == 1) {
-		return gameThreads->stopThread(screenDrawingTHRDDescriptor);
-	}
-	return false;
-}
-
-bool MScreen::renderScreenEvent(Command_c* command) {
-	if (command->args.size() >= 2) {
-		if (command->args[1].first != "screen") {
-			return false;
-		}
-	}
-	else {
-		return false;
-	}
-
-	if (command->args.size() > 2) {
-		if (command->args[2].first == "All") {
-			render();
-			return true;
-		}
-	}
-	if (command->args.size() == 2 && this->selected) {
-		render();
-		return true;
-	}
-	return false;
-}
-
-bool MScreen::drawScreenEvent(Command_c* command) {
-	if (command->args.size() > 1) {
-		if (command->args[1].first == "All") {
-			draw();
-			return true;
-		}
-	}
-	if (command->args.size() == 1 && this->selected) {
-		draw();
-		return true;
-	}
-	return false;
-}
-
-bool MScreen::stopEvent(Command_c* command) {
-	if (command->args.size() >= 2) {
-		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-//			gameThreads->stopThread(screenDrawingTHRDDescriptor);
-
-			HANDLE temp_handle;
-			if ((temp_handle = gameThreads->stopThread(screenDrawingTHRDDescriptor)) != NULL) {
-				command->data.push_back(temp_handle);
-			}
-
-
-//			cout << "stpping ScreenDrawingTHREAD and Attack threads by event" << endl;
-			return true;
-		}
-	}
-	return false;
-}

@@ -9,7 +9,7 @@
 #include "ConsoleCommandHandlerTHREAD.h"
 
 
-class ConsoleCommandController : public Obj, public CommandPatterns, public Eventable{
+class ConsoleCommandController : public Obj, public CommandPatterns{
 protected:
 	Controller* mainController;
 	int ParserPosition;
@@ -38,9 +38,8 @@ public:
 	void initParser();
 	Command_c getCommand();
 	void throwCommand(Command_c* command);
-	void operateEvent(Command_c* command);
-
 	void handleCommand(bool & flag);
+	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	Command_c getCommandFromQueue();
 	bool addCommandToQueue(Command_c command);
@@ -60,16 +59,14 @@ public:
 	
 protected:
 	virtual void fillEventPatterns();
-public:
+public:// CONSOLE COMMAND CONTROLLER EVENTS
 	static void exitGameCommand(Command_c* command, Eventable* oParent);
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 	static void pauseCommand(Command_c* command, Eventable* oParent);
 	static void unpauseCommand(Command_c* command, Eventable* oParent);
-	//CONSOLE COMMAND CONTROLLER EVENTS
-protected:
-	bool exitGame(Command_c* command);
-	bool stopEvent(Command_c* command);
-	bool pauseEvent(Command_c* command);
-	bool unpauseEvent(Command_c* command);
 };
 
+// exitgame
+// stop threads {flags}
+// pause {flags}
+// unpause {flags}

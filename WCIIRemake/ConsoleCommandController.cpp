@@ -242,6 +242,10 @@ void ConsoleCommandController::handleCommand(bool& flag) {
 	}
 }
 
+void ConsoleCommandController::catchEvent(Command_c* command, bool showHelp) {
+	this->operateEvent(command, showHelp);
+}
+
 /*
 bool ConsoleCommandController::operateConsoleCommand(Command_c* command, bool showHelp) {
 	for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
@@ -474,6 +478,9 @@ void ConsoleCommandController::fillEventPatterns() {
 	this->eventPatterns.push_back(unpausePattern);
 }
 
+//CONSOLE COMMAND CONTROLLER EVENTS
+
+// exitgame
 void ConsoleCommandController::exitGameCommand(Command_c* command, Eventable* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -482,6 +489,7 @@ void ConsoleCommandController::exitGameCommand(Command_c* command, Eventable* oP
 	gameThreads->stopThread(parent->ConComConTHRDescriptor);
 }
 
+// stop threads {flags}
 void ConsoleCommandController::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -497,6 +505,7 @@ void ConsoleCommandController::stopThreadsCommand(Command_c* command, Eventable*
 	}
 }
 
+// pause {flags}
 void ConsoleCommandController::pauseCommand(Command_c* command, Eventable* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -507,6 +516,7 @@ void ConsoleCommandController::pauseCommand(Command_c* command, Eventable* oPare
 	}
 }
 
+// unpause {flags}
 void ConsoleCommandController::unpauseCommand(Command_c* command, Eventable* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
@@ -517,72 +527,3 @@ void ConsoleCommandController::unpauseCommand(Command_c* command, Eventable* oPa
 	}
 }
 
-
-
-void ConsoleCommandController::operateEvent(Command_c* command) {
-	operateEvents(command, false);
-/*
-	if (*command == "exitgame") {
-		exitGame(command);
-	}
-	if (*command == "stop") {
-		stopEvent(command);
-	}
-	if (*command == "pause") {
-		pauseEvent(command);
-	}
-	if (*command == "unpause") {
-		unpauseEvent(command);
-	}
-*/
-}
-
-
-//CONSOLE COMMAND CONTROLLER COMMANDS(EVENTS)
-
-bool ConsoleCommandController::exitGame(Command_c* command) {
-	if (command->args.size() == 1) {
-		return gameThreads->stopThread(ConComConTHRDescriptor);
-	}
-	return false;
-}
-
-
-bool ConsoleCommandController::stopEvent(Command_c* command) {
-	if (command->args.size() >= 2) {
-		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-			if (!command->checkFlag("-ccc")) {
-				//gameThreads->stopThread(ConComConTHRDescriptor, "ConsoleCommandControllerTHREAD");
-				HANDLE temp_handle;
-				if ((temp_handle = gameThreads->stopThread(ConComConTHRDescriptor)) != NULL) {
-					command->data.push_back(temp_handle);
-				}
-
-				fprintf(stdin, "\n");
-//				cout << "stpping Console Command Controller thread by event" << endl;
-			}
-			return true;
-		}
-	}
-	return false;
-}
-
-bool ConsoleCommandController::pauseEvent(Command_c* command) {
-	if (command->args.size() >= 1) {
-		if (command->checkFlag("-command_input")) {
-			this->pause();
-		}
-		return true;
-	}
-	return false;
-}
-
-bool ConsoleCommandController::unpauseEvent(Command_c* command) {
-	if (command->args.size() >= 1) {
-		if (command->checkFlag("-command_input")) {
-			this->unpause();
-		}
-		return true;
-	}
-	return false;
-}

@@ -7,13 +7,15 @@
 #include "Eventable.h"
 
 
-class MScreen : public Screenable, public Eventable {
+class MScreen : public Screenable{
 private:
 	DynArr* elements;
 //	int width;
 //	int height;
 	int bufLen;
 	ThreadId screenDrawingTHRDDescriptor;
+public:
+	char* buff;
 public:
 	MScreen(int width, int heigth);
 	MScreen() : MScreen(80, 25) {}
@@ -29,24 +31,14 @@ public:
 	void clear(); // очистить буфер екрана
 	void draw(); // отрисоваться (графически)
 	virtual void render(); // отрисоваться(просчитаться)
-	char *buff;
-	virtual void operateEvent(Command_c* command);
+	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	virtual void fillEventPatterns();
-public:
+public: //MScreen EVENTS
 	static void exitGameCommand(Command_c* command, Eventable* oParent);
 	static void renderScreenIdCommand(Command_c* command, Eventable* oParent);
 	static void drawScreenIdCommand(Command_c* command, Eventable* oParent);
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
-
-private:
-	void classifyEvent(Command_c* command);
-//MScreen COMMANDS(EVENTS)
-protected:
-	bool exitGameEvent(Command_c* command);
-	bool renderScreenEvent(Command_c* command);
-	bool drawScreenEvent(Command_c* command);
-	bool stopEvent(Command_c* command);
 };
 
 // exit game

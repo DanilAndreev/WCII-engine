@@ -9,7 +9,7 @@
 #include "CommandPatterns.h"
 #include "Eventable.h"
 
-class Controller :public Obj, public Eventable {
+class Controller :public Obj {
 private:
 	Console* console;
 	Field* field;
@@ -39,19 +39,14 @@ public:
 	bool addEventableMember(Obj* target);
 	ThreadId getEventHandlerDescriptor();
 	Command_c* throwCommand(Command_c* command);
-	virtual void operateEvent(Command_c* command); // Process phe incoming event
-
+	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	virtual void fillEventPatterns();
-public:
+public: //CONTROLLER EVENTS
 	static void exitGameCommand(Command_c* command, Eventable* oParent);
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
-
-	
-//CONTROLLER COMMANDS(EVENTS)
-protected:
-	bool exitGame(Command_c* command);
-	bool stopEvent(Command_c* command);
-
 };
+
+// exitgame
+// stop threads {flags}
 

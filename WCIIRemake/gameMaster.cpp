@@ -473,6 +473,10 @@ Exitcode GameMaster::addField(ParserOut data, placeableData<FieldPreset> *writeT
 	return GM_NO_ERROR;
 }
 
+void GameMaster::catchEvent(Command_c* command, bool showHelp) {
+	this->operateEvent(command, showHelp);
+}
+
 Exitcode GameMaster::addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr) {
 	LiveUnitPreset preset;
 	Exitcode exitcode = ParseUnit(data, &preset);
@@ -666,28 +670,6 @@ ThreadId GameMaster::getGameAlifeTHREADDescriptor() {
 	return this->GameAlifeTHREADDescriptor;
 }
 
-bool GameMaster::classifyEvent(Command_c* command) {
-	if (*command == "exitgame") {
-		exitgameEvent(command);
-	}
-	if (*command == "stop") {
-		stopEvent(command);
-	}
-	if (*command == "load") {
-		loadEvent(command);
-	}
-	if (*command == "save") {
-		saveEvent(command);
-	}
-	return false;
-}
-
-
-void GameMaster::operateEvent(Command_c* command) {
-	//classifyEvent(command);
-	operateEvents(command, false);
-}
-
 void GameMaster::fillEventPatterns() {
 	const EventPattern  exitGamePattern(
 		"exitgame",
@@ -715,6 +697,8 @@ void GameMaster::fillEventPatterns() {
 	this->eventPatterns.push_back(saveGamePattern);
 	this->eventPatterns.push_back(loadGamePattern);
 }
+
+//GAME MASTER EVENTS
 
 // exitgame
 void GameMaster::exitGameCommand(Command_c* command, Eventable* oParent) {
@@ -757,62 +741,4 @@ void GameMaster::loadGameCommand(Command_c* command, Eventable* oParent) {
 	}
 	string input_filename = command->args[2].first;
 	parent->loadGame(input_filename);
-}
-
-
-
-
-
-//Game Master commands(events)
-bool GameMaster::exitgameEvent(Command_c* command) {
-//	cout << "exiting game" << endl;
-	if (command->args.size() == 1) {
-		if (command->args[0].first == "exitgame") {
-			this->gameAlifeThreadIsRunning = false;
-			if (gameThreads->stopThread(this->GameAlifeTHREADDescriptor)) {
-			}
-			return true;
-		}
-	}
-	return false;
-}
-
-//DONE: write stopthread event and check flag -lg, if it is -> stop all threads ecxluding gameAlifeThread
-bool GameMaster::stopEvent(Command_c* command){ 
-	if (command->args.size() >= 2) {
-		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-			if (!command->checkFlag("-lg")) {
-				//gameThreads->stopThread(this->GameAlifeTHREADDescriptor, "GameAlifeTHREAD");
-
-				HANDLE temp_handle;
-				if ((temp_handle = gameThreads->stopThread(GameAlifeTHREADDescriptor)) != NULL) {
-					command->data.push_back(temp_handle);
-				}
-
-//				cout << "stpping gameLife thread by event" << endl;
-			}
-			return true;
-		}
-	}
-	return false;
-}
-
-bool GameMaster::saveEvent(Command_c* command) {
-	if (command->args.size() >= 3) {
-		if (command->args[1].second == "command" && command->args[1].first == "game" && command->args[1].second == "command" && command->args[2].second == "command") {
-			this->saveGame(command->args[2].first);
-			return true;
-		}
-	}
-	return false;
-}
-
-bool GameMaster::loadEvent(Command_c* command) {
-	if (command->args.size() >= 3) {
-		if (command->args[1].second == "command" && command->args[1].first== "game" && command->args[2].second == "command") {
-			this->loadGame(command->args[2].first);
-			return true;
-		}
-	}
-	return false;
 }
