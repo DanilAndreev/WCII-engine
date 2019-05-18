@@ -7,6 +7,7 @@ extern ConsoleCommandController* defaultConComCon;
 
 
 Controller::Controller(Field* ifield, MScreen* iscreen, Console* ioconsole, GameMaster* igameMaster) {
+	this->fillCommandPatterns();
 	setDescription("Controller");
 	this->members = new DynArr();
 	eventHandlerIsPaused = false;
@@ -173,13 +174,58 @@ Command_c* Controller::throwCommand(Command_c* command) {
 
 
 void Controller::operateEvent(Command_c* command) {
+	operateConsoleCommand(command, false);
+
+	
+/*
 	if (*command == "exitgame") {
 		exitGame(command);
 	}
 	if (*command == "stop") {
 		stopEvent(command);
 	}
+*/
+}
 
+void Controller::fillCommandPatterns() {
+	const ConsoleCommandPattern exitGamePattern(
+		"exitgame",
+		"exitGamePattern",
+		"exitgame",
+		Controller::exitGameCommand);
+	const ConsoleCommandPattern stopThreadsPattern(
+		"stop threads",
+		"stopThreadsPattern",
+		"stop threads {flags}",
+		Controller::stopThreadsCommand);
+
+	this->commandPatterns.push_back(exitGamePattern);
+	this->commandPatterns.push_back(stopThreadsPattern);
+}
+
+
+
+void Controller::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
+	Controller* parent = dynamic_cast<Controller*>(oParent);
+	if (!parent) {
+		return;
+	}
+	gameThreads->stopThread(parent->eventHandlerDescriptor);
+}
+
+void Controller::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+	Controller* parent = dynamic_cast<Controller*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (!command->checkFlag("-eh")) {
+		gameThreads->stopThread(parent->eventHandlerDescriptor);
+	}
+	if (command->checkFlag("-wait")) {
+		for (int i = 0; i < command->data.size(); i++) {
+			WaitForSingleObject(command->data[i].eventHandle, INFINITE);
+		}
+	}
 }
 
 //CONTROLLER COMMANDS(EVENTS)

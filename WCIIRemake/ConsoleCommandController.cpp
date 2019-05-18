@@ -6,7 +6,8 @@ extern Console* defaultConsole;
 extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 
-ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController) {
+ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController, int team) {
+	this->team = team;
 	this->fillCommandPatterns();
 
 	if (ioconsole != NULL) {
@@ -135,6 +136,10 @@ void ConsoleCommandController::unpause() {
 	this->isPaused = false;
 }
 
+void ConsoleCommandController::setTeam(int newteam) {
+	this->team = newteam;
+}
+
 Command_c ConsoleCommandController::getCommand() {
 	string command;
 	command = console->getLine();
@@ -236,6 +241,7 @@ void ConsoleCommandController::handleCommand(bool& flag) {
 	}
 }
 
+/*
 bool ConsoleCommandController::operateConsoleCommand(Command_c* command, bool showHelp) {
 	for (unsigned int i = 0; i < this->commandPatterns.size(); i++) {
 		if (commandPatterns[i] ^= *command) {
@@ -254,53 +260,155 @@ bool ConsoleCommandController::operateConsoleCommand(Command_c* command, bool sh
 	}
 	return false;
 }
-
+*/
 
 //CONSOLE COMMAND CONTROLLER COMMANDS Fuctions
 	
-void ConsoleCommandController::selectCordsCommand(Command_c* command, Obj* oParent) {
+// select [int:x] [int:y]
+void ConsoleCommandController::selectCordsCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
 	}
-	Command_c tempEvent(Command_c(string("select ") + command->args[1].first + " " + command->args[2].first));
-	parent->mainController->addEventToQueue(tempEvent);
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_cord_x = stoi(command->args[1].first);
+		input_cord_y = stoi(command->args[2].first);
+	}
+	catch (...) {
+		return;
+	}
+	cordScr input_cord(input_cord_x, input_cord_y);
+
+	Command_c objectsInfoEvent(Command_c(string("get team ") + to_string(parent->team) + " info units"));
+	parent->mainController->throwCommand(&objectsInfoEvent);
+	
+
+	Command_c clearSelectionInfoEvent(Command_c(string("select team ") + to_string(parent->team) + " -cl"));
+	parent->mainController->throwCommand(&clearSelectionInfoEvent);
+	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
+		if (objectsInfoEvent.data[i].cords == input_cord && objectsInfoEvent.data[i].team == parent->team) {
+			ID temp_id = objectsInfoEvent.data[i].objId;
+			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+			parent->mainController->addEventToQueue(tempEvent);
+		}
+	}
 }
 
-void ConsoleCommandController::selectSymbCommand(Command_c* command, Obj* oParent) {
+// select [char:symbol]
+void ConsoleCommandController::selectSymbCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
 	}
-	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first));
+	string input_symbol = command->args[1].first;
+
+	Command_c objectsInfoEvent(Command_c(string("get team ") + to_string(parent->team) + " info units"));
+	parent->mainController->throwCommand(&objectsInfoEvent);
+
+	Command_c clearSelectionInfoEvent(Command_c(string("select team ") + to_string(parent->team) + " -cl"));
+	parent->mainController->throwCommand(&clearSelectionInfoEvent);
+
+	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
+		if (objectsInfoEvent.data[i].valueVariable == input_symbol && objectsInfoEvent.data[i].team == parent->team) {
+			ID temp_id = objectsInfoEvent.data[i].objId;
+			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+			parent->mainController->addEventToQueue(tempEvent);
+		}
+	}
 }
 
-void ConsoleCommandController::selectIdCommand(Command_c* command, Obj* oParent) {
+// select [int:id]
+void ConsoleCommandController::selectIdCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
 	}
-	parent->mainController->addEventToQueue(Command_c(string("select ") + command->args[1].first));
+	ID input_ID = 0;
+	try {
+		input_ID = stoull(command->args[1].first);
+	}
+	catch (...) {
+		return;
+	}
+
+	Command_c objectsInfoEvent(Command_c(string("get team ") + to_string(parent->team) + " info units"));
+	parent->mainController->throwCommand(&objectsInfoEvent);
+
+	Command_c clearSelectionInfoEvent(Command_c(string("select team ") + to_string(parent->team) + " -cl"));
+	parent->mainController->throwCommand(&clearSelectionInfoEvent);
+
+	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
+		if (objectsInfoEvent.data[i].objId == input_ID && objectsInfoEvent.data[i].team == parent->team) {
+			ID temp_id = objectsInfoEvent.data[i].objId;
+			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+			parent->mainController->addEventToQueue(tempEvent);
+		}
+	}
 }
 
-void ConsoleCommandController::moveToCommand(Command_c* command, Obj* oParent) {
+// move to [int:x] [int:y]
+void ConsoleCommandController::moveToCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
 	}
-	Command_c tempEvent(string("move to ") + command->args[2].first + " " + command->args[3].first);
-	parent->mainController->addEventToQueue(tempEvent);
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_cord_x = stoi(command->args[2].first);
+		input_cord_y = stoi(command->args[3].first);
+	}
+	catch (...) {
+		return;
+	}
+
+	cordScr input_cord(input_cord_x, input_cord_y);
+
+	Command_c objectsInfoEvent(Command_c(string("get team ") + to_string(parent->team) + " info units"));
+	parent->mainController->throwCommand(&objectsInfoEvent);
+
+	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
+		if (objectsInfoEvent.data[i].selected) {
+			ID temp_id = objectsInfoEvent.data[i].objId;
+			Command_c tempEvent(Command_c(string("move id ") + to_string(temp_id) + " to " + to_string(input_cord.x) + " " + to_string(input_cord.y)));
+			parent->mainController->addEventToQueue(tempEvent);
+		}
+	}
 }
 
-void ConsoleCommandController::attackCordsCommand(Command_c* command, Obj* oParent) {
+// attack [int:x] [int:y]
+void ConsoleCommandController::attackCordsCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
 	}
-	parent->mainController->addEventToQueue(Command_c(string("attack ") + command->args[1].first + " " + command->args[2].first));
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_cord_x = stoi(command->args[1].first);
+		input_cord_y = stoi(command->args[2].first);
+	}
+	catch (...) {
+		return;
+	}
+
+	cordScr input_cord(input_cord_x, input_cord_y);
+
+	Command_c objectsInfoEvent(Command_c(string("get team ") + to_string(parent->team) +" info units"));
+	parent->mainController->throwCommand(&objectsInfoEvent);
+
+	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
+		if (objectsInfoEvent.data[i].selected) {
+			ID temp_id = objectsInfoEvent.data[i].objId;
+			Command_c tempEvent(Command_c(string("attack id ") + to_string(temp_id) + " to " + to_string(input_cord.x) + " " + to_string(input_cord.y)));
+			parent->mainController->addEventToQueue(tempEvent);
+		}
+	}
 }
 
-void ConsoleCommandController::exitGameCommand(Command_c* command, Obj* oParent) {
+void ConsoleCommandController::exitGameCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
@@ -310,7 +418,7 @@ void ConsoleCommandController::exitGameCommand(Command_c* command, Obj* oParent)
 	defaultConsole->message("Exiting game");
 }
 
-void ConsoleCommandController::saveGameCommand(Command_c* command, Obj* oParent) {
+void ConsoleCommandController::saveGameCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
@@ -319,7 +427,7 @@ void ConsoleCommandController::saveGameCommand(Command_c* command, Obj* oParent)
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
-void ConsoleCommandController::loadGameCommand(Command_c* command, Obj* oParent) {
+void ConsoleCommandController::loadGameCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
@@ -328,7 +436,7 @@ void ConsoleCommandController::loadGameCommand(Command_c* command, Obj* oParent)
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
-void ConsoleCommandController::spawnUnitPresetCommand(Command_c * command, Obj * oParent) {
+void ConsoleCommandController::spawnUnitPresetCommand(Command_c * command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
 		throw new exception("Bad input class type");
@@ -403,5 +511,3 @@ bool ConsoleCommandController::unpauseEvent(Command_c* command) {
 	}
 	return false;
 }
-
-

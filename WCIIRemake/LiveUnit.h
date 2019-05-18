@@ -57,6 +57,16 @@ private:
 	bool classifyEvent(Command_c* command);
 	virtual void operateEvent(Command_c* command);
 	virtual void stopAllThreads();
+protected:
+	virtual void fillCommandPatterns();
+
+public:
+	static void tpToCordsCommand(Command_c* command, CommandPatterns* oParent);
+	static void moveToCordsCommand(Command_c* command, CommandPatterns* oParent);
+	static void attackToCordsCommand(Command_c* command, CommandPatterns* oParent);
+	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
+	static void writeToCommand(Command_c* command, CommandPatterns* oParent);
+	
 //LIVEUNIT COMMANDS(EVENTS)
 protected:
 	bool tpEvent(Command_c* command);
@@ -66,3 +76,6 @@ protected:
 	bool attackEvent(Command_c* command);
 };
 
+// attack id [int:id] to [int:x] [int:y]
+// write data to [string:filename]
+// move id [int:id] to [int:x] [int:y]

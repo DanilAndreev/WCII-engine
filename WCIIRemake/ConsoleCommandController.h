@@ -18,17 +18,19 @@ protected:
 	ThreadId CommandHandlerTHRDDescriptor;
 	queue <Command_c> commandQueue;
 	bool isRunning;
+	int team;
 public:
 	bool isPaused;
 	Console *console;
 public:
-	ConsoleCommandController(Console* ioconsole, Controller* mainController);
+	ConsoleCommandController(Console* ioconsole, Controller* mainController, int team);
 	~ConsoleCommandController();
 	bool setController(Controller* mainController);
 	bool setConsole(Console* ioconsole);
 	Command_c parseCommand(string command); // Parse the command
 	void pause();
 	void unpause();
+	void setTeam(int newteam);
 public:
 	bool readCondition(char character);
 	string commandType(char character);
@@ -45,17 +47,16 @@ protected:
 	bool commandQueueIsEmpty();
 	virtual void fillCommandPatterns();
 public:
-	bool operateConsoleCommand(Command_c* command, bool showHelp);
 	//CONSOLE COMMAND CONTROLLER COMMANDS Functions
-	static void selectCordsCommand(Command_c* command, Obj* oParent);
-	static void selectSymbCommand(Command_c* command, Obj* oParent);
-	static void selectIdCommand(Command_c* command, Obj* oParent);
-	static void moveToCommand(Command_c* command, Obj* oParent);
-	static void attackCordsCommand(Command_c* command, Obj* oParent);
-	static void exitGameCommand(Command_c* command, Obj* oParent);
-	static void saveGameCommand(Command_c* command, Obj* oParent);
-	static void loadGameCommand(Command_c* command, Obj* oParent);
-	static void spawnUnitPresetCommand(Command_c* command, Obj* oParent);
+	static void selectCordsCommand(Command_c* command, CommandPatterns* oParent);
+	static void selectSymbCommand(Command_c* command, CommandPatterns* oParent);
+	static void selectIdCommand(Command_c* command, CommandPatterns* oParent);
+	static void moveToCommand(Command_c* command, CommandPatterns* oParent);
+	static void attackCordsCommand(Command_c* command, CommandPatterns* oParent);
+	static void exitGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void saveGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void loadGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void spawnUnitPresetCommand(Command_c* command, CommandPatterns* oParent);
 	
 	//CONSOLE COMMAND CONTROLLER EVENTS
 protected:

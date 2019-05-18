@@ -5,10 +5,11 @@
 #include "Threadable.h"
 #include "FastPath.h"
 #include "CommandPatterns.h"
+#include "MultiTeamSelector.h"
 #include <ctime>
 #include <stdlib.h>
 
-class Unit : public Screenable, public CommandPatterns {
+class Unit : public Screenable, public CommandPatterns, public MultiTeamSelector {
 protected:
 	Field* field;
 	char value; //for debug
@@ -34,7 +35,6 @@ protected:
 	bool getDamage(int damage);
 	virtual void stopAllThreads();
 	virtual void fillCommandPatterns();
-	bool operateConsoleCommand(Command_c * command, bool showHelp);
 protected:
 	//UNIT COMMANDS(EVENTS)
 	bool selectEvent(Command_c* command);
@@ -42,10 +42,22 @@ protected:
 	bool damageEvent(Command_c* command);
 	bool getInfoEvent(Command_c * command);
 
-protected:
-	void selectIdCommand(Command_c* command, Obj* oParent);
-	void damageIdCommand(Command_c* command, Obj* oParent);
-	void getInfoIdCommand(Command_c* command, Obj* oParent);
-	void echoIdCommand(Command_c* command, Obj* oParent);
+public:
+	static void selectIdCommand(Command_c* command, CommandPatterns* oParent);
+	static void unselectIdCommand(Command_c* command, CommandPatterns* oParent);
+	static void damageIdCommand(Command_c* command, CommandPatterns* oParent);
+	static void getInfoIdCommand(Command_c* command, CommandPatterns* oParent);
+	static void echoIdCommand(Command_c* command, CommandPatterns* oParent);
+	static void getInfoUnitsCommand(Command_c* command, CommandPatterns* oParent);
+	static void getInfoTeamUnitsCommand(Command_c* command, CommandPatterns* oParent);
+	static void selectTeamCommand(Command_c* command, CommandPatterns* oParent);
 };
 
+// select team [int:team] id [int:id]
+// unselect team [int:team] id [int::id]
+// damage id [int:id] power [int:power]
+// get info id [int::id]
+// echo id [int:id] [quotes string:message]
+// get info units
+// get team [int:team] info units
+// select team [int:team] {flags}

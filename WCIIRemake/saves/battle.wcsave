@@ -7,6 +7,27 @@ field{
 
 player{
     team: 1;
+    friends: ["3"];
+    gold: 100;
+    wood: 100;
+    type: player;
+    playerName: "Admin";
+}
+
+player{
+    team: 2;
+    friends: [];
+    gold: 100;
+    wood: 100;
+    type: ai;
+}
+
+player{
+    team: 3;
+    friends: ["1"];
+    gold: 10000;
+    wood: 10000;
+    type: ai;
 }
 
 unit{
@@ -265,6 +286,62 @@ unit{
     width: 1;
     heigth: 1;
     team: 2;
+    cooldown: 600;
+    speedDelay: 500;
+    attackRadius: 5;
+    damage: 30;
+}
+
+unit{
+    symbol: 'T';
+    x: 11;
+    y: 3;
+    health: 50;
+    width: 1;
+    heigth: 1;
+    team: 3;
+    cooldown: 600;
+    speedDelay: 500;
+    attackRadius: 5;
+    damage: 30;
+}
+
+unit{
+    symbol: 'T';
+    x: 11;
+    y: 4;
+    health: 50;
+    width: 1;
+    heigth: 1;
+    team: 3;
+    cooldown: 600;
+    speedDelay: 500;
+    attackRadius: 5;
+    damage: 30;
+}
+
+unit{
+    symbol: 'T';
+    x: 0;
+    y: 3;
+    health: 50;
+    width: 1;
+    heigth: 1;
+    team: 3;
+    cooldown: 600;
+    speedDelay: 500;
+    attackRadius: 5;
+    damage: 30;
+}
+
+unit{
+    symbol: 'T';
+    x: 0;
+    y: 4;
+    health: 50;
+    width: 1;
+    heigth: 1;
+    team: 3;
     cooldown: 600;
     speedDelay: 500;
     attackRadius: 5;

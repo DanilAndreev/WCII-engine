@@ -6,8 +6,9 @@
 #include <queue>
 #include "EventHndlrTHREAD.h"
 #include "GameMaster.h"
+#include "CommandPatterns.h"
 
-class Controller : public Obj {
+class Controller :public Obj, public CommandPatterns{
 private:
 	Console* console;
 	Field* field;
@@ -39,6 +40,13 @@ public:
 	Command_c* throwCommand(Command_c* command);
 	virtual void operateEvent(Command_c* command); // Process phe incoming event
 
+protected:
+	virtual void fillCommandPatterns();
+public:
+	static void exitGameCommand(Command_c* command, CommandPatterns* oParent);
+	static void stopThreadsCommand(Command_c* command, CommandPatterns* oParent);
+
+	
 //CONTROLLER COMMANDS(EVENTS)
 protected:
 	bool exitGame(Command_c* command);

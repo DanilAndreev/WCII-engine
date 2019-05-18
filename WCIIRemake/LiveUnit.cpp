@@ -69,6 +69,7 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->threadFlag = false;
 	this->health = health;
 */
+	this->fillCommandPatterns();
 	setDescription("LiveUnit");
 	this->attackLength = attackLength;
 	this->MoveToTHRDDescriptor = 0;
@@ -149,8 +150,7 @@ bool LiveUnit::attack(bool & flag) {
 	return false;
 }
 
-time_t LiveUnit::getLastAttackTime()
-{
+time_t LiveUnit::getLastAttackTime() {
 	return this->lastAttackTime;
 }
 
@@ -263,14 +263,175 @@ bool LiveUnit::classifyEvent(Command_c* command) {
 	return false;
 }
 
-void LiveUnit::operateEvent(Command_c* command)
-{
-	classifyEvent(command);
+void LiveUnit::operateEvent(Command_c* command) {
+//	classifyEvent(command);
+	operateConsoleCommand(command, false);
+
 }
 
 void LiveUnit::stopAllThreads() {
 	gameThreads->stopThread(AttackTHRDDescriptor);
 	gameThreads->stopThread(MoveToTHRDDescriptor);
+}
+
+void LiveUnit::fillCommandPatterns() {
+	const ConsoleCommandPattern tpToCordsPattern(
+		"tp id input_number to input_number input_number",
+		"tpToCordsPattern",
+		"tp id [int:id] to [int:x] [int:y]",
+		LiveUnit::tpToCordsCommand);
+	const ConsoleCommandPattern moveToCordsPattern(
+		"move id input_number to input_number input_number",
+		"moveToCordsPattern",
+		"move id [int:id] to [int:x] [int:y]",
+		LiveUnit::moveToCordsCommand);
+	const ConsoleCommandPattern stopThreadsPattern(
+		"stop threads",
+		"stopThreadsPattern",
+		"stop threads",
+		LiveUnit::stopThreadsCommand);
+	const ConsoleCommandPattern attackToCordsPattern(
+		"attack id input_number to input_number input_number",
+		"attackToCordsPattern",
+		"attack id [int:id] to [int:x] [int:y]",
+		LiveUnit::attackToCordsCommand);
+	const ConsoleCommandPattern writeToPattern(
+		"write data to input_command",
+		"writeToPattern",
+		"write data to [string:filename]",
+		LiveUnit::writeToCommand);
+
+	this->commandPatterns.push_back(tpToCordsPattern);
+	this->commandPatterns.push_back(moveToCordsPattern);
+	this->commandPatterns.push_back(stopThreadsPattern);
+	this->commandPatterns.push_back(attackToCordsPattern);
+	this->commandPatterns.push_back(writeToPattern);
+}
+
+// tp id [int:id] to [int:x] [int:y]
+void LiveUnit::tpToCordsCommand(Command_c* command, CommandPatterns* oParent) {
+	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	ID input_id = 0;
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_id = stoull(command->args[2].first);
+		input_cord_x = stoi(command->args[4].first);
+		input_cord_y = stoi(command->args[5].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (parent->id == input_id) {
+		cordScr cords(input_cord_x, input_cord_y);
+		parent->field->changeCell(cords, parent);
+	}
+}
+
+// move id [int:id] to [int:x] [int:y]
+void LiveUnit::moveToCordsCommand(Command_c* command, CommandPatterns* oParent) {
+	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	ID input_id = 0;
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_id = stoull(command->args[2].first);
+		input_cord_x = stoi(command->args[4].first);
+		input_cord_y = stoi(command->args[5].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (parent->id == input_id) {
+		parent->moveDest = cordScr(input_cord_x, input_cord_y);
+		gameThreads->stopThread(parent->AttackTHRDDescriptor);
+		AttackTHREAD* attackTHRD = new AttackTHREAD(parent);
+		if (attackTHRD) {
+			parent->AttackTHRDDescriptor = attackTHRD->getDescriptor();
+		}
+		else {
+			defaultConsole->error("Error allocating memory");
+		}
+		parent->moveNoAttack = true;
+		attackTHRD->startThread();
+	}
+}
+
+// attack id [int:id] to [int:x] [int:y]
+void LiveUnit::attackToCordsCommand(Command_c* command, CommandPatterns* oParent) {
+	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	ID input_id = 0;
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_id = stoull(command->args[2].first);
+		input_cord_x = stoi(command->args[4].first);
+		input_cord_y = stoi(command->args[5].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (parent->id == input_id) {
+		parent->moveDest = cordScr(input_cord_x, input_cord_y);
+		//starting attack thread
+		gameThreads->stopThread(parent->AttackTHRDDescriptor);
+		AttackTHREAD* attackTHRD = new AttackTHREAD(parent);
+		if (attackTHRD) {
+			parent->AttackTHRDDescriptor = attackTHRD->getDescriptor();
+		}
+		else {
+			defaultConsole->error("Error allocating memory");
+		}
+		attackTHRD->startThread();
+		cout << "unit: " << parent->id << " attacking" << endl;
+	}
+}
+
+// stop threads
+void LiveUnit::stopThreadsCommand(Command_c* command, CommandPatterns* oParent) {
+	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	HANDLE temp_handle;
+	if ((temp_handle = gameThreads->stopThread(parent->MoveToTHRDDescriptor)) != NULL) {
+		command->data.push_back(temp_handle);
+	}
+	if ((temp_handle = gameThreads->stopThread(parent->AttackTHRDDescriptor)) != NULL) {
+		command->data.push_back(temp_handle);
+	}
+}
+
+//write data to [string:filename]
+void LiveUnit::writeToCommand(Command_c* command, CommandPatterns* oParent) {
+	LiveUnit* parent = dynamic_cast<LiveUnit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	string filename = command->args[3].first;
+	FileWriter writer(filename, ios::app);
+	writer << " unit {";
+	writer << " x:" << parent->cords.x << ";";
+	writer << " y:" << parent->cords.y << ";";
+	writer << " symbol:\'" << parent->value << "\';";
+	writer << " width:" << parent->width << ";";
+	writer << " heigth:" << parent->heigth << ";";
+	writer << " health:" << parent->health << ";";
+	writer << " damage:" << parent->attackPower << ";";
+	writer << " cooldown:" << parent->cooldown << ";";
+	writer << " attackRadius:" << parent->attackLength << ";";
+	writer << " speedDelay:" << parent->moveSpeed << ";";
+	//writer << "mana:" << parent->mana << ";";
+	writer << "}" << endl;
 }
 
 //LIVEUNIT COMMANDS(EVENTS)
@@ -318,30 +479,9 @@ bool LiveUnit::attackEvent(Command_c* command) {
 				this->AttackTHRDDescriptor = attackTHRD->getDescriptor();
 			}
 			else {
-				//cout << "Error allocating memory" << endl;
 				defaultConsole->error("Error allocating memory");
 			}
 			attackTHRD->startThread();
-
-/*
-			//starting move thread
-
-			Command_c* moveCommand = new Command_c();
-
-
-			pair <string, string> arg;
-			arg.first = "move";
-			arg.second = "command";
-			moveCommand->args.push_back(arg);
-			arg.first = "to";
-			arg.second = "command";
-			moveCommand->args.push_back(arg);
-			moveCommand->args.push_back(command->args[1]);
-			moveCommand->args.push_back(command->args[2]);
-//			moveCommand->printCommand();
-			moveEvent(moveCommand);
-			return true;
-*/
 		}
 	}
 	return false;
@@ -351,34 +491,13 @@ bool LiveUnit::attackEvent(Command_c* command) {
 bool LiveUnit::stopEvent(Command_c* command) {
 	if (command->args.size() >= 2) {
 		if (command->args[1].first == "threads" && command->args[1].second == "command") {
-
-/*
-			HANDLE MoveToTHREADHandle = NULL;
-			HANDLE AttackTHREADHandle = NULL;
-
-			Threadable* MoveToTHREAD = gameThreads->getThread(MoveToTHRDDescriptor);
-			Threadable* AttackTHREAD = gameThreads->getThread(AttackTHRDDescriptor);
-			if (MoveToTHREAD) {
-				MoveToTHREADHandle = MoveToTHREAD->getHandle();
-			}
-			if (AttackTHREAD) {
-				AttackTHREADHandle = AttackTHREAD->getHandle();
-			}
-
-*/
-			//gameThreads->stopThread(MoveToTHRDDescriptor, "MoveToThread");
 			HANDLE temp_handle;
 			if ( (temp_handle = gameThreads->stopThread(MoveToTHRDDescriptor)) != NULL ) {
 				command->data.push_back(temp_handle);
 			}
-//			gameThreads->stopThread(AttackTHRDDescriptor, "AttackTHREAD");
 			if ((temp_handle = gameThreads->stopThread(AttackTHRDDescriptor)) != NULL) {
 				command->data.push_back(temp_handle);
 			}
-			//			cout << "waiting for stop attack and move to threads" << endl;
-//			WaitForSingleObject(MoveToTHREADHandle, INFINITE);
-//			WaitForSingleObject(AttackTHREADHandle, INFINITE);
-//			cout << "stpping MoveTo and Attack threads by event" << endl;
 			return true;
 		}
 	}
@@ -401,7 +520,7 @@ bool LiveUnit::writeEvent(Command_c* command) {
 				writer << " cooldown:" << this->cooldown<< ";";
 				writer << " attackRadius:" << this->attackLength << ";";
 				writer << " speedDelay:" << this->moveSpeed << ";";
-//				writer << "mana:" << this->m << ";";
+//				writer << "mana:" << this->mana << ";";
 				writer << "}" << endl;
 				return true;
 			}

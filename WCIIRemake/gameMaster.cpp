@@ -42,6 +42,7 @@ GameMaster::GameMaster() {
 	readUnits();
 	readBuildings();
 
+/*
 	this->field = new Field(40,20);
 	this->scr = new MScreen(40, 20);
 	scr->setCord(cordScr(50, 2));
@@ -54,9 +55,32 @@ GameMaster::GameMaster() {
 	}
 	LiveUnit* tunit = new LiveUnit();
 	this->field->setCell(cordScr(1,1), tunit);
+*/
+
+	this->field = new Field(40, 20);
+	this->scr = new MScreen(40, 20);
+	this->scr->setCord(cordScr(40, 2));
+	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
+
+	defaultConComCon->setConsole(defaultConsole);
+	defaultConComCon->setController(gameController);
+
+	Controller* oldgc = gameController;
+	gameController = new Controller(this->field, scr, defaultConsole, this);
+	gameController->setup(defaultConsole, this->scr, this->field, this);
+	if (oldgc) {
+		delete oldgc;
+	}
+
 
 	loadGame("test");
 
+	Sleep(1000);
+/*
+	Command_c tempC("attack id 82 to 20 20");
+	tempC.printCommand();
+	gameController->addEventToQueue(tempC);
+*/
 }
 
 GameMaster::~GameMaster() {
@@ -568,28 +592,17 @@ Exitcode GameMaster::loadGame(string savename) {
 	defaultConsole->message(string("Loading save: ") + savename);
 
 	Command_c tempEvent("stop threads -lg -ccc -eh -wait");
-//	tempEvent = defaultConComCon->parseCommand("stop threads -lg -ccc -eh -wait");
 	gameController->throwCommand(&tempEvent);
-//	tempEvent = defaultConComCon->parseCommand("pause -command_input");
 	tempEvent = Command_c("pause -command_input");
 	gameController->throwCommand(&tempEvent);
-//	Sleep(1000);
-//	delete gameController;
 	gameController->pauseEventHandler();
 	Sleep(1000);
 
 
 	this->field->freeElements();
 	delete this->field;
-//	Field* oldField = this->field;
 	this->field = new Field(field.preset);
-/*
-	if (oldField) {
-		delete oldField;
-	}
-*/
 	delete this->scr;
-//	delete defaultConComCon;
 	this->scr = new MScreen(field.preset.width, field.preset.heigth);
 	this->scr->setCord(cordScr(40, 2));
 	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
@@ -598,27 +611,15 @@ Exitcode GameMaster::loadGame(string savename) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
 		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
 	}
-
-
-
-	//gameController = new Controller(this->field, this->scr, defaultConsole, this);
-/*
-	gameController->setField(this->field);
-	gameController->setScreen(this->scr);
-	gameController->setConsole(defaultConsole);
-*/
 	gameController->setup(defaultConsole, this->scr, this->field, this);
 
 	defaultConComCon->setConsole(defaultConsole);
 	defaultConComCon->setController(gameController);
+	defaultConComCon->setTeam(1); // ------------------------------------------------------------------------CHANGE TO REAL TEAM
 
 	gameController->unpauseEventHandler();
-//	tempEvent = defaultConComCon->parseCommand("unpause -command_input");
 	tempEvent = Command_c("unpause -command_input");
 	gameController->throwCommand(&tempEvent);
-
-//	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController);
-
 
 	defaultConsole->message(string("Succesfully loaded: ") + savename);
 	return GM_NO_ERROR;
