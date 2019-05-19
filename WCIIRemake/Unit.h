@@ -29,7 +29,7 @@ public:
 	int getHealth();
 	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
-	virtual void render(); // отрисоваться(просчитаться)
+	virtual void render(int layer); // отрисоваться(просчитаться)
 	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	bool getDamage(int damage);
@@ -45,6 +45,7 @@ public:	//UNIT EVENTS
 	static void getInfoUnitsCommand(Command_c* command, Eventable* oParent);
 	static void getInfoTeamUnitsCommand(Command_c* command, Eventable* oParent);
 	static void selectTeamCommand(Command_c* command, Eventable* oParent);
+	static void renderLayerCommand(Command_c* command, Eventable* oParent);
 };
 
 // select team [int:team] id [int:id]

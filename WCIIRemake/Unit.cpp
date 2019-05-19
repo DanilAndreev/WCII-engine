@@ -13,6 +13,8 @@ Unit::Unit(char value, int type, Field* field, int health, int team) {
 	this->type = type;
 	this->threadFlag = false;
 	this->health = health;
+	this->layer = this->type + 100;
+//	cout << "Constructor: created unit " << this->value << " type " << this->type << endl;
 }
 
 
@@ -42,8 +44,8 @@ char Unit::getValue() {
 
 
 
-void Unit::render() {
-	if (scr != NULL) { 
+void Unit::render(int layer) {
+	if (scr != NULL && this->layer == layer) { 
 		cordScr shift;
 		if (field) {
 			shift = this->field->getCord();
@@ -121,6 +123,11 @@ void Unit::fillEventPatterns() {
 		"getInfoTeamUnitsPattern",
 		"get team [int:team] info units",
 		Unit::getInfoTeamUnitsCommand);
+	const EventPattern renderLayerPattern(
+		"render layer",
+		"renderLayerPattern",
+		"render layer {flags}",
+		Unit::renderLayerCommand);
 
 	this->eventPatterns.push_back(selectIdPattern);
 	this->eventPatterns.push_back(unselectIdPattern);
@@ -130,6 +137,7 @@ void Unit::fillEventPatterns() {
 	this->eventPatterns.push_back(echoIdPattern);
 	this->eventPatterns.push_back(getInfoUnitsPattern);
 	this->eventPatterns.push_back(getInfoTeamUnitsPattern);
+	this->eventPatterns.push_back(renderLayerPattern);
 }
 
 //UNIT EVENTS
@@ -280,6 +288,18 @@ void Unit::selectTeamCommand(Command_c* command, Eventable* oParent) {
 	if (command->checkFlag("-cl")) {
 //		cout << "clearing team " << input_team << " selection" << endl;
 		parent->unselect(input_team);
+	}
+}
+
+void Unit::renderLayerCommand(Command_c* command, Eventable* oParent) {
+	Unit *parent = dynamic_cast<Unit*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (command->checkFlag("-query")) {
+		eventReturnData temp;
+		temp.layer = parent->layer;
+		command->data.push_back(temp);
 	}
 }
 

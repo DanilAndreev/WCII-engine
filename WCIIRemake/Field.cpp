@@ -6,6 +6,7 @@ extern GameMaster* gameMaster;
 
 
 Field::Field(int width, int heigth){
+	this->layer = 100;
 	fillEventPatterns();
 	setDescription("Field");
 	fieldLen = width * heigth;
@@ -50,6 +51,7 @@ int Field::setCell(cordScr cords, Unit* target) {
 	if (members->search(target) == -1) {
 		if (checkFree(cords, target->getType())) {
 			target->setup(cords, 1, 1, this->scr);
+			target->settingUp();
 			members->add(target);
 			return 1;
 		}
@@ -69,10 +71,10 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 	return 0;
 }
 
-void Field::render() {
+void Field::render(int layer) {
 
 	for (int i = 0; i < members->count(); i++) {
-	((Screenable*)(members->get(i)))->render();
+	((Screenable*)(members->get(i)))->render(layer);
 	}
 }
 

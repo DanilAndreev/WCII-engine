@@ -66,7 +66,7 @@ bool Controller::setConsole(Console* ioconsole) {
 
 bool Controller::setup(Console* console, MScreen* screen, Field* field, GameMaster* gameMaster) {
 	this->clearMembers();
-	this->setField(field);
+//	this->setField(field);
 	this->setConsole(console);
 	this->setScreen(screen);
 	this->members->add(gameMaster);
@@ -169,7 +169,7 @@ Command_c* Controller::throwCommand(Command_c* command) {
 		this->catchEvent(command, false);
 	}
 	else {
-		cout << "cannot operate event: EventHandlerPaused" << endl;
+//		cout << "cannot operate event: EventHandlerPaused" << endl;
 	}
 	return command;
 }

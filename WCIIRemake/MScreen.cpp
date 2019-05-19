@@ -3,6 +3,7 @@
 #include <Windows.h>
 
 extern ThreadDescriptor* gameThreads;
+extern Controller* gameController;
 
 MScreen::MScreen(int width, int heigth) {
 	fillEventPatterns();
@@ -120,10 +121,30 @@ void MScreen::draw() {
 	}
 }
 
-void MScreen::render() {
+void MScreen::render(int layer) { // if 0 ->render all layers beginning from this object
 	initBuff();
-	for (int i = 0; i < elements->count(); i++) {
-		((Screenable*)elements->get(i))->render();
+	int maxLayer;
+	if (layer == 0) {
+		maxLayer = 1;
+		Command_c tempEvent("render layer -query");
+		gameController->throwCommand(&tempEvent);
+		for (int i = 0; i < tempEvent.data.size(); i++) {
+			if (maxLayer < tempEvent.data[i].layer) {
+				maxLayer = tempEvent.data[i].layer;
+			}
+		}
+	}
+	if (layer) {
+		for (int i = 0; i < elements->count(); i++) {
+			((Screenable*)elements->get(i))->render(layer);
+		}
+	}
+	else {
+		for (int iLayer = 1; iLayer <= maxLayer; iLayer++) {
+			for (int i = 0; i < elements->count(); i++) {
+				((Screenable*)elements->get(i))->render(iLayer);
+			}
+		}
 	}
 	if (scr != NULL) {
 		for (int y = 0; y < heigth; y++) {
@@ -200,7 +221,7 @@ void MScreen::renderScreenIdCommand(Command_c* command, Eventable* oParent) {
 		return;
 	}
 	if (input_id == parent->id) {
-		parent->render();
+		parent->render(0);
 	}
 }
 

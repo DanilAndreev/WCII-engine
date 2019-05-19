@@ -140,6 +140,7 @@ Exitcode GameMaster::ParseUnit(ParserOut input, LiveUnitPreset *writeTo) {
 	targets.addTarget(SearchTarget("cost", PARSER_NUMBER, "100"));
 	targets.addTarget(SearchTarget("eats", PARSER_NUMBER, "2"));
 	targets.addTarget(SearchTarget("productionTime", PARSER_NUMBER, "10000"));
+	targets.addTarget(SearchTarget("type", PARSER_NUMBER, "1"));
 
 	UnitInterpretor* interpretor = new UnitInterpretor();
 	if (!interpretor) {
@@ -170,8 +171,9 @@ Exitcode GameMaster::ParseUnit(ParserOut input, LiveUnitPreset *writeTo) {
 	int cost = targets.targets[13].temp_int;
 	int eats = targets.targets[14].temp_int;
 	int productionTime = targets.targets[15].temp_int;
+	int type = targets.targets[16].temp_int;
 
-	LiveUnitPreset tempCreaturePreset(name, beautyName, fraction, symbol, width, heigth, health, damage, cooldown, attackRadius, speedDelay, mana, spells, cost, eats, productionTime);
+	LiveUnitPreset tempCreaturePreset(name, beautyName, fraction, symbol, width, heigth, health, damage, cooldown, attackRadius, speedDelay, mana, spells, cost, eats, productionTime, type);
 
 //	this->creaturePresets.push_back(tempCreaturePreset);
 //	tempCreaturePreset.print();

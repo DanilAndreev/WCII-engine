@@ -52,7 +52,12 @@ int Screenable::setup(cordScr cords, int width, int heigth, MScreen* scr) {
 	return 1;
 }
 
-
-
-void Screenable::render() {
+void Screenable::render(int layer)
+{
 }
+
+void Screenable::settingUp() {
+}
+
+
+

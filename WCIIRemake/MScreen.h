@@ -30,7 +30,7 @@ public:
 	void initBuff(); // инициализировать екран
 	void clear(); // очистить буфер екрана
 	void draw(); // отрисоваться (графически)
-	virtual void render(); // отрисоваться(просчитаться)
+	virtual void render(int layer); // отрисоваться(просчитаться)
 	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	virtual void fillEventPatterns();

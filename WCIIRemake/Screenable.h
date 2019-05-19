@@ -14,6 +14,7 @@ class Screenable : public Obj {
 		int width;
 		int heigth;
 		MScreen* scr;
+		int layer;
 	public:
 		Screenable(cordScr cords, int width, int heigth, MScreen* scr);
 		Screenable();
@@ -23,6 +24,7 @@ class Screenable : public Obj {
 		cordScr getCord(); //возвращает координаты 
 		int setCord(cordScr cords); // установить координаты
 		int setup(cordScr cords, int width, int heigth, MScreen* scr); // инициализировать елемент (передаем координаты, куда залепить елемент, его ширину и высоту и указатель на екран, где он будет отрисовываться)
-		virtual void render(); // отрисоваться(просчитаться)
+		virtual void render(int layer); // отрисоваться(просчитаться)
+		virtual void settingUp();
 };
 

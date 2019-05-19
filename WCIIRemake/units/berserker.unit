@@ -14,4 +14,5 @@ unit Berserker{
     cost: 100;
     eats: 3;
     productionTime: 100000;
+    type: 1;
 }

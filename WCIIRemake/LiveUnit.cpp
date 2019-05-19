@@ -9,7 +9,7 @@ extern Console* defaultConsole;
 
 
 
-LiveUnitPreset::LiveUnitPreset(string name, string beautyName, string fraction, char symbol, int width, int heigth, int health, int damage, int cooldown, int attackRadius, int speedDelay, int mana, vector<string> spells, int cost, int eats, int productionTime) {
+LiveUnitPreset::LiveUnitPreset(string name, string beautyName, string fraction, char symbol, int width, int heigth, int health, int damage, int cooldown, int attackRadius, int speedDelay, int mana, vector<string> spells, int cost, int eats, int productionTime, int type) {
 	this->name = name;
 	this->beautyName = beautyName;
 	this->fraction = fraction;
@@ -26,6 +26,7 @@ LiveUnitPreset::LiveUnitPreset(string name, string beautyName, string fraction, 
 	this->eats = eats;
 	this->productionTime = productionTime;
 	this->speedDelay = speedDelay;
+	this->type = type;
 }
 
 LiveUnitPreset::~LiveUnitPreset()
@@ -51,6 +52,7 @@ void LiveUnitPreset::print() {
 	cout << "cost: " << cost << endl;
 	cout << "eats: " << eats << endl;
 	cout << "productionTime: " << productionTime << endl;
+	cout << "type: " << type << endl;
 	cout << endl;
 }
 
@@ -77,19 +79,20 @@ LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int
 	this->moveSpeed = moveSpeed;
 	this->attackPower = attackPower;
 
-	this->moveDest = this->cords;
 
 	this->AttackTHRDDescriptor = 0;
-	AttackTHREAD* attackThread = new AttackTHREAD(this);
-	attackThread->startThread();
-	this->AttackTHRDDescriptor = attackThread->getDescriptor();
 }
 
 LiveUnit::~LiveUnit() {
 
 }
 
-
+void LiveUnit::initMovement() {
+	this->moveDest = this->cords;
+	AttackTHREAD* attackThread = new AttackTHREAD(this);
+	attackThread->startThread();
+	this->AttackTHRDDescriptor = attackThread->getDescriptor();
+}
 
 
 bool LiveUnit::goTo(cordScr* dest, bool & flag) {
@@ -150,6 +153,10 @@ bool LiveUnit::setLastAttackTime(time_t iclock) {
 
 time_t LiveUnit::getCooldown() {
 	return this->cooldown;
+}
+
+void LiveUnit::settingUp() {
+	this->initMovement();
 }
 
 

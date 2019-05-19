@@ -15,7 +15,7 @@ void ScreenDrawindTHREAD::threadFunction() {
 //	cout << "ScreenDrawindTHREAD start" << endl;
 	MScreen* ScrParent = (MScreen*)parent;
 	while (isRunning) {
-		ScrParent->render();
+		ScrParent->render(0);
 		Sleep(100);
 	}
 	isRunning = false;
