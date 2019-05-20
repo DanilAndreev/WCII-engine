@@ -155,7 +155,9 @@ Command_c* Controller::throwCommand(Command_c* command) {
 	}
 	cout << endl;
 */
-
+	if (!this) {
+		return command;
+	}
 	if (!this->eventHandlerIsPaused) {
 		/*
 				defaultConComCon->operateEvent(command);

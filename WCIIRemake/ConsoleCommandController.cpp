@@ -227,6 +227,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"stopUnitsPattern",
 		"stop units",
 		ConsoleCommandController::stopUnitsCommand);
+	const ConsoleCommandPattern changTeamPattern(
+		"change team input_number",
+		"changTeamPattern",
+		"change team [int:team]",
+		ConsoleCommandController::changTeamCommand);
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
@@ -239,6 +244,7 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(spawnUnitPresetPattern);
 	this->commandPatterns.push_back(selectCordsAreaPattern);
 	this->commandPatterns.push_back(stopUnitsPattern);
+	this->commandPatterns.push_back(changTeamPattern);
 }
 
 void ConsoleCommandController::handleCommand(bool& flag) {
@@ -514,6 +520,22 @@ void ConsoleCommandController::stopUnitsCommand(Command_c* command, CommandPatte
 		}
 	}
 
+}
+// change team [int:team]
+void ConsoleCommandController::changTeamCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	int input_team = 1;
+	try {
+		input_team = stoi(command->args[2].first);
+	}
+	catch (...) {
+		return;
+	}
+	parent->setTeam(input_team);
+	defaultConsole->message("Interface changed for team: " + to_string(input_team));
 }
 
 
