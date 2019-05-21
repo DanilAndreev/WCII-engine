@@ -62,17 +62,9 @@ void LiveUnitPreset::print() {
 
 
 LiveUnit::LiveUnit(char value, int type, Field* field, int health, int team, int attackLength, time_t cooldown, time_t moveSpeed, int attackPower) : Unit(value, type, field, health, team) {
-/*
-	this->team = team;
-	this->attackLength = attackLength;
-	this->value = value;
-	this->field = field;
-	this->type = type;
-	this->threadFlag = false;
-	this->health = health;
-*/
 	this->fillEventPatterns();
 	setDescription("LiveUnit");
+	this->lastAttackTime = 0;
 	this->attackLength = attackLength;
 	this->moveNoAttack = false;
 	this->cooldown = cooldown;
@@ -359,7 +351,8 @@ void LiveUnit::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	}
 	HANDLE temp_handle;
 	if ((temp_handle = gameThreads->stopThread(parent->AttackTHRDDescriptor)) != NULL) {
-		command->data.push_back(temp_handle);
+		eventReturnDataHandle* temp = new eventReturnDataHandle(parent->id, parent->className, temp_handle);
+		command->data.push_back(temp);
 	}
 }
 

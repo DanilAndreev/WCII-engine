@@ -219,7 +219,7 @@ void Unit::getInfoIdCommand(Command_c * command, Eventable* oParent) {
 	if (parent->id == input_id) {
 		string temp;
 		temp += parent->value;
-		command->data.push_back(eventReturnData(parent->id, parent->cords, parent->className, parent->health, temp, NULL, parent->team));
+		command->data.push_back(new eventReturnDataUnitInfo(parent->id, parent->cords, parent->className, parent->health, temp, NULL, parent->team));
 	}
 }
 
@@ -250,7 +250,7 @@ void Unit::getInfoUnitsCommand(Command_c* command, Eventable* oParent) {
 	}
 	string temp;
 	temp += parent->value;
-	command->data.push_back(eventReturnData(parent->id, parent->cords, parent->className, parent->health, temp, NULL, parent->team));
+	command->data.push_back(new eventReturnDataUnitInfo(parent->id, parent->cords, parent->className, parent->health, temp, NULL, parent->team));
 }
 
 // get team [int:team] info units
@@ -268,7 +268,7 @@ void Unit::getInfoTeamUnitsCommand(Command_c* command, Eventable* oParent) {
 	}
 	string temp;
 	temp += parent->value;
-	command->data.push_back(eventReturnData(parent->id, parent->cords, parent->className, parent->health, temp, NULL, parent->isSelected(input_team), parent->team));
+	command->data.push_back(new eventReturnDataUnitInfo(parent->id, parent->cords, parent->className, parent->health, temp, NULL, parent->isSelected(input_team), parent->team));
 }
 
 
@@ -297,8 +297,8 @@ void Unit::renderLayerCommand(Command_c* command, Eventable* oParent) {
 		return;
 	}
 	if (command->checkFlag("-query")) {
-		eventReturnData temp;
-		temp.layer = parent->layer;
+		eventReturnDataUnitInfo* temp =  new eventReturnDataUnitInfo();
+		temp->layer = parent->layer;
 		command->data.push_back(temp);
 	}
 }

@@ -33,6 +33,9 @@ Command_c::Command_c(int notUsed, const char* s1, ...) {
 }
 
 Command_c::~Command_c() {
+	for (int i = 0; i < data.size(); i++) {
+		delete data[i];
+	}
 }
 
 void Command_c::printCommand(string imessage) {

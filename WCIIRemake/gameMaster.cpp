@@ -713,7 +713,8 @@ void GameMaster::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	if (!command->checkFlag("-lg")) {
 		HANDLE temp_handle;
 		if ((temp_handle = gameThreads->stopThread(parent->GameAlifeTHREADDescriptor)) != NULL) {
-			command->data.push_back(temp_handle);
+			eventReturnDataHandle* temp = new eventReturnDataHandle(parent->id, parent->className, temp_handle);
+			command->data.push_back(temp);
 		}
 	}
 }

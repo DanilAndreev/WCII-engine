@@ -224,7 +224,10 @@ void Controller::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	}
 	if (command->checkFlag("-wait")) {
 		for (int i = 0; i < command->data.size(); i++) {
-			WaitForSingleObject(command->data[i].eventHandle, INFINITE);
+			eventReturnDataHandle* temp = dynamic_cast<eventReturnDataHandle*>(command->data[i]);
+			if (temp) {
+				WaitForSingleObject(temp->handle, INFINITE);
+			}
 		}
 	}
 }

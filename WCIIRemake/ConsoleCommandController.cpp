@@ -289,13 +289,17 @@ void ConsoleCommandController::selectCordsCommand(Command_c* command, CommandPat
 	Command_c clearSelectionInfoEvent(Command_c(string("select team ") + to_string(parent->team) + " -cl"));
 	parent->mainController->throwCommand(&clearSelectionInfoEvent);
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (objectsInfoEvent.data[i].cords == input_cord && objectsInfoEvent.data[i].team == parent->team) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (temp->cords == input_cord && temp->team == parent->team) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 }
+
 
 
 bool cordInArea(cordScr area_cord_1, cordScr area_cord_2, cordScr target_cord) {
@@ -343,13 +347,18 @@ void ConsoleCommandController::selectCordsAreaCommand(Command_c* command, Comman
 	parent->mainController->throwCommand(&clearSelectionInfoEvent);
 
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (cordInArea(input_cord_1, input_cord_2, objectsInfoEvent.data[i].cords) && objectsInfoEvent.data[i].team == parent->team) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (cordInArea(input_cord_1, input_cord_2, temp->cords) && temp->team == parent->team) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 }
+
+
 
 // select [char:symbol]
 void ConsoleCommandController::selectSymbCommand(Command_c* command, CommandPatterns* oParent) {
@@ -366,10 +375,13 @@ void ConsoleCommandController::selectSymbCommand(Command_c* command, CommandPatt
 	parent->mainController->throwCommand(&clearSelectionInfoEvent);
 
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (objectsInfoEvent.data[i].valueVariable == input_symbol && objectsInfoEvent.data[i].team == parent->team) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (temp->valueVariable == input_symbol && temp->team == parent->team) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 }
@@ -395,13 +407,17 @@ void ConsoleCommandController::selectIdCommand(Command_c* command, CommandPatter
 	parent->mainController->throwCommand(&clearSelectionInfoEvent);
 
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (objectsInfoEvent.data[i].objId == input_ID && objectsInfoEvent.data[i].team == parent->team) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (temp->objId == input_ID && temp->team == parent->team) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 }
+
 
 // move to [int:x] [int:y]
 void ConsoleCommandController::moveToCommand(Command_c* command, CommandPatterns* oParent) {
@@ -425,10 +441,13 @@ void ConsoleCommandController::moveToCommand(Command_c* command, CommandPatterns
 	parent->mainController->throwCommand(&objectsInfoEvent);
 
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (objectsInfoEvent.data[i].selected) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("move id ") + to_string(temp_id) + " to " + to_string(input_cord.x) + " " + to_string(input_cord.y)));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (temp->selected) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("move id ") + to_string(temp_id) + " to " + to_string(input_cord.x) + " " + to_string(input_cord.y)));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 }
@@ -455,10 +474,13 @@ void ConsoleCommandController::attackCordsCommand(Command_c* command, CommandPat
 	parent->mainController->throwCommand(&objectsInfoEvent);
 
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (objectsInfoEvent.data[i].selected) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("attack id ") + to_string(temp_id) + " to " + to_string(input_cord.x) + " " + to_string(input_cord.y)));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (temp->selected) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("attack id ") + to_string(temp_id) + " to " + to_string(input_cord.x) + " " + to_string(input_cord.y)));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 }
@@ -513,10 +535,13 @@ void ConsoleCommandController::stopUnitsCommand(Command_c* command, CommandPatte
 	parent->mainController->throwCommand(&objectsInfoEvent);
 
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
-		if (objectsInfoEvent.data[i].selected) {
-			ID temp_id = objectsInfoEvent.data[i].objId;
-			Command_c tempEvent(Command_c(string("stop id ") + to_string(temp_id) + " movement"));
-			parent->mainController->addEventToQueue(tempEvent);
+		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
+		if (temp) {
+			if (temp->selected) {
+				ID temp_id = temp->objId;
+				Command_c tempEvent(Command_c(string("stop id ") + to_string(temp_id) + " movement"));
+				parent->mainController->addEventToQueue(tempEvent);
+			}
 		}
 	}
 
@@ -589,7 +614,8 @@ void ConsoleCommandController::stopThreadsCommand(Command_c* command, Eventable*
 	if (!command->checkFlag("-ccc")) {
 		HANDLE temp_handle;
 		if ((temp_handle = gameThreads->stopThread(parent->ConComConTHRDescriptor)) != NULL) {
-			command->data.push_back(temp_handle);
+			eventReturnDataHandle* temp =  new eventReturnDataHandle(parent->id, parent->className, temp_handle);
+			command->data.push_back(temp);
 		}
 
 		fprintf(stdin, "\n");

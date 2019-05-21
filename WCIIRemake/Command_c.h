@@ -12,7 +12,7 @@ protected:
 	int ParserPosition;
 public:
 	vector <pair<string, string>> args;
-	vector <eventReturnData> data;
+	vector <eventReturnData*> data;
 public:
 	Command_c(vector <pair<string, string>> inp_args) : args(inp_args), ParserPosition(0){}
 	Command_c(string arg);

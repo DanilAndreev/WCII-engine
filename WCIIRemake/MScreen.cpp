@@ -129,8 +129,11 @@ void MScreen::render(int layer) { // if 0 ->render all layers beginning from thi
 		Command_c tempEvent("render layer -query");
 		gameController->throwCommand(&tempEvent);
 		for (int i = 0; i < tempEvent.data.size(); i++) {
-			if (maxLayer < tempEvent.data[i].layer) {
-				maxLayer = tempEvent.data[i].layer;
+			eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(tempEvent.data[i]);
+			if (temp) {
+				if (maxLayer < temp->layer) {
+					maxLayer = temp->layer;
+				}
 			}
 		}
 	}
@@ -251,7 +254,8 @@ void MScreen::stopThreadsCommand(Command_c* command, Eventable* oParent) {
 	}
 	HANDLE temp_handle;
 	if ((temp_handle = gameThreads->stopThread(parent->screenDrawingTHRDDescriptor)) != NULL) {
-		command->data.push_back(temp_handle);
+		eventReturnDataHandle* temp = new eventReturnDataHandle(parent->id, parent->className, temp_handle);
+		command->data.push_back(temp);
 	}
 }
 
