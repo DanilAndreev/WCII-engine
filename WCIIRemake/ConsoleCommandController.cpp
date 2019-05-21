@@ -293,7 +293,7 @@ void ConsoleCommandController::selectCordsCommand(Command_c* command, CommandPat
 		if (temp) {
 			if (temp->cords == input_cord && temp->team == parent->team) {
 				ID temp_id = temp->objId;
-				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " + to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);
 			}
 		}
@@ -351,7 +351,7 @@ void ConsoleCommandController::selectCordsAreaCommand(Command_c* command, Comman
 		if (temp) {
 			if (cordInArea(input_cord_1, input_cord_2, temp->cords) && temp->team == parent->team) {
 				ID temp_id = temp->objId;
-				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " + to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);
 			}
 		}
@@ -379,7 +379,7 @@ void ConsoleCommandController::selectSymbCommand(Command_c* command, CommandPatt
 		if (temp) {
 			if (temp->valueVariable == input_symbol && temp->team == parent->team) {
 				ID temp_id = temp->objId;
-				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " + to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);
 			}
 		}
@@ -411,7 +411,7 @@ void ConsoleCommandController::selectIdCommand(Command_c* command, CommandPatter
 		if (temp) {
 			if (temp->objId == input_ID && temp->team == parent->team) {
 				ID temp_id = temp->objId;
-				Command_c tempEvent(Command_c(string("select team 1 id ") + to_string(temp_id)));
+				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " +  to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);
 			}
 		}
