@@ -5,5 +5,6 @@ public:
 	EV_CScreen_Controlled(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer);
 	~EV_CScreen_Controlled();
 	void move(int direction);
+	void calcPlacemnt();
 };
 

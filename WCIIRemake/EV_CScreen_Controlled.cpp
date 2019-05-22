@@ -3,7 +3,8 @@
 
 
 EV_CScreen_Controlled::EV_CScreen_Controlled(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer) : EV_CScreen(icords, iwidth, iheigth, dafaultFill, ilayer) {
-
+	cout << "constructing" << endl;
+	this->calcPlacemnt();
 }
 
 
@@ -34,8 +35,47 @@ void EV_CScreen_Controlled::move(int direction) {
 		cout << "diamCord: " << diamCord << endl;
 		cout << "cordScr(ps->w, ps->h): " << cordScr(parentScreen->width, parentScreen->heigth) << endl;
 */
-		if (cordScr(0, 0) >= newCords && diamCord >= cordScr(parentScreen->width, parentScreen->heigth)) {
-			this->cords = newCords;
+		this->calcPlacemnt();
+
+		switch (direction) {
+		case 1:
+			if (diamCord.y >= cordScr(parentScreen->width, parentScreen->heigth).y) {
+				this->cords = newCords;
+			}
+			break;
+		case 2:
+			if (cordScr(0, 0).y >= newCords.y) {
+				this->cords = newCords;
+			}
+			break;
+		case 3:
+			if (diamCord.x >= cordScr(parentScreen->width, parentScreen->heigth).x) {
+				this->cords = newCords;
+			}
+			break;
+		case 4:
+			if (cordScr(0, 0).x >= newCords.x) {
+				this->cords = newCords;
+			}
+			break;
 		}
 	}
+}
+
+void EV_CScreen_Controlled::calcPlacemnt() {
+	cordScr targetCords = this->cords;
+	if (!parentScreen) {
+		this->cords = targetCords;
+		return;
+	}
+//	cout << "this->width = " << this->width << endl;
+//	cout << "this->heigth = " << this->heigth << endl;
+	if (this->width < parentScreen->width) {
+		targetCords.x = (parentScreen->width - this->width) / 2 - 1;
+	}
+	if (this->heigth < parentScreen->heigth) {
+		targetCords.y = (parentScreen->heigth - this->heigth) / 2 - 1;
+	}
+	this->cords = targetCords;
+	return;
 }

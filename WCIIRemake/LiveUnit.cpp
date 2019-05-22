@@ -296,7 +296,7 @@ void LiveUnit::moveToCordsCommand(Command_c* command, Eventable* oParent) {
 	catch (...) {
 		return;
 	}
-	if (parent->id == input_id) {
+	if (parent->id == input_id && parent->health > 0) {
 		parent->moveDest = cordScr(input_cord_x, input_cord_y);
 		gameThreads->stopThread(parent->AttackTHRDDescriptor);
 		AttackTHREAD* attackTHRD = new AttackTHREAD(parent);
@@ -328,7 +328,7 @@ void LiveUnit::attackToCordsCommand(Command_c* command, Eventable* oParent) {
 	catch (...) {
 		return;
 	}
-	if (parent->id == input_id) {
+	if (parent->id == input_id && parent->health > 0) {
 		parent->moveDest = cordScr(input_cord_x, input_cord_y);
 		//starting attack thread
 		gameThreads->stopThread(parent->AttackTHRDDescriptor);

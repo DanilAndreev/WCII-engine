@@ -69,6 +69,7 @@ GameMaster::GameMaster() {
 	this->scr = new EV_CScreen_FPS(cordScr(40,2), 60, 30, CScreenPixel('_', COLOR_RED), 2);
 	EV_CScreen_Controlled* FieldContainer = new EV_CScreen_Controlled(cordScr(0, 0), 40, 20, CScreenPixel('.', COLOR_RED), 2);
 	FieldContainer->addMember(this->field);
+	FieldContainer->calcPlacemnt();
 	scr->addMember(FieldContainer);
 	this->scr->addMember(new CS_Selector(defaultConComCon->getId(), FieldContainer));
 
@@ -618,6 +619,7 @@ Exitcode GameMaster::loadGame(string savename) {
 	EV_CScreen_Controlled* FieldContainer = new EV_CScreen_Controlled(cordScr(0, 0), field.preset.width, field.preset.heigth, CScreenPixel('.', COLOR_RED), 2);
 	FieldContainer->addMember(this->field);
 	scr->addMember(FieldContainer);
+	FieldContainer->calcPlacemnt();
 	this->scr->addMember(new CS_Selector(defaultConComCon->getId(), FieldContainer));
 
 	for (int i = 0; i < units.size(); i++) {

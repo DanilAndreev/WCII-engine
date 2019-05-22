@@ -18,8 +18,17 @@ void ScreenDrawindTHREAD::threadFunction() {
 		return;
 	}
 	while (isRunning) {
+		time_t begin = clock();
 		ScrParent->render();
-		Sleep(1000/ScrParent->getFrameRate());
+		time_t end = clock();
+
+		time_t rateSleep = 1000 / ScrParent->getFrameRate();
+
+		time_t targetSleep = rateSleep - (end - begin);
+		if (targetSleep < 0) {
+			targetSleep = 0;
+		}
+		Sleep(targetSleep);
 	}
 	isRunning = false;
 //	cout << "ScreenDrawindTHREAD stopping" << endl;

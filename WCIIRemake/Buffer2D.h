@@ -4,6 +4,8 @@
 
 
 class Buffer2D {
+protected:
+	bool rebooting;
 public:
 	int width;
 	int heigth;

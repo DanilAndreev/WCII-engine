@@ -3,6 +3,7 @@
 
 
 Buffer2D::Buffer2D(int iwidth, int iheigth) {
+	this->rebooting = false;
 	this->width = iwidth;
 	this->heigth = iheigth;
 	Buff = NULL;
@@ -17,6 +18,7 @@ Buffer2D::~Buffer2D() {
 }
 
 void Buffer2D::changeRatio(int newwidth, int newheigth) {
+	this->rebooting = true;
 	if (Buff) {
 		for (int i = 0; i < heigth * width; i++) {
 			delete Buff[i];
@@ -33,12 +35,15 @@ void Buffer2D::changeRatio(int newwidth, int newheigth) {
 	for (int i = 0; i < heigth * width; i++) {
 		Buff[i] = new CScreenPixel();
 	}
+	this->rebooting = false;
 }
 
 bool Buffer2D::putToBuff(cordScr placeCords, CScreenPixel symbol) {
-	if (cordScr(0, 0) <= placeCords && placeCords < cordScr(width, heigth)) {
-		*(Buff[placeCords.y * width + placeCords.x]) = symbol;
-		return true;
+	if (!rebooting) {
+		if (cordScr(0, 0) <= placeCords && placeCords < cordScr(width, heigth)) {
+			*(Buff[placeCords.y * width + placeCords.x]) = symbol;
+			return true;
+		}
 	}
 	return false;
 }

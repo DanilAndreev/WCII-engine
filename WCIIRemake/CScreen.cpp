@@ -52,18 +52,27 @@ void CScreen::render() {
 
 void CScreen::draw() {
 	for (int y = 0; y < heigth; y++) {
-		for (int x = 0; x < width; x++) {
+//		for (int x = 0; x < width; x++) {
 			COORD cord;
-			cord.X = x + this->cords.x;
+			cord.X = this->cords.x;
 			cord.Y = y + this->cords.y;
 			DWORD result;
 			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 			//			WORD colorAttr = COLOR_BLUE;
-			WriteConsoleOutputAttribute(hStdOut, &Buff[y * width + x]->color, 1, cord, &result);
+			const int line_width = this->width;
 
-			WriteConsoleOutputCharacterA(hStdOut, &Buff[y * width + x]->symbol, 1, cord, &result); // WriteConsoleOutputCharacter
+			CHAR* line = new CHAR[line_width];
+			WORD* colors = new WORD[line_width];
+			for (int x = 0; x < line_width; x++) {
+				line[x] = Buff[y * width + x]->symbol;
+				colors[x] = Buff[y * width + x]->color;
+			}
+
+			WriteConsoleOutputAttribute(hStdOut, colors, line_width, cord, &result);
+
+			WriteConsoleOutputCharacterA(hStdOut, line, line_width, cord, &result); // WriteConsoleOutputCharacter
 		}
-	}
+//	}
 }
 
 void CScreen::draw(CScreenPixel fill) {

@@ -379,7 +379,7 @@ void ConsoleCommandController::selectCordsAreaCommand(Command_c* command, Comman
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
 		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
 		if (temp) {
-			if (cordInArea(input_cord_1, input_cord_2, temp->cords) && temp->team == parent->team) {
+			if (cordInArea(input_cord_1, input_cord_2, temp->cords) && temp->team == parent->team && temp->health > 0) {
 				ID temp_id = temp->objId;
 				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " + to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);
@@ -407,7 +407,7 @@ void ConsoleCommandController::selectSymbCommand(Command_c* command, CommandPatt
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
 		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
 		if (temp) {
-			if (temp->valueVariable == input_symbol && temp->team == parent->team) {
+			if (temp->valueVariable == input_symbol && temp->team == parent->team && temp->health > 0) {
 				ID temp_id = temp->objId;
 				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " + to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);
@@ -439,7 +439,7 @@ void ConsoleCommandController::selectIdCommand(Command_c* command, CommandPatter
 	for (int i = 0; i < objectsInfoEvent.data.size(); i++) {
 		eventReturnDataUnitInfo* temp = dynamic_cast<eventReturnDataUnitInfo*>(objectsInfoEvent.data[i]);
 		if (temp) {
-			if (temp->objId == input_ID && temp->team == parent->team) {
+			if (temp->objId == input_ID && temp->team == parent->team && temp->health > 0) {
 				ID temp_id = temp->objId;
 				Command_c tempEvent(Command_c(string("select team ") + to_string(parent->team) + " id " +  to_string(temp_id)));
 				parent->mainController->addEventToQueue(tempEvent);

@@ -89,6 +89,9 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 void Field::render(int layer) {
 	for (int i = 0; i < members->count(); i++) {
 		Obj* t_obj = members->get(i);
+		if (!t_obj) {
+			return;
+		}
 		Renderable* temp = dynamic_cast<Renderable*>(t_obj);
 		if (temp) {
 			temp->render(layer);
