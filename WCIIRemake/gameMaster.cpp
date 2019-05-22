@@ -615,12 +615,23 @@ Exitcode GameMaster::loadGame(string savename) {
 	this->field = new Field(field.preset);
 	delete this->scr;
 
-	this->scr = new EV_CScreen_FPS(cordScr(40, 2), 60, 30, CScreenPixel('_', COLOR_RED), 2);
+	this->scr = new EV_CScreen_FPS(cordScr(40, 2), 60, 30, CScreenPixel(' ', COLOR_RED), 2);
+
+	EV_CScreen* SCR_Field = new EV_CScreen(cordScr(0, 2), 60, 28, CScreenPixel(' ', COLOR_WHITE), 2);
 	EV_CScreen_Controlled* FieldContainer = new EV_CScreen_Controlled(cordScr(0, 0), field.preset.width, field.preset.heigth, CScreenPixel('.', COLOR_RED), 2);
 	FieldContainer->addMember(this->field);
-	scr->addMember(FieldContainer);
+	SCR_Field->addMember(FieldContainer);
 	FieldContainer->calcPlacemnt();
-	this->scr->addMember(new CS_Selector(defaultConComCon->getId(), FieldContainer));
+
+
+
+	SCR_Field->addMember(new CS_Selector(defaultConComCon->getId(), FieldContainer));
+
+	this->scr->addMember(SCR_Field);
+
+	EV_CScreen* top_bar = new EV_CScreen(cordScr(0, 0), 60, 2, CScreenPixel('+', COLOR_WHITE), 3);
+	this->scr->addMember(top_bar);
+
 
 	for (int i = 0; i < units.size(); i++) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
