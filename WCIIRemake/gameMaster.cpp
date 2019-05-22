@@ -66,9 +66,11 @@ GameMaster::GameMaster() {
 	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
 
 */
-	this->scr = new EV_CScreen_FPS(cordScr(40,2), 40, 20, CScreenPixel('_', COLOR_RED), 2);
-	this->scr->addMember(this->field);
-	this->scr->addMember(new CS_Selector(defaultConComCon->getId()));
+	this->scr = new EV_CScreen_FPS(cordScr(40,2), 60, 30, CScreenPixel('_', COLOR_RED), 2);
+	EV_CScreen_Controlled* FieldContainer = new EV_CScreen_Controlled(cordScr(0, 0), 40, 20, CScreenPixel('.', COLOR_RED), 2);
+	FieldContainer->addMember(this->field);
+	scr->addMember(FieldContainer);
+	this->scr->addMember(new CS_Selector(defaultConComCon->getId(), FieldContainer));
 
 
 	defaultConComCon->setConsole(defaultConsole);
@@ -612,9 +614,11 @@ Exitcode GameMaster::loadGame(string savename) {
 	this->field = new Field(field.preset);
 	delete this->scr;
 
-	this->scr = new EV_CScreen_FPS(cordScr(40, 2), field.preset.width, field.preset.heigth, CScreenPixel('_', COLOR_RED), 2);
-	this->scr->addMember(this->field);
-	this->scr->addMember(new CS_Selector(defaultConComCon->getId()));
+	this->scr = new EV_CScreen_FPS(cordScr(40, 2), 60, 30, CScreenPixel('_', COLOR_RED), 2);
+	EV_CScreen_Controlled* FieldContainer = new EV_CScreen_Controlled(cordScr(0, 0), field.preset.width, field.preset.heigth, CScreenPixel('.', COLOR_RED), 2);
+	FieldContainer->addMember(this->field);
+	scr->addMember(FieldContainer);
+	this->scr->addMember(new CS_Selector(defaultConComCon->getId(), FieldContainer));
 
 	for (int i = 0; i < units.size(); i++) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);

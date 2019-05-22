@@ -710,7 +710,7 @@ void ConsoleCommandController::keyPressIdCommand(Command_c * command, Eventable 
 	}
 	if (input_cccid == parent->id) {
 		switch (input_keyid) {
-		case 27:
+		case 9: // tab
 			parent->switchUI();
 			break;
 		}

@@ -23,7 +23,7 @@
     <ProjectGuid>{B868E2B1-F0D3-47FC-A393-CFAACEB89431}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>WCIIRemake</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -175,6 +175,7 @@
     <ClInclude Include="Eventable.h" />
     <ClInclude Include="eventReturnData.h" />
     <ClInclude Include="EV_CScreen.h" />
+    <ClInclude Include="EV_CScreen_Controlled.h" />
     <ClInclude Include="EV_CScreen_FPS.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Eventable.cpp" />
     <ClCompile Include="eventReturnData.cpp" />
     <ClCompile Include="EV_CScreen.cpp" />
+    <ClCompile Include="EV_CScreen_Controlled.cpp" />
     <ClCompile Include="EV_CScreen_FPS.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />

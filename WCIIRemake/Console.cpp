@@ -21,11 +21,17 @@ KeyID Console::readKey() {
 }
 
 void Console::error(string str) {
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hStdOut, COLOR_RED);
 	cout << "Error: " << str << endl;
+	SetConsoleTextAttribute(hStdOut, COLOR_WHITE);
 }
 
 void Console::warning(string str) {
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hStdOut, COLOR_BLUE);
 	cout << "Warning: " << str << endl;
+	SetConsoleTextAttribute(hStdOut, COLOR_WHITE);
 }
 
 void Console::message(string str) {

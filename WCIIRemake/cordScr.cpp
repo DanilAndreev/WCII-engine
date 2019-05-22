@@ -35,6 +35,23 @@ cordScr operator - (const cordScr left, const cordScr right) {
 	return temp;
 }
 
+cordScr operator+(const cordScr left, const int right) {
+	cordScr temp(left.x + right, left.y + right);
+	return temp;
+}
+
+cordScr operator-(const cordScr left, const int right) {
+	cordScr temp(left.x - right, left.y - right);
+	return temp;
+}
+
+ostream& operator<<(ostream& stream, cordScr cord) {
+	stream << cord.x << " " << cord.y;
+	return stream;
+}
+
+
+
 float cordScr::lineLength(cordScr cord1, cordScr cord2) {
 	if (cord1.x < 0 || cord1.y < 0 || cord2.x < 0 || cord2.y < 0) {
 		return -1;
@@ -45,3 +62,6 @@ float cordScr::lineLength(cordScr cord1, cordScr cord2) {
 int cordScr::sqr(int input) {
 	return input * input;
 }
+
+
+

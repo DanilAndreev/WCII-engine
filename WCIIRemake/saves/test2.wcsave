@@ -1,8 +1,8 @@
 save test
 
 field{
-    width: 60;
-    heigth: 30;
+    width: 90;
+    heigth: 50;
 }
 
 player{
@@ -122,6 +122,50 @@ unit{
     symbol: 'X';
     x: 13;
     y: 14;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
+}
+
+unit{
+    symbol: 'B';
+    x: 0;
+    y: 0;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
+}
+
+unit{
+    symbol: 'B';
+    x: 0;
+    y: 49;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
+}
+
+unit{
+    symbol: 'B';
+    x: 89;
+    y: 0;
+    health: 10;
+    width: 1;
+    heigth: 1;
+    team: 2;
+    damage: 100;
+}
+
+unit{
+    symbol: 'B';
+    x: 89;
+    y: 49;
     health: 10;
     width: 1;
     heigth: 1;

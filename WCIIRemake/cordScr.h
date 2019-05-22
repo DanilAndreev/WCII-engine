@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 // структура данных для хранения координат
@@ -20,6 +21,9 @@ public:
 	friend bool operator<=(const cordScr left, const cordScr right);
 	friend cordScr operator + (const cordScr left, const cordScr right);
 	friend cordScr operator - (const cordScr left, const cordScr right);
+	friend cordScr operator + (const cordScr left, const int right);
+	friend cordScr operator - (const cordScr left, const int right);
+	friend ostream& operator<<(ostream& stream, cordScr cord);
 };
 
 
