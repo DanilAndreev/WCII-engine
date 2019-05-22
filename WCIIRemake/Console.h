@@ -1,7 +1,7 @@
 #pragma once
 #include "Obj.h"
 #include <iostream> 
-
+#include <conio.h>
 
 
 using namespace std;
@@ -13,6 +13,7 @@ public:
 	Console();
 	~Console();
 	string getLine();
+	KeyID readKey();
 	void error(string str);
 	void warning(string str);
 	void message(string str);

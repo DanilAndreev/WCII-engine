@@ -7,6 +7,7 @@ extern Controller* gameController;
 extern ThreadDescriptor* gameThreads;
 
 ConsoleCommandController::ConsoleCommandController(Console* ioconsole, Controller* mainController, int team) {
+	this->commandInput = true;
 	this->team = team;
 	this->fillCommandPatterns();
 	this->fillEventPatterns();
@@ -147,6 +148,15 @@ Command_c ConsoleCommandController::getCommand() {
 	return parseCommand(command);
 }
 
+KeyID ConsoleCommandController::getKey() {
+	KeyID keyID = this->console->readKey();
+//	cout << "key: " << keyID << endl;
+	return keyID;
+}
+
+void ConsoleCommandController::switchUI() {
+	this->commandInput = this->commandInput == true ? false : true;
+}
 
 void ConsoleCommandController::throwCommand(Command_c* command) { //--------------------------------------------------------------MODIFIED
 //	mainController->addEventToQueue(*command);
@@ -237,6 +247,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"renderScreenPattern",
 		"render screen {flags}",
 		ConsoleCommandController::renderScreenCommand);
+	const ConsoleCommandPattern switchUIPattern(
+		"switch ui",
+		"switchUIPattern",
+		"switch ui",
+		ConsoleCommandController::switchUICommand);
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
@@ -250,6 +265,7 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(selectCordsAreaPattern);
 	this->commandPatterns.push_back(stopUnitsPattern);
 	this->commandPatterns.push_back(changTeamPattern);
+	this->commandPatterns.push_back(switchUIPattern);
 
 
 	this->commandPatterns.push_back(renderScreenPattern);
@@ -501,7 +517,7 @@ void ConsoleCommandController::exitGameCommand(Command_c* command, CommandPatter
 	}
 	Command_c tempEvent("exitgame");
 	parent->mainController->addEventToQueue(tempEvent);
-	defaultConsole->message("Exiting game");
+	parent->console->message("Exiting game");
 }
 
 // save game [string:savename]
@@ -568,7 +584,7 @@ void ConsoleCommandController::changTeamCommand(Command_c* command, CommandPatte
 		return;
 	}
 	parent->setTeam(input_team);
-	defaultConsole->message("Interface changed for team: " + to_string(input_team));
+	parent->console->message("Interface changed for team: " + to_string(input_team));
 }
 
 void ConsoleCommandController::renderScreenCommand(Command_c* command, CommandPatterns* oParent) {
@@ -578,6 +594,17 @@ void ConsoleCommandController::renderScreenCommand(Command_c* command, CommandPa
 	}
 	Command_c tempEvent(*command);
 	parent->mainController->addEventToQueue(tempEvent);
+}
+
+// switch ui
+void ConsoleCommandController::switchUICommand(Command_c * command, CommandPatterns * oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+//	parent->commandInput = parent->commandInput == true ? false : true;
+	parent->switchUI();
+	parent->console->message("Switched UI");
 }
 
 
@@ -604,11 +631,17 @@ void ConsoleCommandController::fillEventPatterns() {
 		"getInfoTeamUnitsPattern",
 		"unpause {flags}",
 		ConsoleCommandController::unpauseCommand);
+	const EventPattern keyPressIdPattern(
+		"key pressed id input_number CCC id input_number",
+		"keyPressIdPattern",
+		"key pressed id [int:keyid] CCC id [int:ConsoleCommandControllerId]",
+		ConsoleCommandController::keyPressIdCommand);
 
 	this->eventPatterns.push_back(exitGamePattern);
 	this->eventPatterns.push_back(stopThreadsPattern);
 	this->eventPatterns.push_back(pausePattern);
 	this->eventPatterns.push_back(unpausePattern);
+	this->eventPatterns.push_back(keyPressIdPattern);
 }
 
 //CONSOLE COMMAND CONTROLLER EVENTS
@@ -659,5 +692,29 @@ void ConsoleCommandController::unpauseCommand(Command_c* command, Eventable* oPa
 	if (command->checkFlag("-command_input")) {
 		parent->unpause();
 	}
+}
+
+void ConsoleCommandController::keyPressIdCommand(Command_c * command, Eventable * oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		return;
+	}
+	int input_keyid = 0;
+	ID input_cccid = 0;
+	try {
+		input_keyid = stoi(command->args[3].first);
+		input_cccid = stoull(command->args[6].first);
+	}
+	catch (...) {
+		return;
+	}
+	if (input_cccid == parent->id) {
+		switch (input_keyid) {
+		case 27:
+			parent->switchUI();
+			break;
+		}
+	}
+
 }
 

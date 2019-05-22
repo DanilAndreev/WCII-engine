@@ -16,6 +16,10 @@ string Console::getLine() {
 	return temp;
 }
 
+KeyID Console::readKey() {
+	return _getch();
+}
+
 void Console::error(string str) {
 	cout << "Error: " << str << endl;
 }

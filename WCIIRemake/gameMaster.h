@@ -13,7 +13,7 @@
 #include "CommandPatterns.h"
 #include "Eventable.h"
 #include "EV_CScreen_FPS.h"
-
+#include "CS_Selector.h"
 template <class Tmpl>
 struct placeableData {
 	Tmpl preset;

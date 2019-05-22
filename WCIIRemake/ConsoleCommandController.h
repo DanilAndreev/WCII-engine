@@ -22,6 +22,7 @@ protected:
 public:
 	bool isPaused;
 	Console *console;
+	bool commandInput;
 public:
 	ConsoleCommandController(Console* ioconsole, Controller* mainController, int team);
 	~ConsoleCommandController();
@@ -37,6 +38,8 @@ public:
 	pair <string, string> nextToken(string command);
 	void initParser();
 	Command_c getCommand();
+	KeyID getKey();
+	void switchUI();
 	void throwCommand(Command_c* command);
 	void handleCommand(bool & flag);
 	virtual void catchEvent(Command_c* command, bool showHelp);
@@ -60,6 +63,7 @@ public:
 	static void stopUnitsCommand(Command_c* command, CommandPatterns* oParent);
 	static void changTeamCommand(Command_c* command, CommandPatterns* oParent);
 	static void renderScreenCommand(Command_c* command, CommandPatterns* oParent);
+	static void switchUICommand(Command_c* command, CommandPatterns* oParent);
 protected:
 	virtual void fillEventPatterns();
 public:// CONSOLE COMMAND CONTROLLER EVENTS
@@ -67,6 +71,8 @@ public:// CONSOLE COMMAND CONTROLLER EVENTS
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 	static void pauseCommand(Command_c* command, Eventable* oParent);
 	static void unpauseCommand(Command_c* command, Eventable* oParent);
+	static void keyPressIdCommand(Command_c* command, Eventable* oParent);
+	
 };
 
 //EVENTS:

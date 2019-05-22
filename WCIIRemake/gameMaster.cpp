@@ -68,6 +68,8 @@ GameMaster::GameMaster() {
 */
 	this->scr = new EV_CScreen_FPS(cordScr(40,2), 40, 20, CScreenPixel('_', COLOR_RED), 2);
 	this->scr->addMember(this->field);
+	this->scr->addMember(new CS_Selector(defaultConComCon->getId()));
+
 
 	defaultConComCon->setConsole(defaultConsole);
 	defaultConComCon->setController(gameController);
@@ -612,7 +614,8 @@ Exitcode GameMaster::loadGame(string savename) {
 
 	this->scr = new EV_CScreen_FPS(cordScr(40, 2), field.preset.width, field.preset.heigth, CScreenPixel('_', COLOR_RED), 2);
 	this->scr->addMember(this->field);
-	
+	this->scr->addMember(new CS_Selector(defaultConComCon->getId()));
+
 	for (int i = 0; i < units.size(); i++) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
 		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
