@@ -9,8 +9,11 @@
 #include <ctime>
 #include <stdlib.h>
 #include "Eventable.h"
+#include "Renderable.h"
+#include "Placable.h"
+#include "Obj.h"
 
-class Unit : public Screenable, public MultiTeamSelector {
+class Unit : public Renderable, public Placable, public Obj, public MultiTeamSelector {
 protected:
 	Field* field;
 	char value; //for debug
@@ -20,6 +23,9 @@ protected:
 	int attackLength;
 	int team; 
 	string typeName;
+
+	int width;
+	int heigth;
 	//TODO: add friend teams list
 public:
 	Unit(char value, int type, Field* field, int health, int team);
@@ -30,6 +36,7 @@ public:
 	char getValue(); // возвращает символьное значение этого юнита(для проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификация на сухопутных, воздушных и морских юнитов)
 	virtual void render(int layer); // отрисоваться(просчитаться)
+	virtual void render();
 	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
 	bool getDamage(int damage);

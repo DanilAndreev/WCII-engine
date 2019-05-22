@@ -24,7 +24,7 @@ void AttackTHREAD::threadFunction() {
 			Sleep(LUParent->getCooldown());
 		}
 		else {
-			if (isRunning && LUParent->getCord() != *(LUParent->getMoveDest())) {
+			if (isRunning && LUParent->getCords() != *(LUParent->getMoveDest())) {
 				LUParent->goTo(LUParent->getMoveDest(), isRunning);
 				//Sleep(1000);  //it is a stop in the goTo()
 			}

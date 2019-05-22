@@ -12,6 +12,7 @@
 #include "GameAlifeThread.h"
 #include "CommandPatterns.h"
 #include "Eventable.h"
+#include "EV_CScreen_FPS.h"
 
 template <class Tmpl>
 struct placeableData {
@@ -23,16 +24,16 @@ struct placeableData {
 
 
 class GameMaster : public Obj{
-private:	
+protected:	
 	vector <LiveUnitPreset> creaturePresets;
 	vector <BuildingPreset> buildingPresets;
 	vector <SpellPreset> spellsPresets;
 	DynArr players;
 	Field* field;
-	MScreen* scr;
 	//---------------
 	ThreadId GameAlifeTHREADDescriptor;
 public:
+	EV_CScreen_FPS* scr;
 	bool gameAlifeThreadIsRunning;
 public:
 	GameMaster();

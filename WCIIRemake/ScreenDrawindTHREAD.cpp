@@ -13,10 +13,13 @@ ScreenDrawindTHREAD::~ScreenDrawindTHREAD() {
 
 void ScreenDrawindTHREAD::threadFunction() {
 //	cout << "ScreenDrawindTHREAD start" << endl;
-	MScreen* ScrParent = (MScreen*)parent;
+	EV_CScreen_FPS* ScrParent = dynamic_cast<EV_CScreen_FPS*>(parent);
+	if (!ScrParent) {
+		return;
+	}
 	while (isRunning) {
-		ScrParent->render(0);
-		Sleep(100);
+		ScrParent->render();
+		Sleep(1000/ScrParent->getFrameRate());
 	}
 	isRunning = false;
 //	cout << "ScreenDrawindTHREAD stopping" << endl;

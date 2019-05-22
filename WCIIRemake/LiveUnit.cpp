@@ -120,7 +120,7 @@ bool LiveUnit::attack(bool & flag) {
 	for (int i = 0; i < members->count(); i++) {
 		Unit* unt = (Unit*)(members->get(i));
 		if (unt) {
-			cordScr tarCords = ((Unit*)(members->get(i)))->getCord();
+			cordScr tarCords = ((Unit*)(members->get(i)))->getCords();
 			if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0) {
 				string value = "";
 				int id = ((Unit*)(members->get(i)))->getId();

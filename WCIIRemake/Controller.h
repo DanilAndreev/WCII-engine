@@ -13,7 +13,7 @@ class Controller :public Obj {
 private:
 	Console* console;
 	Field* field;
-	MScreen* screen;
+	EV_CScreen* screen;
 	DynArr* members;
 	queue <Command_c> eventQueue;
 //	bool EventHandlerRunning;
@@ -22,12 +22,12 @@ private:
 public:
 	bool eventHandlerIsPaused;
 public:	
-	Controller(Field* ifield, MScreen* screen, Console* ioconsole, GameMaster* gameMaster);
+	Controller(Field* ifield, EV_CScreen* screen, Console* ioconsole, GameMaster* gameMaster);
 	~Controller();
 	bool setField(Field* field);
-	bool setScreen(MScreen* screen);
+	bool setScreen(EV_CScreen* screen);
 	bool setConsole(Console* console);
-	bool setup(Console* console, MScreen* screen, Field* field, GameMaster* gameMaster);
+	bool setup(Console* console, EV_CScreen* screen, Field* field, GameMaster* gameMaster);
 	Command_c getEventFromQueue(); // Pop the event from processing queue
 	void addEventToQueue(Command_c command); // Add the event to processing queue
 	bool EventQueueIsEmpty();

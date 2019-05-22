@@ -14,6 +14,9 @@ Unit::Unit(char value, int type, Field* field, int health, int team) {
 	this->threadFlag = false;
 	this->health = health;
 	this->layer = this->type + 100;
+	this->width = 1;
+	this->heigth = 1;
+	this->attackLength = 0;
 //	cout << "Constructor: created unit " << this->value << " type " << this->type << endl;
 }
 
@@ -45,13 +48,17 @@ char Unit::getValue() {
 
 
 void Unit::render(int layer) {
-	if (scr != NULL && this->layer == layer) { 
+	if (parentScreen != NULL /*&& this->layer == layer*/) { 
 		cordScr shift;
 		if (field) {
-			shift = this->field->getCord();
+			shift = this->field->getCords();
 		}
-		scr->putToBuff(this->cords + shift, this->value);
+		parentScreen->putToBuff(this->cords + shift, CScreenPixel(this->value, COLOR_WHITE));
 	}
+}
+
+void Unit::render() {
+	this->render(0);
 }
 
 void Unit::catchEvent(Command_c* command, bool showHelp) {

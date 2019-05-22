@@ -232,6 +232,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"changTeamPattern",
 		"change team [int:team]",
 		ConsoleCommandController::changTeamCommand);
+	const ConsoleCommandPattern renderScreenPattern(
+		"render screen",
+		"renderScreenPattern",
+		"render screen {flags}",
+		ConsoleCommandController::renderScreenCommand);
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
@@ -245,6 +250,9 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(selectCordsAreaPattern);
 	this->commandPatterns.push_back(stopUnitsPattern);
 	this->commandPatterns.push_back(changTeamPattern);
+
+
+	this->commandPatterns.push_back(renderScreenPattern);
 }
 
 void ConsoleCommandController::handleCommand(bool& flag) {
@@ -561,6 +569,15 @@ void ConsoleCommandController::changTeamCommand(Command_c* command, CommandPatte
 	}
 	parent->setTeam(input_team);
 	defaultConsole->message("Interface changed for team: " + to_string(input_team));
+}
+
+void ConsoleCommandController::renderScreenCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent(*command);
+	parent->mainController->addEventToQueue(tempEvent);
 }
 
 

@@ -1,6 +1,9 @@
 #pragma once
 #include "pch.h"
 #include "Screenable.h"
+#include "Renderable.h"
+#include "Placable.h"
+#include "Obj.h"
 
 
 class FieldPreset {
@@ -12,21 +15,26 @@ public:
 
 class Unit;
 
-class Field : public Screenable {
+class Field : public Obj, public Placable, public Renderable {
 private:
 	int fieldLen;
 protected:
+	int width;
+	int heigth;
 	DynArr* members;
 public:
 	Field(int width, int heigth);
 	Field() : Field(30, 30) {}
 	Field(FieldPreset preset) : Field(preset.width, preset.heigth) {}
 	virtual ~Field();
+	int getWidth();
+	int getHeigth();
 	DynArr* getMembers();
 	void freeElements(); // Удалить всех детей поля(из пямяти, указатели останутся, но будут указывать в небо)
 	int setCell(cordScr cordsNew, Unit * target); // установить на клетку с данными координатам данный юнит
 	int changeCell(cordScr cords, Unit * target); // поменять клетку(прыгнуть в клетку с данными координатами)
 	virtual void render(int layer); // отрисоваться(просчитаться)
+	virtual void render();
 	bool checkFree(cordScr cords, int type); // проверить клетку на наличие юнита даного типа (вернет истину если нету и ложь если есть)
 	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:

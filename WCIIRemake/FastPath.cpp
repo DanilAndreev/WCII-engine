@@ -17,7 +17,7 @@ FastPath::~FastPath() {
 
 int FastPath::solveDirection(cordScr dest) {
 	this->dest = dest;
-	if (dest == unit->getCord()) {
+	if (dest == unit->getCords()) {
 		return -1;
 	}
 	solveQueue.clear();
@@ -42,7 +42,7 @@ int FastPath::solveDirection(cordScr dest) {
 	if (minLen == firstLen) {
 		return 0;
 	}
-	if (minLen >= unit->getCord().lineLength(unit->getCord(), dest)) {
+	if (minLen >= unit->getCords().lineLength(unit->getCords(), dest)) {
 		return 0;
 	}
 	return determineDirection(minCords);
@@ -55,7 +55,7 @@ bool FastPath::checkCords(cordScr cords) {
 
 	for (int i = 0; i < field->getMembers()->count(); i++) {
 		Unit* unitC = (Unit*)(field->getMembers()->get(i));
-		if (unitC->getType() == this->unit->getType() && unitC->getCord() == cords) {
+		if (unitC->getType() == this->unit->getType() && unitC->getCords() == cords) {
 			return false;
 		}
 	}
@@ -65,42 +65,42 @@ bool FastPath::checkCords(cordScr cords) {
 void FastPath::createSolveQueue() {
 	cordScr checkingCords;
 	// UP
-	checkingCords = cordScr(unit->getCord().x, unit->getCord().y - 1);
+	checkingCords = cordScr(unit->getCords().x, unit->getCords().y - 1);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// DOWN
-	checkingCords = cordScr(unit->getCord().x, unit->getCord().y + 1);
+	checkingCords = cordScr(unit->getCords().x, unit->getCords().y + 1);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// RIGHT
-	checkingCords = cordScr(unit->getCord().x + 1, unit->getCord().y);
+	checkingCords = cordScr(unit->getCords().x + 1, unit->getCords().y);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// LEFT
-	checkingCords = cordScr(unit->getCord().x - 1, unit->getCord().y);
+	checkingCords = cordScr(unit->getCords().x - 1, unit->getCords().y);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// UP RIGHT
-	checkingCords = cordScr(unit->getCord().x + 1, unit->getCord().y - 1);
+	checkingCords = cordScr(unit->getCords().x + 1, unit->getCords().y - 1);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// UP LEFT
-	checkingCords = cordScr(unit->getCord().x - 1, unit->getCord().y - 1);
+	checkingCords = cordScr(unit->getCords().x - 1, unit->getCords().y - 1);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// DOWN RIGHT
-	checkingCords = cordScr(unit->getCord().x + 1, unit->getCord().y + 1);
+	checkingCords = cordScr(unit->getCords().x + 1, unit->getCords().y + 1);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
 	// DOWN LEFT
-	checkingCords = cordScr(unit->getCord().x - 1, unit->getCord().y + 1);
+	checkingCords = cordScr(unit->getCords().x - 1, unit->getCords().y + 1);
 	if (checkCords(checkingCords)) {
 		solveQueue.push_back(checkingCords);
 	}
@@ -109,7 +109,7 @@ void FastPath::createSolveQueue() {
 
 
 int FastPath::determineDirection(cordScr cords) {
-	cordScr uCords = unit->getCord();
+	cordScr uCords = unit->getCords();
 	// UP
 	if (cords.x == uCords.x && cords.y < uCords.y) {
 		return 1;

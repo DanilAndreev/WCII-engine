@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AttackTHREAD.h" />
+    <ClInclude Include="Buffer2D.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="CommandPatterns.h" />
     <ClInclude Include="Command_c.h" />
@@ -165,11 +166,15 @@
     <ClInclude Include="ConsoleCommandPattern.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="cordScr.h" />
+    <ClInclude Include="CScreen.h" />
+    <ClInclude Include="CScreenPixel.h" />
     <ClInclude Include="DynArr.h" />
     <ClInclude Include="EventHndlrTHREAD.h" />
     <ClInclude Include="EventPattern.h" />
     <ClInclude Include="Eventable.h" />
     <ClInclude Include="eventReturnData.h" />
+    <ClInclude Include="EV_CScreen.h" />
+    <ClInclude Include="EV_CScreen_FPS.h" />
     <ClInclude Include="FastPath.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FileParser.h" />
@@ -186,8 +191,10 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ParserOut.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Placable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Renderable.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Screenable.h" />
     <ClInclude Include="ScreenDrawindTHREAD.h" />
@@ -198,10 +205,12 @@
     <ClInclude Include="UnInSearchTargets.h" />
     <ClInclude Include="Unit.h" />
     <ClInclude Include="UnitInterpretor.h" />
+    <ClInclude Include="WColors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AttackTHREAD.cpp" />
+    <ClCompile Include="Buffer2D.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="CommandPatterns.cpp" />
     <ClCompile Include="Command_c.cpp" />
@@ -212,11 +221,15 @@
     <ClCompile Include="ConsoleCommandPattern.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="cordScr.cpp" />
+    <ClCompile Include="CScreen.cpp" />
+    <ClCompile Include="CScreenPixel.cpp" />
     <ClCompile Include="DynArr.cpp" />
     <ClCompile Include="EventHndlrTHREAD.cpp" />
     <ClCompile Include="EventPattern.cpp" />
     <ClCompile Include="Eventable.cpp" />
     <ClCompile Include="eventReturnData.cpp" />
+    <ClCompile Include="EV_CScreen.cpp" />
+    <ClCompile Include="EV_CScreen_FPS.cpp" />
     <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FileParser.cpp" />
@@ -236,8 +249,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Placable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Screenable.cpp" />
     <ClCompile Include="backup.cpp" />

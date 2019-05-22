@@ -21,6 +21,14 @@ Field::~Field() {
 	delete members;
 }
 
+int Field::getWidth() {
+	return this->width;
+}
+
+int Field::getHeigth() {
+	return this->heigth;
+}
+
 DynArr* Field::getMembers() {
 	return members;
 }
@@ -36,7 +44,7 @@ bool Field::checkFree(cordScr cords, int type) {
 	}
 	for (int i = 0; i < members->count(); i++) {
 		Unit* unit = (Unit*)(members->get(i));
-		if (unit->getCord() == cords && unit->getType() == type) {
+		if (unit->getCords() == cords && unit->getType() == type) {
 			return false;
 		}
 	}
@@ -50,8 +58,15 @@ bool Field::checkFree(cordScr cords, int type) {
 int Field::setCell(cordScr cords, Unit* target) {
 	if (members->search(target) == -1) {
 		if (checkFree(cords, target->getType())) {
-			target->setup(cords, 1, 1, this->scr);
-			target->settingUp();
+			target->setCords(cords);
+			target->setParentScreen(this->parentScreen);
+
+			LiveUnit* temp = dynamic_cast<LiveUnit*>(target);
+			if (temp) {
+				temp->settingUp();
+			}
+			//target->setup(cords, 1, 1, this->parentScreen);
+			//target->settingUp();
 			members->add(target);
 			return 1;
 		}
@@ -64,7 +79,7 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 	int foundInd = members->search(target);
 	if (foundInd > -1) {
 		if (checkFree(cordsNew, target->getType())) {
-			target->setCord(cordsNew);
+			target->setCords(cordsNew);
 			return 1;
 		}
 	}
@@ -72,10 +87,18 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 }
 
 void Field::render(int layer) {
-
 	for (int i = 0; i < members->count(); i++) {
-	((Screenable*)(members->get(i)))->render(layer);
+		Obj* t_obj = members->get(i);
+		Renderable* temp = dynamic_cast<Renderable*>(t_obj);
+		if (temp) {
+			temp->render(layer);
+		}
+//		((Screenable*)(members->get(i)))->render(layer);
 	}
+}
+
+void Field::render() {
+	this->render(0);
 }
 
 void Field::catchEvent(Command_c* command, bool showHelp) {

@@ -6,7 +6,7 @@ extern ThreadDescriptor* gameThreads;
 extern ConsoleCommandController* defaultConComCon;
 
 
-Controller::Controller(Field* ifield, MScreen* iscreen, Console* ioconsole, GameMaster* igameMaster) {
+Controller::Controller(Field* ifield, EV_CScreen* iscreen, Console* ioconsole, GameMaster* igameMaster) {
 	this->fillEventPatterns();
 	setDescription("Controller");
 	this->members = new DynArr();
@@ -43,7 +43,7 @@ bool Controller::setField(Field* field) {
 	return false;
 }
 
-bool Controller::setScreen(MScreen* ascreen) {
+bool Controller::setScreen(EV_CScreen* ascreen) {
 	if (ascreen) {
 		this->screen = ascreen;
 		this->members->add(ascreen);
@@ -64,7 +64,7 @@ bool Controller::setConsole(Console* ioconsole) {
 	return true;
 }
 
-bool Controller::setup(Console* console, MScreen* screen, Field* field, GameMaster* gameMaster) {
+bool Controller::setup(Console* console, EV_CScreen* screen, Field* field, GameMaster* gameMaster) {
 	this->clearMembers();
 //	this->setField(field);
 	this->setConsole(console);

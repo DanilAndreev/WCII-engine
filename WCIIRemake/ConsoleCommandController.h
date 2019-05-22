@@ -59,6 +59,7 @@ public:
 	static void spawnUnitPresetCommand(Command_c* command, CommandPatterns* oParent);
 	static void stopUnitsCommand(Command_c* command, CommandPatterns* oParent);
 	static void changTeamCommand(Command_c* command, CommandPatterns* oParent);
+	static void renderScreenCommand(Command_c* command, CommandPatterns* oParent);
 protected:
 	virtual void fillEventPatterns();
 public:// CONSOLE COMMAND CONTROLLER EVENTS
@@ -86,4 +87,6 @@ select [int:id]
 select [char:symbol]
 select [int:x] [int:y]
 change team [int:team]
+
+render screen {flags}
 */
