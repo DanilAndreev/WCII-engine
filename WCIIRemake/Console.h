@@ -17,6 +17,7 @@ public:
 	void error(string str);
 	void warning(string str);
 	void message(string str);
+	void clearScreen();
 };
 
 

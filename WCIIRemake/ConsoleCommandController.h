@@ -7,7 +7,7 @@
 #include "Obj.h"
 #include "ConsoleCommandControllerTHREAD.h"
 #include "ConsoleCommandHandlerTHREAD.h"
-
+#include <conio.h>
 
 class ConsoleCommandController : public Obj, public CommandPatterns{
 protected:
@@ -62,8 +62,10 @@ public:
 	static void spawnUnitPresetCommand(Command_c* command, CommandPatterns* oParent);
 	static void stopUnitsCommand(Command_c* command, CommandPatterns* oParent);
 	static void changTeamCommand(Command_c* command, CommandPatterns* oParent);
-	static void renderScreenCommand(Command_c* command, CommandPatterns* oParent);
 	static void switchUICommand(Command_c* command, CommandPatterns* oParent);
+	static void clearConsoleCommand(Command_c* command, CommandPatterns* oParent);
+
+	static void renderScreenCommand(Command_c* command, CommandPatterns* oParent);
 protected:
 	virtual void fillEventPatterns();
 public:// CONSOLE COMMAND CONTROLLER EVENTS

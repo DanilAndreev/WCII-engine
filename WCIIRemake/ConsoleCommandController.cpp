@@ -252,6 +252,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"switchUIPattern",
 		"switch ui",
 		ConsoleCommandController::switchUICommand);
+	const ConsoleCommandPattern clearConsolePattern(
+		"clear console",
+		"clearConsolePattern",
+		"clear console",
+		ConsoleCommandController::clearConsoleCommand);
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
@@ -266,6 +271,7 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(stopUnitsPattern);
 	this->commandPatterns.push_back(changTeamPattern);
 	this->commandPatterns.push_back(switchUIPattern);
+	this->commandPatterns.push_back(clearConsolePattern);
 
 
 	this->commandPatterns.push_back(renderScreenPattern);
@@ -605,6 +611,14 @@ void ConsoleCommandController::switchUICommand(Command_c * command, CommandPatte
 //	parent->commandInput = parent->commandInput == true ? false : true;
 	parent->switchUI();
 	parent->console->message("Switched UI");
+}
+
+void ConsoleCommandController::clearConsoleCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	parent->console->clearScreen();
 }
 
 
