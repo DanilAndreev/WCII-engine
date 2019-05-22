@@ -6,7 +6,7 @@ extern ThreadDescriptor* gameThreads;
 
 EV_CScreen_FPS::EV_CScreen_FPS(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer) : EV_CScreen(icords, iwidth, iheigth, dafaultFill, ilayer) {
 	this->ScreenDrawingTHREADDescriptor = 0;
-	this->frameRate = 24;
+	this->frameRate = 30;
 
 	ScreenDrawindTHREAD* screenDrawingThread = new ScreenDrawindTHREAD(this);
 	this->ScreenDrawingTHREADDescriptor = screenDrawingThread->getDescriptor();
