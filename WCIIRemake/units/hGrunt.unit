@@ -1,0 +1,1 @@
+unit hGrunt{    beatyName: "Grunt";    fraction: "Horde";    symbol: 'g';    width: 1;    heigth: 1;    health: 100;    damage: 30;    cooldown: 700;    attackRadius: 2;    speedDelay: 900;    mana: 0;    spells: [];    cost: 120;    productionTime: 7000; type: 1;}

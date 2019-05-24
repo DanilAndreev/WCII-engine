@@ -1,0 +1,1 @@
+unit hRaider{    beatyName: "Raider";    fraction: "Horde";    symbol: 'r';    width: 1;    heigth: 1;    health: 120;    damage: 75;    cooldown: 610;    attackRadius: 2;    speedDelay: 400;    mana: 0;    spells: [];    cost: 210;    productionTime: 14000; type: 1;}

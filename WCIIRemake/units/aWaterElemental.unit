@@ -1,0 +1,1 @@
+unit aWaterElemental{    beatyName: "Water Elemental";    fraction: "Alliance";    symbol: 'w';    width: 1;    heigth: 1;    health: 300;    damage: 100;    cooldown: 900;    attackRadius: 4;    speedDelay: 750;    mana: 0;    spells: [];    cost: 1000;    productionTime: 20000;}

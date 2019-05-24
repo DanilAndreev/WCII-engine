@@ -1,0 +1,1 @@
+unit aArcher{    beatyName: "Archer";    fraction: "Alliance";    symbol: 'a';    width: 1;    heigth: 1;    health: 60;    damage: 40;    cooldown: 1200;    attackRadius: 7;    speedDelay: 700;    mana: 0;    spells: [];    cost: 150;    productionTime: 10000; type: 1;}

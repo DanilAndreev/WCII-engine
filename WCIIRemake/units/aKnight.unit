@@ -1,0 +1,1 @@
+unit aKnight{    beatyName: "Knight";    fraction: "Alliance";    symbol: 'k';    width: 1;    heigth: 1;    health: 140;    damage: 60;    cooldown: 700;    attackRadius: 2;    speedDelay: 500;    mana: 0;    spells: [];    cost: 220;    productionTime: 15000; type: 1;}

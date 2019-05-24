@@ -261,9 +261,9 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"refresh inputs",
 		ConsoleCommandController::refreshInputsCommand);
 	const ConsoleCommandPattern newFieldPattern(
-		"new field input_command input_number input_number",
+		"create field input_command input_number input_number",
 		"newFieldPattern",
-		"new field [string:name] [int:width] [int:heigth]",
+		"create field [string:name] [int:width] [int:heigth]",
 		ConsoleCommandController::newFieldCommand);
 	const ConsoleCommandPattern setupSpawnerPattern(
 		"setup spawner input_command input_command team input_number",
@@ -648,7 +648,7 @@ void ConsoleCommandController::refreshInputsCommand(Command_c* command, CommandP
 	parent->mainController->addEventToQueue(tempEvent);
 }
 
-// new field [string:name] [int:width] [int:heigth]
+// create field [string:name] [int:width] [int:heigth]
 void ConsoleCommandController::newFieldCommand(Command_c* command, CommandPatterns* oParent) {
 	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
 	if (!parent) {
