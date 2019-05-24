@@ -3,7 +3,6 @@
 
 
 EV_CScreen_Controlled::EV_CScreen_Controlled(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer) : EV_CScreen(icords, iwidth, iheigth, dafaultFill, ilayer) {
-	cout << "constructing" << endl;
 	this->calcPlacemnt();
 }
 

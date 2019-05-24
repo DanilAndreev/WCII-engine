@@ -64,6 +64,9 @@ public:
 	static void changTeamCommand(Command_c* command, CommandPatterns* oParent);
 	static void switchUICommand(Command_c* command, CommandPatterns* oParent);
 	static void clearConsoleCommand(Command_c* command, CommandPatterns* oParent);
+	static void refreshInputsCommand(Command_c* command, CommandPatterns* oParent);
+	static void newFieldCommand(Command_c* command, CommandPatterns* oParent);
+	static void setupSpawnerCommand(Command_c* command, CommandPatterns* oParent);
 
 	static void renderScreenCommand(Command_c* command, CommandPatterns* oParent);
 protected:
@@ -95,6 +98,10 @@ select [int:id]
 select [char:symbol]
 select [int:x] [int:y]
 change team [int:team]
+setup spawner [string:preset type] [string:preset name] team [int:team]
+new field [string:name] [int:width] [int:heigth]
+refresh inputs
+switch ui
 
 render screen {flags}
 */

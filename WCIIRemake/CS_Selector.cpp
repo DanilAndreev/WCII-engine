@@ -2,7 +2,7 @@
 #include "CS_Selector.h"
 
 extern ConsoleCommandController* defaultConComCon;
-
+extern Console* defaultConsole;
 
 CS_Selector::CS_Selector(ID CccID, EV_CScreen_Controlled* icontrolledScreen) : Placable(cordScr(3,3), 1000) {
 	this->fillEventPatterns();
@@ -13,6 +13,9 @@ CS_Selector::CS_Selector(ID CccID, EV_CScreen_Controlled* icontrolledScreen) : P
 	this->cordFix2 = cordScr(0, 0);
 	this->operation = SELECTOR_ATTACK;
 	this->selectingFirst = true;
+	this->spawnerPresetName = "default";
+	this->spawnPresetTeam = 1;
+	this->spawnPresetType = "default";
 }
 
 CS_Selector::~CS_Selector() {
@@ -63,6 +66,9 @@ void CS_Selector::throwCommand() {
 		break;
 	case SELECTOR_MOVE:
 		command_c = new Command_c(string("move to " + to_string(dest.x) + " " + to_string(dest.y)));
+		break;
+	case SELECTOR_SPAWN:
+		command_c = new Command_c(string("spawn team ") + to_string(this->spawnPresetTeam) + " " + this->spawnPresetType + " " + this->spawnerPresetName + " " + to_string(dest.x) + " " + to_string(dest.y));
 		break;
 	}
 
@@ -151,11 +157,15 @@ void CS_Selector::operateKey(int keyid) {
 		break;
 	case 97: // a
 		this->operation = SELECTOR_ATTACK;
-		cout << "attack" << endl;
+		cout << "selected attack action" << endl;
 		break;
 	case 109: // m
 		this->operation = SELECTOR_MOVE;
-		cout << "move" << endl;
+		cout << "selected move action" << endl;
+		break;
+	case 112: // p
+		this->operation = SELECTOR_SPAWN;
+		cout << "selected spawn action" << endl;
 		break;
 	}
 }
@@ -171,11 +181,17 @@ void CS_Selector::fillEventPatterns() {
 		"keyPressIdPattern",
 		"key pressed id [int:keyid] CCC id [int:ConsoleCommandControllerId]",
 		CS_Selector::keyPressIdCommand);
+	const EventPattern setupSpawnerPattern(
+		"setup spawner input_command input_command team input_number CCC id input_number",
+		"setupSpawnerPattern",
+		"setup spawner [string:preset type] [string:preset name] team [int:team] CCC id [int:ConsoleCommandControllerId]",
+		CS_Selector::setupSpawnerCommand);
 	this->eventPatterns.push_back(keyPressIdPattern);
+	this->eventPatterns.push_back(setupSpawnerPattern);
 }
 
 
-//EV_CScreen EVENTS
+//CS_Selector EVENTS
 
 // key pressed id [int:keyid] CCC id [int:ConsoleCommandControllerId]
 void CS_Selector::keyPressIdCommand(Command_c * command, Eventable * oParent) {
@@ -194,6 +210,31 @@ void CS_Selector::keyPressIdCommand(Command_c * command, Eventable * oParent) {
 	}
 	if (input_cccid == parent->ConComConId) {
 		parent->operateKey(input_keyid);
+	}
+}
+
+// setup spawner [string:preset type] [string:preset name] team [int:team] CCC id [int:ConsoleCommandControllerId]
+void CS_Selector::setupSpawnerCommand(Command_c* command, Eventable* oParent) {
+	CS_Selector* parent = dynamic_cast<CS_Selector*>(oParent);
+	if (!parent) {
+		return;
+	}
+	int input_team = 1;
+	ID input_cccid = 0;
+	try {
+		input_team = stoi(command->args[5].first);
+		input_cccid = stoull(command->args[8].first);
+	}
+	catch (...) {
+		return;
+	}
+	string input_preset_type = command->args[2].first;
+	string input_preset_name = command->args[3].first;
+	if (input_cccid == parent->ConComConId) {
+		parent->spawnerPresetName = input_preset_name;
+		parent->spawnPresetTeam = input_team;
+		parent->spawnPresetType = input_preset_type;
+		defaultConComCon->console->message(string("Setted preset: ") + input_preset_type + " " + input_preset_name + " team " + to_string(input_team));
 	}
 }
 

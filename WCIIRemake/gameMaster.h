@@ -39,14 +39,15 @@ public:
 	GameMaster();
 	~GameMaster();
 	vector <string> dirFilenames(string dirPath, string filetype);
-	void readUnits();
-	void readSpells();
-	void readBuildings();
+	void refreshInputs();
 	bool saveGame(string savename);
-	Exitcode loadGame(string savename);
+	Exitcode loadGame(string savename, bool showInfo);
 	LiveUnitPreset* getUnitPreset(string name);
 	ThreadId getGameAlifeTHREADDescriptor();
 protected:
+	void readUnits();
+	void readSpells();
+	void readBuildings();
 	Exitcode ParseUnit(string filename, LiveUnitPreset* writeTo);
 	Exitcode ParseUnit(ParserOut input, LiveUnitPreset* writeTo);
 	Exitcode readParseSpell(string filename);
@@ -64,6 +65,7 @@ public: //GAME MASTER EVENTS
 	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 	static void saveGameCommand(Command_c* command, Eventable* oParent);
 	static void loadGameCommand(Command_c* command, Eventable* oParent);
+	static void refreshInputsCommand(Command_c* command, Eventable* oParent);
 };
 
 // exitgame

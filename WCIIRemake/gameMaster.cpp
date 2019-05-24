@@ -39,11 +39,12 @@ GameMaster::GameMaster() {
 	}
 	this->GameAlifeTHREADDescriptor = tempTHREAD->getDescriptor();
 	tempTHREAD->startThread();
-
+/*
 	readSpells();
 	readUnits();
 	readBuildings();
-
+*/
+	refreshInputs();
 
 	this->field = new Field(40, 20);
 
@@ -67,7 +68,7 @@ GameMaster::GameMaster() {
 	}
 
 
-	loadGame("baselevel");
+	loadGame("baselevel", false);
 }
 
 GameMaster::~GameMaster() {
@@ -402,6 +403,15 @@ void GameMaster::readBuildings() {
 	}
 }
 
+void GameMaster::refreshInputs() {
+	creaturePresets.clear();
+	buildingPresets.clear();
+	spellsPresets.clear();
+	readSpells();
+	readUnits();
+	readBuildings();
+}
+
 bool GameMaster::saveGame(string savename) {
 	string path = "saves/";
 	path += savename + ".wcsave";
@@ -499,7 +509,7 @@ Exitcode GameMaster::addUnit(ParserOut data, vector<placeableData<LiveUnitPreset
 	return GM_NO_ERROR;
 }
 
-Exitcode GameMaster::loadGame(string savename) {
+Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 	//loading data from file
 	string path = "saves/" + savename + ".wcsave";
 	FileReader* reader = new FileReader(path);
@@ -572,7 +582,9 @@ Exitcode GameMaster::loadGame(string savename) {
 	}
 
 
-	defaultConsole->message(string("Loading save: ") + savename);
+	if (showInfo) {
+		defaultConsole->message(string("Loading save: ") + savename);
+	}
 
 	Command_c tempEvent("stop threads -lg -ccc -eh -wait");
 	gameController->throwCommand(&tempEvent);
@@ -619,7 +631,9 @@ Exitcode GameMaster::loadGame(string savename) {
 	tempEvent = Command_c("unpause -command_input");
 	gameController->throwCommand(&tempEvent);
 
-	defaultConsole->message(string("Succesfully loaded: ") + savename);
+	if (showInfo) {
+		defaultConsole->message(string("Succesfully loaded: ") + savename);
+	}
 	return GM_NO_ERROR;
 }
 
@@ -684,11 +698,17 @@ void GameMaster::fillEventPatterns() {
 		"loadGamePattern",
 		"load game [string:savename]",
 		GameMaster::loadGameCommand);
+	const EventPattern  refreshInputsPattern(
+		"refresh inputs",
+		"refreshInputsPattern",
+		"refresh inputs",
+		GameMaster::refreshInputsCommand);
 
 	this->eventPatterns.push_back(exitGamePattern);
 	this->eventPatterns.push_back(stopThreadsPattern);
 	this->eventPatterns.push_back(saveGamePattern);
 	this->eventPatterns.push_back(loadGamePattern);
+	this->eventPatterns.push_back(refreshInputsPattern);
 }
 
 //GAME MASTER EVENTS
@@ -734,5 +754,18 @@ void GameMaster::loadGameCommand(Command_c* command, Eventable* oParent) {
 		return;
 	}
 	string input_filename = command->args[2].first;
-	parent->loadGame(input_filename);
+	bool show_info = true;
+	if (command->checkFlag("-noInfo")) {
+		show_info = false;
+	}
+	parent->loadGame(input_filename, show_info);
+}
+
+// refresh inputs
+void GameMaster::refreshInputsCommand(Command_c* command, Eventable* oParent) {
+	GameMaster* parent = dynamic_cast<GameMaster*>(oParent);
+	if (!parent) {
+		return;
+	}
+	parent->refreshInputs();
 }

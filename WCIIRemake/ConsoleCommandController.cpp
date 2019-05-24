@@ -255,6 +255,22 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"clearConsolePattern",
 		"clear console",
 		ConsoleCommandController::clearConsoleCommand);
+	const ConsoleCommandPattern refreshInputsPattern(
+		"refresh inputs",
+		"refreshInputsPattern",
+		"refresh inputs",
+		ConsoleCommandController::refreshInputsCommand);
+	const ConsoleCommandPattern newFieldPattern(
+		"new field input_command input_number input_number",
+		"newFieldPattern",
+		"new field [string:name] [int:width] [int:heigth]",
+		ConsoleCommandController::newFieldCommand);
+	const ConsoleCommandPattern setupSpawnerPattern(
+		"setup spawner input_command input_command team input_number",
+		"setupSpawnerPattern",
+		"setup spawner [string:preset type] [string:preset name] team [int:team]",
+		ConsoleCommandController::setupSpawnerCommand);
+
 
 	this->commandPatterns.push_back(selectCordsPattern);
 	this->commandPatterns.push_back(selectSymbPattern);
@@ -270,6 +286,9 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(changTeamPattern);
 	this->commandPatterns.push_back(switchUIPattern);
 	this->commandPatterns.push_back(clearConsolePattern);
+	this->commandPatterns.push_back(refreshInputsPattern);
+	this->commandPatterns.push_back(newFieldPattern);
+	this->commandPatterns.push_back(setupSpawnerPattern);
 
 
 	this->commandPatterns.push_back(renderScreenPattern);
@@ -617,6 +636,66 @@ void ConsoleCommandController::clearConsoleCommand(Command_c* command, CommandPa
 		throw new exception("Bad input class type");
 	}
 	parent->console->clearScreen();
+}
+
+// refresh inputs
+void ConsoleCommandController::refreshInputsCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent(Command_c(string("refresh inputs")));
+	parent->mainController->addEventToQueue(tempEvent);
+}
+
+// new field [string:name] [int:width] [int:heigth]
+void ConsoleCommandController::newFieldCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	int input_width = 10;
+	int input_height = 10;
+	try {
+		input_width = stoi(command->args[3].first);
+		input_height = stoi(command->args[4].first);
+	}
+	catch (...) {
+		return;
+	}
+
+	string filename = command->args[2].first;
+	string path = "saves/";
+	path += filename + ".wcsave";
+	FileWriter* writer = new FileWriter(path, ios::out);
+	*writer << "save " << filename << endl;
+	*writer << "field { width: " << input_width << "; heigth: " << input_height << "; }" << endl;
+	delete writer;
+	
+	parent->console->message("Creating field " + filename + ", ratio: " + to_string(input_width) + " " + to_string(input_height));
+
+	Command_c tempEvent(Command_c(string("load game ") + filename + " -noInfo"));
+	parent->mainController->addEventToQueue(tempEvent);
+}
+
+// setup spawner [string:preset type] [string:preset name] team [int:team]
+void ConsoleCommandController::setupSpawnerCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	int input_team = 1;
+	try {
+		input_team = stoi(command->args[5].first);
+	}
+	catch (...) {
+		return;
+	}
+	string input_preset_type = command->args[2].first;
+	string input_preset_name = command->args[3].first;
+
+	Command_c tempEvent(Command_c(string("setup spawner ") + input_preset_type + " " + input_preset_name + " team " + to_string(input_team) + " CCC id " + to_string(parent->id)));
+	parent->mainController->addEventToQueue(tempEvent);
 }
 
 
