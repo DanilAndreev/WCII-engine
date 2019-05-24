@@ -33,8 +33,8 @@ public:
 	void freeElements(); // Удалить всех детей поля(из пямяти, указатели останутся, но будут указывать в небо)
 	int setCell(cordScr cordsNew, Unit * target); // установить на клетку с данными координатам данный юнит
 	int changeCell(cordScr cords, Unit * target); // поменять клетку(прыгнуть в клетку с данными координатами)
-	virtual void render(int layer); // отрисоваться(просчитаться)
-	virtual void render();
+	virtual void render(int layer, int team); // отрисоваться(просчитаться)
+	virtual void render(int team);
 	bool checkFree(cordScr cords, int type); // проверить клетку на наличие юнита даного типа (вернет истину если нету и ложь если есть)
 	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:

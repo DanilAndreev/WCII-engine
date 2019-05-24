@@ -47,18 +47,23 @@ char Unit::getValue() {
 
 
 
-void Unit::render(int layer) {
+void Unit::render(int layer, int team) {
 	if (parentScreen != NULL /*&& this->layer == layer*/) { 
 		cordScr shift;
 		if (field) {
 			shift = this->field->getCords();
 		}
-		parentScreen->putToBuff(this->cords + shift, CScreenPixel(this->value, COLOR_WHITE));
+		CScreenPixel pixel(this->value, COLOR_WHITE);
+
+		if (this->isSelected(team)) {
+			pixel.color = COLOR_YELLOW;
+		}
+		parentScreen->putToBuff(this->cords + shift, pixel);
 	}
 }
 
-void Unit::render() {
-	this->render(0);
+void Unit::render(int team) {
+	this->render(0, team);
 }
 
 void Unit::catchEvent(Command_c* command, bool showHelp) {
@@ -166,7 +171,7 @@ void Unit::selectIdCommand(Command_c * command, Eventable* oParent) {
 	}
 	if (input_id == parent->id) {
 		parent->select(input_team);
-		cout << "selected unit: " << parent->value << " , ID : " << parent->id << endl;
+		//cout << "selected unit: " << parent->value << " , ID : " << parent->id << endl;
 	}
 }
 

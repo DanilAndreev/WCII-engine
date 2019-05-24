@@ -69,7 +69,7 @@ void EV_CScreen::renderScreenCommand(Command_c* command, Eventable* oParent) {
 		return;
 	}
 	if (command->checkFlag("-all")) {
-		parent->render();
+		parent->render(1);
 	}
 }
 

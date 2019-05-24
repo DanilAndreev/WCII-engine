@@ -25,12 +25,12 @@ void CScreen::clearScreenBuff() {
 }
 
 
-void CScreen::render(int layer) {
+void CScreen::render(int layer, int team) {
 	this->clearScreenBuff();
 	for (int i = 0; i < members.size(); i++) {
 		Renderable* temp = members[i];
 		if (temp) {
-			temp->render(layer);
+			temp->render(layer, team);
 		}
 	}
 	if (parentScreen) {
@@ -45,8 +45,8 @@ void CScreen::render(int layer) {
 	}
 }
 
-void CScreen::render() {
-	this->render(0);
+void CScreen::render(int team) {
+	this->render(0, team);
 	draw();
 }
 

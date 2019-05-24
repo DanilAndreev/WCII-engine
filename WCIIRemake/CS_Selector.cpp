@@ -22,12 +22,12 @@ void CS_Selector::setCCCID(ID CccID) {
 	this->ConComConId = CccID;
 }
 
-void CS_Selector::render(int layer) {
+void CS_Selector::render(int layer, int team) {
 	this->parentScreen->putToBuff(this->cords, this->symbol);
 }
 
-void CS_Selector::render() {
-	render(0);
+void CS_Selector::render(int team) {
+	render(0, team);
 }
 
 cordScr CS_Selector::calculateSelectorCordOnControlled() {

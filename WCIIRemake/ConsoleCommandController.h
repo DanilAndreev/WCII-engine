@@ -18,8 +18,8 @@ protected:
 	ThreadId CommandHandlerTHRDDescriptor;
 	queue <Command_c> commandQueue;
 	bool isRunning;
-	int team;
 public:
+	int team;
 	bool isPaused;
 	Console *console;
 	bool commandInput;

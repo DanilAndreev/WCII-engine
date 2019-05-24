@@ -4,11 +4,11 @@
 extern ThreadDescriptor* gameThreads;
 
 
-EV_CScreen_FPS::EV_CScreen_FPS(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer) : EV_CScreen(icords, iwidth, iheigth, dafaultFill, ilayer) {
+EV_CScreen_FPS::EV_CScreen_FPS(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer, int* iteam) : EV_CScreen(icords, iwidth, iheigth, dafaultFill, ilayer) {
 	this->fillEventPatterns();
 	this->ScreenDrawingTHREADDescriptor = 0;
 	this->frameRate = 30;
-
+	this->team = iteam;
 	ScreenDrawindTHREAD* screenDrawingThread = new ScreenDrawindTHREAD(this);
 	this->ScreenDrawingTHREADDescriptor = screenDrawingThread->getDescriptor();
 	screenDrawingThread->startThread();
@@ -17,6 +17,14 @@ EV_CScreen_FPS::EV_CScreen_FPS(cordScr icords, int iwidth, int iheigth, CScreenP
 
 EV_CScreen_FPS::~EV_CScreen_FPS() {
 	gameThreads->stopThread(this->ScreenDrawingTHREADDescriptor);
+}
+
+int* EV_CScreen_FPS::getTeam() {
+	return this->team;
+}
+
+void EV_CScreen_FPS::setTeam(int* newTeam) {
+	this->team = newTeam;
 }
 
 void EV_CScreen_FPS::setFrameRate(int newFrameRate) {

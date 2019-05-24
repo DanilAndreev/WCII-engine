@@ -26,9 +26,9 @@ public:
 	void catchEvent(Command_c * command, bool showHelp);
 	void operateKey(int keyid);
 public:
-	virtual void render();
+	virtual void render(int team);
 	cordScr calculateSelectorCordOnControlled();
-	virtual void render(int layer);
+	virtual void render(int layer, int team);
 protected:
 	void select();
 	void throwCommand();

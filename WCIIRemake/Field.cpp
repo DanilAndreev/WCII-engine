@@ -86,7 +86,7 @@ int Field::changeCell(cordScr cordsNew, Unit* target) {
 	return 0;
 }
 
-void Field::render(int layer) {
+void Field::render(int layer, int team) {
 	for (int i = 0; i < members->count(); i++) {
 		Obj* t_obj = members->get(i);
 		if (!t_obj) {
@@ -94,14 +94,14 @@ void Field::render(int layer) {
 		}
 		Renderable* temp = dynamic_cast<Renderable*>(t_obj);
 		if (temp) {
-			temp->render(layer);
+			temp->render(layer, team);
 		}
 //		((Screenable*)(members->get(i)))->render(layer);
 	}
 }
 
-void Field::render() {
-	this->render(0);
+void Field::render(int team) {
+	this->render(0, team);
 }
 
 void Field::catchEvent(Command_c* command, bool showHelp) {

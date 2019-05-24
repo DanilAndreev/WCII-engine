@@ -19,7 +19,7 @@ void ScreenDrawindTHREAD::threadFunction() {
 	}
 	while (isRunning) {
 		time_t begin = clock();
-		ScrParent->render();
+		ScrParent->render(*ScrParent->getTeam());
 		time_t end = clock();
 
 		time_t rateSleep = 1000 / ScrParent->getFrameRate();

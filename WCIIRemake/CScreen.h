@@ -25,8 +25,8 @@ public:
 	virtual ~CScreen();
 	void addMember(Renderable* member);
 	void clearScreenBuff();
-	virtual void render(int layer);
-	virtual void render();
+	virtual void render(int layer, int team);
+	virtual void render(int team);
 	void draw();
 	void draw(CScreenPixel fill);
 };

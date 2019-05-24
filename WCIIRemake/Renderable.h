@@ -11,8 +11,8 @@ public:
 public:
 	Renderable();
 	virtual ~Renderable();
-	virtual void render(int layer) = 0;
-	virtual void render() = 0;
+	virtual void render(int layer, int team) = 0;
+	virtual void render(int team) = 0;
 	void setParentScreen(CScreen* iparent);
 };
 

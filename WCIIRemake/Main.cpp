@@ -15,22 +15,6 @@ GameMaster* gameMaster;
 
 
 
-class screenEl : public Renderable, public Placable {
-public:
-	CScreenPixel pixel;
-public:
-	screenEl(cordScr icords, CScreenPixel ipixel) : Placable(icords, 1) {
-		this->parentScreen = NULL;
-		this->pixel = ipixel;
-	}
-	virtual void render(int layer) {
-		parentScreen->putToBuff(this->cords, this->pixel);
-	}
-	virtual void render() {
-		render(layer);
-	}
-};
-
 
 
 int main() {
@@ -69,7 +53,7 @@ int main() {
 //	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
 	GameAlifeTHREAD* HgameAlifeThread = (GameAlifeTHREAD*)(gameThreads->getThread(gameMaster->getGameAlifeTHREADDescriptor()));
 
-	gameMaster->scr->render();
+//	gameMaster->scr->render();
 	if (HgameAlifeThread) {
 		HANDLE gameAlifeHandle = HgameAlifeThread->getThreadHandle();
 		if (gameAlifeHandle) {
