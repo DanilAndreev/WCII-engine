@@ -90,6 +90,7 @@ public:// CONSOLE COMMAND CONTROLLER EVENTS
 //CONSOLE COMMANDS:
 /*
 spawn team [int:team] unit [string:unit name] [int:x] [int:y]
+spawn team [int:team] enviroment [string:unit name] [int:x] [int:y]
 load game [string:savename]
 save game [string:savename]
 exit game

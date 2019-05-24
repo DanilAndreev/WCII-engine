@@ -17,6 +17,7 @@ EnviromentPreset::~EnviromentPreset() {
 
 
 Enviroment::Enviroment(EnviromentPreset preset, Field* field) : Unit(preset.symbol, preset.type, field, 100, 0) {
+	this->fillEventPatterns();
 }
 
 
@@ -28,7 +29,7 @@ void Enviroment::fillEventPatterns() {
 		"write data to input_command",
 		"writeToPattern",
 		"write data to [string:filename]",
-		LiveUnit::writeToCommand);
+		Enviroment::writeToCommand);
 
 	this->eventPatterns.push_back(writeToPattern);
 }

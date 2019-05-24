@@ -600,6 +600,43 @@ Exitcode GameMaster::addUnit(ParserOut data, vector<placeableData<LiveUnitPreset
 	return GM_NO_ERROR;
 }
 
+Exitcode GameMaster::addEnviroment(ParserOut data, vector<placeableData<EnviromentPreset>>* arr) {
+	EnviromentPreset preset;
+	Exitcode exitcode = ParseEnviroment(data, &preset);
+	if (exitcode != GM_NO_ERROR) {
+		return exitcode;
+	}
+
+	UnInSearchTargets targets("enviroment");
+	targets.addTarget(SearchTarget("x", PARSER_NUMBER, "0"));
+	targets.addTarget(SearchTarget("y", PARSER_NUMBER, "0"));
+
+	UnitInterpretor* interpretor = new UnitInterpretor();
+	if (!interpretor) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	interpretor->init(targets);
+	exitcode = interpretor->interpret(data);
+	if (exitcode != GM_NO_ERROR) {
+		return exitcode;
+	}
+	targets = interpretor->getTargets();
+	delete interpretor;
+
+
+	int x = targets.targets[0].temp_int;
+	int y = targets.targets[1].temp_int;
+
+
+	placeableData<EnviromentPreset> temp;
+	temp.preset = preset;
+	temp.x = x;
+	temp.y = y;
+	temp.team = 0;
+	arr->push_back(temp);
+	return GM_NO_ERROR;
+}
+
 Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 	//loading data from file
 	string path = "saves/" + savename + ".wcsave";
@@ -619,6 +656,7 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 
 	//adding temp arrays
 	vector<placeableData<LiveUnitPreset>> units;
+	vector<placeableData<EnviromentPreset>> enviroments;
 	placeableData<FieldPreset> field;
 
 	//parsing file
@@ -666,6 +704,9 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 		if (data.args[0].first == "unit") {
 			addUnit(data, &units);
 		}
+		if (data.args[0].first == "enviroment") {
+			addEnviroment(data, &enviroments);
+		}
 		if (data.args[0].first == "field") {
 			addField(data, &field);
 		}
@@ -708,9 +749,13 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 	this->scr->addMember(top_bar);
 
 
+	for (int i = 0; i < enviroments.size(); i++) {
+		Enviroment* tempEnviroment = new Enviroment(enviroments[i].preset, this->field);
+		this->field->setCell(cordScr(enviroments[i].x, enviroments[i].y), tempEnviroment);
+	}
 	for (int i = 0; i < units.size(); i++) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
-		this->field->setCell(cordScr(units[i].x,units[i].y),tempUnit);
+		this->field->setCell(cordScr(units[i].x, units[i].y), tempUnit);
 	}
 	gameController->setup(defaultConsole, this->scr, this->field, this);
 

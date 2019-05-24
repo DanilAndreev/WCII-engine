@@ -65,6 +65,7 @@ protected:
 	int searchEnviroment(string name);
 	int searchBuilding(string name);
 	Exitcode addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr);
+	Exitcode addEnviroment(ParserOut data, vector<placeableData<EnviromentPreset>>* arr);
 	Exitcode addField(ParserOut data, placeableData<FieldPreset> *writeTo);
 	virtual void catchEvent(Command_c* command, bool showHelp);
 protected:
