@@ -80,10 +80,12 @@ LiveUnit::~LiveUnit() {
 }
 
 void LiveUnit::initMovement() {
-	this->moveDest = this->cords;
-	AttackTHREAD* attackThread = new AttackTHREAD(this);
-	attackThread->startThread();
-	this->AttackTHRDDescriptor = attackThread->getDescriptor();
+	if (this->health > 0) {
+		this->moveDest = this->cords;
+		AttackTHREAD* attackThread = new AttackTHREAD(this);
+		attackThread->startThread();
+		this->AttackTHRDDescriptor = attackThread->getDescriptor();
+	}
 }
 
 
