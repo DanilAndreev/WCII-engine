@@ -222,6 +222,95 @@ void GameMaster::readUnits() {
 	}
 }
 
+Exitcode GameMaster::ParseEnviroment(ParserOut input, EnviromentPreset* writeTo) {
+	if (writeTo == NULL) {
+		return GM_ERROR_NULL_POINTER;
+	}
+	UnInSearchTargets targets("enviroment");
+	// configurating search for unit
+	targets.addTarget(SearchTarget("name", PARSER_WORD, "default"));
+	targets.addTarget(SearchTarget("beautyName", PARSER_DQDATA, "Default"));
+	targets.addTarget(SearchTarget("symbol", PARSER_QDATA, "d"));
+	targets.addTarget(SearchTarget("width", PARSER_NUMBER, "1"));
+	targets.addTarget(SearchTarget("heigth", PARSER_NUMBER, "1"));
+	targets.addTarget(SearchTarget("type", PARSER_NUMBER, "1"));
+
+	UnitInterpretor* interpretor = new UnitInterpretor();
+	if (!interpretor) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	interpretor->init(targets);
+	Exitcode exitcode = interpretor->interpret(input);
+	if (exitcode != GM_NO_ERROR) {
+		return exitcode;
+	}
+	targets = interpretor->getTargets();
+	delete interpretor;
+
+
+	string name = targets.targets[0].temp_string;
+	string beautyName = targets.targets[1].temp_string;
+	char symbol = targets.targets[2].temp_char;
+	int width = targets.targets[3].temp_int;
+	int heigth = targets.targets[4].temp_int;
+	int type = targets.targets[5].temp_int;
+
+	EnviromentPreset tempCreaturePreset(name, beautyName, symbol, width, heigth, type);
+
+	*writeTo = tempCreaturePreset;
+	return GM_NO_ERROR;
+}
+
+
+Exitcode GameMaster::ParseEnviroment(string filename, EnviromentPreset* writeTo) {
+	ParserOut input;
+	FileParser* parser = new FileParser();
+	if (!parser) {
+		return GM_ERROR_ALLOCATING_MEMORY;
+	}
+	input = parser->parseFile(filename);
+	delete parser;
+	Exitcode exitcode = ParseEnviroment(input, writeTo);
+	if (exitcode == GM_NO_ERROR) {
+	}
+	return exitcode;
+}
+
+void GameMaster::readEnviroments() {
+	string directory = ".\\enviroments";
+	string filetype = "enviroment";
+	vector<string> files = dirFilenames(directory, filetype);
+
+	for (int i = 0; i < files.size(); i++) {
+		string path = directory;
+		path.append("\\");
+		path.append(files[i]);
+
+		EnviromentPreset envpreset;
+		Exitcode exitcode = ParseEnviroment(path, &envpreset);
+		switch (exitcode) {
+		case GM_NO_ERROR:
+			this->enviromentPresets.push_back(envpreset);
+			cout << "Successfuly loaded enviroment: " << envpreset.name << endl;
+			break;
+		case GM_ERROR_ALLOCATING_MEMORY:
+			defaultConsole->error("Error allocating memory");
+			break;
+		case GM_ERROR_ARGUMENTS_COUNT:
+			defaultConsole->error("Wrong arguments count");
+			break;
+		case GM_ERROR_NOT_VALID_TYPE:
+			defaultConsole->error("Not valid type");
+			break;
+		case GM_ERROR_NOT_VALID_STRUCTURE:
+			defaultConsole->error("Not valid structure");
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 Exitcode GameMaster::readParseSpell(string filename) {
 	ParserOut input;
 	FileParser* parser = new FileParser();
@@ -407,9 +496,11 @@ void GameMaster::refreshInputs() {
 	creaturePresets.clear();
 	buildingPresets.clear();
 	spellsPresets.clear();
+	enviromentPresets.clear();
 	readSpells();
 	readUnits();
 	readBuildings();
+	readEnviroments();
 }
 
 bool GameMaster::saveGame(string savename) {
@@ -655,6 +746,17 @@ int GameMaster::searchUnit(string name) {
 	return -1;
 }
 
+int GameMaster::searchEnviroment(string name) {
+	for (int i = 0; i < enviromentPresets.size(); i++) {
+		if (enviromentPresets[i].name == name) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+
+
 int GameMaster::searchBuilding(string name) {
 	for (int i = 0; i < buildingPresets.size(); i++) {
 		if (buildingPresets[i].name == name) {
@@ -669,6 +771,14 @@ LiveUnitPreset* GameMaster::getUnitPreset(string name){
 	int id = searchUnit(name);
 	if (id != -1) {
 		return &(creaturePresets[id]);
+	}
+	return NULL;
+}
+
+EnviromentPreset* GameMaster::getEnviromentPreset(string name) {
+	int id = searchEnviroment(name);
+	if (id != -1) {
+		return &(enviromentPresets[id]);
 	}
 	return NULL;
 }

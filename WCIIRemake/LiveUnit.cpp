@@ -124,7 +124,8 @@ bool LiveUnit::attack(bool & flag) {
 	if (this->attackPower > 0) {
 		DynArr* members = field->getMembers();
 		for (int i = 0; i < members->count(); i++) {
-			Unit* unt = (Unit*)(members->get(i));
+			//Unit* unt = (Unit*)(members->get(i));
+			Unit* unt = dynamic_cast<Unit*>(members->get(i));
 			if (unt) {
 				cordScr tarCords = ((Unit*)(members->get(i)))->getCords();
 				if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0 && unt->getTeam() > 0) {
@@ -385,6 +386,7 @@ void LiveUnit::writeToCommand(Command_c* command, Eventable* oParent) {
 	writer << " cooldown:" << parent->cooldown << ";";
 	writer << " attackRadius:" << parent->attackLength << ";";
 	writer << " speedDelay:" << parent->moveSpeed << ";";
+	writer << " type:" << parent->type << ";";
 	//writer << "mana:" << parent->mana << ";";
 	writer << "}" << endl;
 }

@@ -43,6 +43,7 @@ public:// FIELD EVENTS
 	static void spawnUnitArgsCommand(Command_c* command, Eventable* oParent);
 	static void spawnUnitPresetCommand(Command_c* command, Eventable* oParent);
 	static void spawnBuildingArgsCommand(Command_c* command, Eventable* oParent);
+	static void spawnEnviromentPresetCommand(Command_c* command, Eventable* oParent);
 };
 
 // write data to [string:savename]

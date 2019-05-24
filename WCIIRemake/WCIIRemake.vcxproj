@@ -170,6 +170,7 @@
     <ClInclude Include="CScreenPixel.h" />
     <ClInclude Include="CS_Selector.h" />
     <ClInclude Include="DynArr.h" />
+    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="EventHndlrTHREAD.h" />
     <ClInclude Include="EventPattern.h" />
     <ClInclude Include="Eventable.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="CScreenPixel.cpp" />
     <ClCompile Include="CS_Selector.cpp" />
     <ClCompile Include="DynArr.cpp" />
+    <ClCompile Include="Enviroment.cpp" />
     <ClCompile Include="EventHndlrTHREAD.cpp" />
     <ClCompile Include="EventPattern.cpp" />
     <ClCompile Include="Eventable.cpp" />

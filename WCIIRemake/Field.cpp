@@ -129,11 +129,22 @@ void Field::fillEventPatterns() {
 		"spawnBuildingArgsPattern",
 		"spawn building cords [int:x] [int:y] team [int:team] health [int:health] type [int:type] symbol [char:symbol]",
 		Field::spawnBuildingArgsCommand);
+	const EventPattern spawnEnviromentPresetPattern(
+		"spawn team input_number enviroment input_command cords input_number input_number",
+		"spawnEnviromentPresetPattern",
+		"spawn team [int:team] enviroment [string:preset name] cords [int:x] [int:y]",
+		Field::spawnEnviromentPresetCommand);
 	this->eventPatterns.push_back(writeToPattern);
 	this->eventPatterns.push_back(spawnUnitArgsPattern);
 	this->eventPatterns.push_back(spawnUnitPresetPattern);
 	this->eventPatterns.push_back(spawnBuildingArgsPattern);
+	this->eventPatterns.push_back(spawnEnviromentPresetPattern);
+
+	
+
 }
+
+
 
 // FIELD EVENTS
 
@@ -247,4 +258,28 @@ void Field::spawnBuildingArgsCommand(Command_c* command, Eventable* oParent) {
 
 	Building* unit = new Building(input_symbol, input_type, parent, input_health, input_team);
 	parent->setCell(input_cords, (Unit*)unit);
+}
+
+void Field::spawnEnviromentPresetCommand(Command_c* command, Eventable* oParent) {
+	Field* parent = dynamic_cast<Field*>(oParent);
+	if (!parent) {
+		return;
+	}
+	int input_cord_x = 0;
+	int input_cord_y = 0;
+	try {
+		input_cord_x = stoi(command->args[6].first);
+		input_cord_y = stoi(command->args[7].first);
+	}
+	catch (...) {
+		return;
+	}
+	cordScr input_cords(input_cord_x, input_cord_y);
+	string input_preset_name = command->args[4].first;
+	EnviromentPreset* preset = gameMaster->getEnviromentPreset(input_preset_name);
+	if (preset) {
+		Enviroment* unit = new Enviroment(*preset, parent);
+		parent->setCell(input_cords, (Unit*)unit);
+	}
+
 }

@@ -230,6 +230,11 @@ void ConsoleCommandController::fillCommandPatterns() {
 		"loadGamePattern",
 		"spawn team [int:team] unit [string:unit name] [int:x] [int:y]",
 		ConsoleCommandController::spawnUnitPresetCommand);
+	const ConsoleCommandPattern spawnEnviromentPresetPattern(
+		"spawn team input_number enviroment input_command input_number input_number",
+		"spawnEnviromentPresetPattern",
+		"spawn team [int:team] enviroment [string:unit name] [int:x] [int:y]",
+		ConsoleCommandController::spawnEnviromentPresetCommand);
 	const ConsoleCommandPattern stopUnitsPattern(
 		"stop units",
 		"stopUnitsPattern",
@@ -281,6 +286,7 @@ void ConsoleCommandController::fillCommandPatterns() {
 	this->commandPatterns.push_back(saveGamePattern);
 	this->commandPatterns.push_back(loadGamePattern);
 	this->commandPatterns.push_back(spawnUnitPresetPattern);
+	this->commandPatterns.push_back(spawnEnviromentPresetPattern);
 	this->commandPatterns.push_back(selectCordsAreaPattern);
 	this->commandPatterns.push_back(stopUnitsPattern);
 	this->commandPatterns.push_back(changTeamPattern);
@@ -570,6 +576,16 @@ void ConsoleCommandController::spawnUnitPresetCommand(Command_c * command, Comma
 		throw new exception("Bad input class type");
 	}
 	Command_c tempEvent(string("spawn team ") + command->args[2].first + " unit " + command->args[4].first + " cords " + command->args[5].first + " " + command->args[6].first);
+	parent->mainController->addEventToQueue(tempEvent);
+}
+
+// spawn team [int:team] enviroment [string:unit name] [int:x] [int:y]
+void ConsoleCommandController::spawnEnviromentPresetCommand(Command_c* command, CommandPatterns* oParent) {
+	ConsoleCommandController* parent = dynamic_cast<ConsoleCommandController*>(oParent);
+	if (!parent) {
+		throw new exception("Bad input class type");
+	}
+	Command_c tempEvent(string("spawn team ") + command->args[2].first + " enviroment " + command->args[4].first + " cords " + command->args[5].first + " " + command->args[6].first);
 	parent->mainController->addEventToQueue(tempEvent);
 }
 

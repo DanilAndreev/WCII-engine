@@ -1,1 +1,0 @@
-unit eTree{    beatyName: "Tree";    fraction: "Horde";    symbol: 'F';    width: 1;    heigth: 1;    health: 100;    damage: 0;    cooldown: 1000;    attackRadius: 0;    speedDelay: 1000;    mana: 0;    spells: [];    cost: 0;    productionTime: 0; type: 1;}

@@ -60,6 +60,7 @@ public:
 	static void saveGameCommand(Command_c* command, CommandPatterns* oParent);
 	static void loadGameCommand(Command_c* command, CommandPatterns* oParent);
 	static void spawnUnitPresetCommand(Command_c* command, CommandPatterns* oParent);
+	static void spawnEnviromentPresetCommand(Command_c* command, CommandPatterns* oParent);
 	static void stopUnitsCommand(Command_c* command, CommandPatterns* oParent);
 	static void changTeamCommand(Command_c* command, CommandPatterns* oParent);
 	static void switchUICommand(Command_c* command, CommandPatterns* oParent);

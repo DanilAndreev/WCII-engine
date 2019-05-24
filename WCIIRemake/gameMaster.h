@@ -14,6 +14,9 @@
 #include "Eventable.h"
 #include "EV_CScreen_FPS.h"
 #include "CS_Selector.h"
+#include "Enviroment.h"
+
+
 template <class Tmpl>
 struct placeableData {
 	Tmpl preset;
@@ -28,6 +31,7 @@ protected:
 	vector <LiveUnitPreset> creaturePresets;
 	vector <BuildingPreset> buildingPresets;
 	vector <SpellPreset> spellsPresets;
+	vector <EnviromentPreset> enviromentPresets;
 	DynArr players;
 	Field* field;
 	//---------------
@@ -43,17 +47,22 @@ public:
 	bool saveGame(string savename);
 	Exitcode loadGame(string savename, bool showInfo);
 	LiveUnitPreset* getUnitPreset(string name);
+	EnviromentPreset* getEnviromentPreset(string name);
 	ThreadId getGameAlifeTHREADDescriptor();
 protected:
 	void readUnits();
 	void readSpells();
 	void readBuildings();
+	void readEnviroments();
+	Exitcode ParseEnviroment(string filename, EnviromentPreset* writeTo);
+	Exitcode ParseEnviroment(ParserOut input, EnviromentPreset* writeTo);
 	Exitcode ParseUnit(string filename, LiveUnitPreset* writeTo);
 	Exitcode ParseUnit(ParserOut input, LiveUnitPreset* writeTo);
 	Exitcode readParseSpell(string filename);
 	Exitcode readParseBuilding(string filename);
 	int searchSpell(string name);
 	int searchUnit(string name);
+	int searchEnviroment(string name);
 	int searchBuilding(string name);
 	Exitcode addUnit(ParserOut data, vector<placeableData<LiveUnitPreset>>* arr);
 	Exitcode addField(ParserOut data, placeableData<FieldPreset> *writeTo);
