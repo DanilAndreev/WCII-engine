@@ -121,20 +121,25 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 }
 
 bool LiveUnit::attack(bool & flag) {
-	DynArr* members = field->getMembers();
-	for (int i = 0; i < members->count(); i++) {
-		Unit* unt = (Unit*)(members->get(i));
-		if (unt) {
-			cordScr tarCords = ((Unit*)(members->get(i)))->getCords();
-			if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0) {
-				string value = "";
-				int id = ((Unit*)(members->get(i)))->getId();
-				Command_c tempEvent = Command_c(0, "damage id", to_string(id).data(), "power", to_string(this->attackPower).data(), 0);
-				gameController->addEventToQueue(tempEvent);
-				this->lastAttackTime = clock();
-				return true;
+	if (this->attackPower > 0) {
+		DynArr* members = field->getMembers();
+		for (int i = 0; i < members->count(); i++) {
+			Unit* unt = (Unit*)(members->get(i));
+			if (unt) {
+				cordScr tarCords = ((Unit*)(members->get(i)))->getCords();
+				if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0 && unt->getTeam() > 0) {
+					string value = "";
+					int id = ((Unit*)(members->get(i)))->getId();
+					Command_c tempEvent = Command_c(0, "damage id", to_string(id).data(), "power", to_string(this->attackPower).data(), 0);
+					gameController->addEventToQueue(tempEvent);
+					this->lastAttackTime = clock();
+					return true;
+				}
 			}
 		}
+	}
+	else {
+		Sleep(1000);
 	}
 	return false;
 }

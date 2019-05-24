@@ -67,7 +67,7 @@ GameMaster::GameMaster() {
 	}
 
 
-	loadGame("basesave");
+	loadGame("baselevel");
 }
 
 GameMaster::~GameMaster() {
