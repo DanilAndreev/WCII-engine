@@ -12,7 +12,6 @@ ScreenDrawindTHREAD::~ScreenDrawindTHREAD() {
 }
 
 void ScreenDrawindTHREAD::threadFunction() {
-//	cout << "ScreenDrawindTHREAD start" << endl;
 	EV_CScreen_FPS* ScrParent = dynamic_cast<EV_CScreen_FPS*>(parent);
 	if (!ScrParent) {
 		return;
@@ -31,7 +30,6 @@ void ScreenDrawindTHREAD::threadFunction() {
 		Sleep(targetSleep);
 	}
 	isRunning = false;
-//	cout << "ScreenDrawindTHREAD stopping" << endl;
 }
 
 

@@ -30,7 +30,6 @@ void EventHndlrTHREAD::threadFunction() {
 		}
 	}
 	isRunning = false;
-//	cout << "EventHndlrTHREAD stopping" << endl;
 }
 
 HANDLE EventHndlrTHREAD::getThreadHandle() {

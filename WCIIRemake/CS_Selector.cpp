@@ -44,7 +44,6 @@ void CS_Selector::select() {
 	}
 	if (!selectingFirst) {
 		Command_c* command_c = new Command_c(string("select area " + to_string(cordFix1.x) + " " + to_string(cordFix1.y) + " " + to_string(cordFix2.x) + " " + to_string(cordFix2.y)));
-		//command_c->printCommand();
 		if (!command_c) {
 			return;
 		}
@@ -67,7 +66,6 @@ void CS_Selector::throwCommand() {
 		break;
 	}
 
-	//	command_c->printCommand();
 	if (!command_c) {
 		return;
 	}

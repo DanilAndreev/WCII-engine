@@ -221,9 +221,6 @@
     <ClCompile Include="LiveUnit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="backup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ThreadDescriptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

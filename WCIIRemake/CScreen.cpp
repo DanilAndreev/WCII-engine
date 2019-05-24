@@ -52,28 +52,25 @@ void CScreen::render(int team) {
 
 void CScreen::draw() {
 	for (int y = 0; y < heigth; y++) {
-//		for (int x = 0; x < width; x++) {
-			COORD cord;
-			cord.X = this->cords.x;
-			cord.Y = y + this->cords.y;
-			DWORD result;
-			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-			//			WORD colorAttr = COLOR_BLUE;
-			const int line_width = this->width;
+		COORD cord;
+		cord.X = this->cords.x;
+		cord.Y = y + this->cords.y;
+		DWORD result;
+		HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		const int line_width = this->width;
 
-			CHAR* line = new CHAR[line_width];
-			WORD* colors = new WORD[line_width];
-			for (int x = 0; x < line_width; x++) {
-				line[x] = Buff[y * width + x]->symbol;
-				colors[x] = Buff[y * width + x]->color;
-			}
-
-
-			WriteConsoleOutputAttribute(hStdOut, colors, line_width, cord, &result);
-
-			WriteConsoleOutputCharacterA(hStdOut, line, line_width, cord, &result); // WriteConsoleOutputCharacter
+		CHAR* line = new CHAR[line_width];
+		WORD* colors = new WORD[line_width];
+		for (int x = 0; x < line_width; x++) {
+			line[x] = Buff[y * width + x]->symbol;
+			colors[x] = Buff[y * width + x]->color;
 		}
-//	}
+
+
+		WriteConsoleOutputAttribute(hStdOut, colors, line_width, cord, &result);
+
+		WriteConsoleOutputCharacterA(hStdOut, line, line_width, cord, &result); // WriteConsoleOutputCharacter
+	}
 }
 
 void CScreen::draw(CScreenPixel fill) {

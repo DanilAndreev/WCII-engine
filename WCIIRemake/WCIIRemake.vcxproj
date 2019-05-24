@@ -255,7 +255,6 @@
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Resource.cpp" />
-    <ClCompile Include="backup.cpp" />
     <ClCompile Include="ScreenDrawindTHREAD.cpp" />
     <ClCompile Include="SearchTarget.cpp" />
     <ClCompile Include="Spell.cpp" />

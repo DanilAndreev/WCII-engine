@@ -6,7 +6,6 @@ ConsoleCommandPattern::ConsoleCommandPattern(string command, string name, string
 	this->name = name;
 	this->usingHelpMessage = usingHelpMessage;
 	this->callback_func = callback_func;
-	//this->parent = parent;
 }
 
 ConsoleCommandPattern::~ConsoleCommandPattern() {

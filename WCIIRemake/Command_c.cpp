@@ -10,14 +10,6 @@ Command_c::Command_c() {
 }
 
 Command_c::Command_c(string arg) {
-/*
-	ParserPosition = 0;
-	pair <string, string> command;
-	command.first = arg;
-	command.second = "command";
-	args.push_back(command);
-*/
-//	cout << "creating command" << endl;
 	this-parseCommand(arg);
 }
 
@@ -34,14 +26,8 @@ Command_c::Command_c(int notUsed, const char* s1, ...) {
 }
 
 Command_c::~Command_c() {
-//	cout << "deleting command" << endl;
-	bool flag = false;
 	for (int i = 0; i < data.size(); i++) {
 		delete data[i];
-		flag = true;
-	}
-	if (flag) {
-		cout << "kuku" << endl;
 	}
 }
 

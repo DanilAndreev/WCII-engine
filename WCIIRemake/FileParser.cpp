@@ -176,18 +176,3 @@ ParserOut FileParser::parseFile(string filename) {
 }
 
 
-
-/*
-int main() {
-	FileReader* reader = new FileReader("demonFury.spell");
-
-	cout << reader->getData();
-
-	FileParser* parser = new FileParser();
-	ParserOut output = parser->parse(reader->getData());
-	output.print();
-
-	delete parser;
-	delete reader;
-}
-*/

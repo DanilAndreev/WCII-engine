@@ -14,9 +14,6 @@ ConsoleCommandController* defaultConComCon;
 GameMaster* gameMaster;
 
 
-
-
-
 int main() {
 	new ThreadDescriptor();
 	defaultConsole = new Console();

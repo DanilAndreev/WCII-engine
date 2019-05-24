@@ -65,8 +65,6 @@ int Field::setCell(cordScr cords, Unit* target) {
 			if (temp) {
 				temp->settingUp();
 			}
-			//target->setup(cords, 1, 1, this->parentScreen);
-			//target->settingUp();
 			members->add(target);
 			return 1;
 		}
@@ -96,7 +94,6 @@ void Field::render(int layer, int team) {
 		if (temp) {
 			temp->render(layer, team);
 		}
-//		((Screenable*)(members->get(i)))->render(layer);
 	}
 }
 

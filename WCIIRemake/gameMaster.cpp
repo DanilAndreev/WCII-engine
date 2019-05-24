@@ -44,28 +44,10 @@ GameMaster::GameMaster() {
 	readUnits();
 	readBuildings();
 
-/*
-	this->field = new Field(40,20);
-	this->scr = new MScreen(40, 20);
-	scr->setCord(cordScr(50, 2));
-	scr->addElement(cordScr(2, 2), this->field->getWidth(), this->field->getHeigth(), this->field);
-	
-	Controller* oldgc = gameController;
-	gameController = new Controller(this->field, scr, defaultConsole, this);
-	if (oldgc) {
-		delete oldgc;
-	}
-	LiveUnit* tunit = new LiveUnit();
-	this->field->setCell(cordScr(1,1), tunit);
-*/
 
 	this->field = new Field(40, 20);
-/*
-	this->scr = new MScreen(40, 20);
-	this->scr->setCord(cordScr(40, 2));
-	this->scr->addElement(cordScr(0, 0), this->field->getWidth(), this->field->getHeigth(), this->field);
 
-*/
+
 	this->scr = new EV_CScreen_FPS(cordScr(40,2), 60, 30, CScreenPixel('_', COLOR_RED), 2, &defaultConComCon->team);
 	EV_CScreen_Controlled* FieldContainer = new EV_CScreen_Controlled(cordScr(0, 0), 40, 20, CScreenPixel('.', COLOR_RED), 2);
 	FieldContainer->addMember(this->field);
@@ -85,7 +67,7 @@ GameMaster::GameMaster() {
 	}
 
 
-	loadGame("test");
+	loadGame("basesave");
 }
 
 GameMaster::~GameMaster() {
@@ -186,10 +168,6 @@ Exitcode GameMaster::ParseUnit(ParserOut input, LiveUnitPreset *writeTo) {
 
 	LiveUnitPreset tempCreaturePreset(name, beautyName, fraction, symbol, width, heigth, health, damage, cooldown, attackRadius, speedDelay, mana, spells, cost, eats, productionTime, type);
 
-//	this->creaturePresets.push_back(tempCreaturePreset);
-//	tempCreaturePreset.print();
-//	defaultConsole->message("Succesfully loaded ");
-//	cout << "Successfuly loaded unit: " << tempCreaturePreset.name << endl;
 	*writeTo = tempCreaturePreset;
 	return GM_NO_ERROR;
 }
@@ -298,7 +276,6 @@ Exitcode GameMaster::readParseSpell(string filename) {
 
 	SpellPreset tempSpellPreset(name, beautyName, type, symbol, damage, cooldown, castCooldown, attackRadius, cost, productionTime, heal, targetType, lifeTime);
 	this->spellsPresets.push_back(tempSpellPreset);
-//	tempSpellPreset.print();
 	cout << "Successfuly loaded spell: " << tempSpellPreset.name << endl;
 	return GM_NO_ERROR;
 }
@@ -523,7 +500,6 @@ Exitcode GameMaster::addUnit(ParserOut data, vector<placeableData<LiveUnitPreset
 }
 
 Exitcode GameMaster::loadGame(string savename) {
-	//gameController->throwCommand(&defaultConComCon->parseCommand("stop threads -lg -ccc"));
 	//loading data from file
 	string path = "saves/" + savename + ".wcsave";
 	FileReader* reader = new FileReader(path);
@@ -539,9 +515,6 @@ Exitcode GameMaster::loadGame(string savename) {
 	ParserOut input = parser->parse(file);
 	delete parser;
 
-
-//	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-//	input.print();
 
 	//adding temp arrays
 	vector<placeableData<LiveUnitPreset>> units;
@@ -589,7 +562,6 @@ Exitcode GameMaster::loadGame(string savename) {
 		for (int id = fBordStart; id <= fBordEnd; id++) {
 			data.args.push_back(input.args[id]);
 		}
-//		data.print();
 		if (data.args[0].first == "unit") {
 			addUnit(data, &units);
 		}

@@ -30,11 +30,6 @@ void EV_CScreen_Controlled::move(int direction) {
 	}
 	if (parentScreen) {
 		cordScr diamCord(newCords.x + this->width, newCords.y + this->heigth);
-/*
-		cout << "newCords: " << newCords << endl;
-		cout << "diamCord: " << diamCord << endl;
-		cout << "cordScr(ps->w, ps->h): " << cordScr(parentScreen->width, parentScreen->heigth) << endl;
-*/
 		this->calcPlacemnt();
 
 		switch (direction) {
@@ -68,8 +63,6 @@ void EV_CScreen_Controlled::calcPlacemnt() {
 		this->cords = targetCords;
 		return;
 	}
-//	cout << "this->width = " << this->width << endl;
-//	cout << "this->heigth = " << this->heigth << endl;
 	if (this->width < parentScreen->width) {
 		targetCords.x = (parentScreen->width - this->width) / 2 - 1;
 	}

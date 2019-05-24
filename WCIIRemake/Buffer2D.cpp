@@ -31,7 +31,6 @@ void Buffer2D::changeRatio(int newwidth, int newheigth) {
 	this->heigth = newheigth;
 
 	Buff = new CScreenPixel * [width * heigth];
-	//	screenBuff = (CScreenPixel**)malloc(sizeof(CScreenPixel*) * width * heigth);
 	for (int i = 0; i < heigth * width; i++) {
 		Buff[i] = new CScreenPixel();
 	}

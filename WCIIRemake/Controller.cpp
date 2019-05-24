@@ -14,12 +14,10 @@ Controller::Controller(Field* ifield, EV_CScreen* iscreen, Console* ioconsole, G
 	this->eventHandlerDescriptor = 0;
 	setup(ioconsole, iscreen, ifield, igameMaster);
 
-	//members->add(this);  //CAUTION:: Controller is a member of itself!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	dataWriting = false;
 
 	EventHndlrTHREAD* eventHandler = new EventHndlrTHREAD(this);
 
-	
 	if (eventHandler) {
 		this->eventHandlerDescriptor = eventHandler->getDescriptor();
 	}
@@ -66,12 +64,9 @@ bool Controller::setConsole(Console* ioconsole) {
 
 bool Controller::setup(Console* console, EV_CScreen* screen, Field* field, GameMaster* gameMaster) {
 	this->clearMembers();
-//	this->setField(field);
 	this->setConsole(console);
 	this->setScreen(screen);
 	this->members->add(gameMaster);
-//	this->members->add(console);
-//	this->members->add(screen);
 	return true;
 }
 
@@ -107,12 +102,10 @@ bool Controller::EventQueueIsEmpty() {
 }
 
 void Controller::pauseEventHandler() {
-//	cout << "Paused event handler" << endl;
 	this->eventHandlerIsPaused = true;
 }
 
 void Controller::unpauseEventHandler() {
-//	cout << "Unpaused event handler" << endl;
 	this->eventHandlerIsPaused = false;
 }
 
@@ -143,41 +136,11 @@ ThreadId Controller::getEventHandlerDescriptor() {
 
 
 Command_c* Controller::throwCommand(Command_c* command) {
-	//	command.printCommand();
-//	Command_c* eventCommand = new Command_c();
-//	*eventCommand = command;
-
-/*
-	cout << "Controller members: ";
-	for (int i = 0; i < members->count(); i++) {
-		Obj* o = members->get(i);
-		cout << o->getDescription() << " ";
-	}
-	cout << endl;
-*/
-
-
-
-	//cout << "throwing command" << endl;
-	
-	
 	if (!this) {
 		return command;
 	}
 	if (!this->eventHandlerIsPaused) {
-		/*
-				defaultConComCon->operateEvent(command);
-		for (int i = 0; i < members->count(); i++) {
-			Obj* object = members->get(i);
-			if (object) {
-				object->catchEvent(command, false);
-			}
-		}
-*/
 		this->catchEvent(command, false);
-	}
-	else {
-//		cout << "cannot operate event: EventHandlerPaused" << endl;
 	}
 	return command;
 }

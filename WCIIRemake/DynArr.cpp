@@ -96,11 +96,6 @@ int DynArr::del(Obj* target) {
 }
 
 void DynArr::clear() {
-/*
-	for (int i = 0; i < this->count(); i++) {
-		delById(i);
-	}
-*/
 	notBusy = false;
 	delete[] this->array;
 	len = 0;

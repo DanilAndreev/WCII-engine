@@ -17,7 +17,6 @@ Unit::Unit(char value, int type, Field* field, int health, int team) {
 	this->width = 1;
 	this->heigth = 1;
 	this->attackLength = 0;
-//	cout << "Constructor: created unit " << this->value << " type " << this->type << endl;
 }
 
 
@@ -48,7 +47,7 @@ char Unit::getValue() {
 
 
 void Unit::render(int layer, int team) {
-	if (parentScreen != NULL /*&& this->layer == layer*/) { 
+	if (parentScreen != NULL) { 
 		cordScr shift;
 		if (field) {
 			shift = this->field->getCords();

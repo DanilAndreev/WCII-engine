@@ -12,7 +12,6 @@ AttackTHREAD::~AttackTHREAD() {
 }
 
 void AttackTHREAD::threadFunction() {
-//	cout << "AttackTHREAD start" << endl;
 	LiveUnit* LUParent = (LiveUnit*)parent;
 	time_t temp = clock() - LUParent->getLastAttackTime();
 	if (isRunning && temp < LUParent->getCooldown()) { // checking if after recreating thread cooldown weren't finished
@@ -26,7 +25,6 @@ void AttackTHREAD::threadFunction() {
 		else {
 			if (isRunning && LUParent->getCords() != *(LUParent->getMoveDest())) {
 				LUParent->goTo(LUParent->getMoveDest(), isRunning);
-				//Sleep(1000);  //it is a stop in the goTo()
 			}
 			else {
 				if (isRunning && LUParent->moveNoAttack) {
@@ -37,5 +35,4 @@ void AttackTHREAD::threadFunction() {
 		}
 	}
 	this->isRunning = false;
-//	cout << "AttackTHREAD stopping" << endl;
 }

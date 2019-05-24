@@ -150,7 +150,6 @@ Command_c ConsoleCommandController::getCommand() {
 
 KeyID ConsoleCommandController::getKey() {
 	KeyID keyID = this->console->readKey();
-//	cout << "key: " << keyID << endl;
 	return keyID;
 }
 
@@ -159,7 +158,6 @@ void ConsoleCommandController::switchUI() {
 }
 
 void ConsoleCommandController::throwCommand(Command_c* command) { //--------------------------------------------------------------MODIFIED
-//	mainController->addEventToQueue(*command);
 	this->addCommandToQueue(*command);
 }
 
