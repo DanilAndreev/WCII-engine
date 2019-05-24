@@ -3,7 +3,8 @@
 using namespace std;
 
 
-void AStar::getMap(DynArr * field, int type, Unit & unt) {
+void AStar::getMap(DynArr* field, int type, Unit* unt) {
+	/*
 	int count = 0;
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
@@ -11,26 +12,36 @@ void AStar::getMap(DynArr * field, int type, Unit & unt) {
 				grid[i][j] = 1;
 			}
 			else grid[i][j] = 0;
+
+			cout << grid[i][j] << " ";
 		}
 		count++;
+		cout << endl << endl;
 	}
-}
+	*/
 
-void AStar::DebugMap() {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			if (i == 15/* && !(j == 9)*/) {
-				grid[i][j] = 0;
-			}
-			else grid[i][j] = 1;
-			if (grid[i][j] == 0) {
-				path[i][j] = char(0xdb);
-			}
-			else {
-				path[i][j] = '.';
+	for (int i = 0; i < field->count(); i++) {
+		Unit* temp = (Unit*)(field->get(i));
+		if (temp->getType() == type && temp != unt) {  //------------------------------------------------------------------------------------------------------------------<<<<<<<<<<<<<<<
+			int x = temp->getCords().x;
+			int y = temp->getCords().y;
+			if (x < rows && x >= 0 && y < columns && y >= 0) {
+				grid[y][x] = 0;
 			}
 		}
 	}
+
+
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < columns; j++) {
+			cout << grid[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl << endl;
+
+	Sleep(3000);
 }
 
 void AStar::Dijkstra(cordScr start, cordScr dest) {
@@ -51,29 +62,37 @@ void AStar::getPathMap() {
 	}
 }
 
-AStar::AStar(int h, int w) {
+AStar::AStar(Field* world, Unit* unit, int h, int w, cordScr start, cordScr dest) : FastPath(world, unit) {
 	rows = h;
 	columns = w;
-	path = new char*[rows];
-	cellDetails = new cell*[rows];
-	grid = new int*[rows];
-	closedList = new bool*[rows];
+	this->start.x = start.y;
+	this->start.y = start.x;
+	this->dest.x = dest.y;
+	this->dest.y = dest.x;
+	cellDetails = new cell * [rows];
+	grid = new int* [rows];
+	closedList = new bool* [rows];
 	for (int i = 0; i < rows; i++) {
-		path[i] = new char[columns];
 		cellDetails[i] = new cell[columns];
 		grid[i] = new int[columns];
 		closedList[i] = new bool[columns];
 		for (int j = 0; j < columns; j++) {
 			closedList[i][j] = false;
+			grid[i][j] = 1; //-----------------------------
 		}
 	}
 }
 
 AStar::~AStar() {
-	delete[] path;
+	for (int i = 0; i < rows; i++)
+	{
+		delete[] grid[i];
+		delete[] closedList[i];
+		delete[] cellDetails[i];
+	}
 	delete[] grid;
-	delete[] cellDetails;
 	delete[] closedList;
+	delete[] cellDetails;
 }
 bool AStar::isValid(int row, int col) {
 	// Returns true if row number and column number 
@@ -105,17 +124,17 @@ bool AStar::isDestination(int row, int col, cordScr dest) {
 // 
 double AStar::calculateHValue(int row, int col, cordScr dest) {
 	// Return using the distance formula of Pifagor :)
-	return ((double)sqrt((row - dest.x)*(row - dest.x)
-		+ (col - dest.y)*(col - dest.y)));
+	return ((double)sqrt((row - dest.x) * (row - dest.x)
+		+ (col - dest.y) * (col - dest.y)));
 }
 
 // trace the path from the source 
 // to destination 
-void AStar::tracePath(cordScr dest) {
-	printf("\nThe Path is \n");
+cordScr AStar::tracePath(cordScr dest) {
+	//printf("\nThe Path is \n");
 	int row = dest.x;
 	int col = dest.y;
-
+	cordScr nextCord;
 	stack<Pair> Path;
 
 	while (!(cellDetails[row][col].parent_i == row
@@ -127,47 +146,31 @@ void AStar::tracePath(cordScr dest) {
 		row = temp_row;
 		col = temp_col;
 	}
-
-	Path.push(make_pair(row, col));
-	while (!Path.empty()) {
-		pair<int, int> p = Path.top();
-		Path.pop();
-		for (int x = 0; x < rows; x++) {
-			for (int y = 0; y < columns; y++) {
-				if (grid[x][y] == 0) {
-					path[x][y] = char(0xdb);
-				}
-				else {
-					if (y == p.second && x == p.first) {
-						path[x][y] = 'x';
-					}
-					else if (path[x][y] == 'x') continue;
-					else path[x][y] = '.';
-				}
-			}
-		}
-		printf("%d %d\n", p.first, p.second);
-		// ���� ����� �������� ����� ���� �������� � �������� �����������
-	}
-
-	return;
+	pair<int, int> p = Path.top();
+	while (!Path.empty()) Path.pop();
+	//printf("%d %d\n", p.first, p.second);
+	nextCord.x = p.second;
+	nextCord.y = p.first;
+	// ���� ����� �������� ����� ���� �������� � �������� �����������
+	return nextCord;
 }
 
 // find the shortest path between 
 // a given source cell to a destination cell
-void AStar::aStarSearch(cordScr start, cordScr dest)
+void AStar::aStarSearch()
 {
+	bool isUnreachable = false;
 	// If the source is out of range 
 	if (isValid(start.x, start.y) == false)
 	{
-		printf("Source is invalid\n");
+		//printf("Source is invalid\n");
 		return;
 	}
 
 	// If the destination is out of range 
 	if (isValid(dest.x, dest.y) == false)
 	{
-		printf("Destination is invalid\n");
+		//printf("Destination is invalid\n");
 		return;
 	}
 
@@ -176,13 +179,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 	if (isUnBlocked(start.x, start.y) == false ||
 		isUnBlocked(dest.x, dest.y) == false)
 	{
-		printf("Source or the destination is blocked\n");
-		return;
+		//printf("Source or the destination is blocked\n");
+		isUnreachable = true;
 	}
 	// If the destination cell is the same as source cell 
 	if (isDestination(start.x, start.y, dest) == true)
 	{
-		printf("We are already at the destination\n");
+		//printf("We are already at the destination\n");
 		return;
 	}
 
@@ -240,9 +243,9 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				// Set the Parent of the destination cell 
 				cellDetails[i - 1][j].parent_i = i;
 				cellDetails[i - 1][j].parent_j = j;
-				printf("The destination cell is found\n");
-				direction = 1;
-				tracePath(dest);
+				//printf("The destination cell is found\n");
+				//direction = 1;
+				nextCord = tracePath(dest);
 				foundDest = true;
 				return;
 			}
@@ -267,13 +270,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		}
 		if (isValid(i + 1, j) == true)
 		{
-			if (isDestination(i + 1, j, dest) == true)
+			if (isDestination(i + 1, j, dest) == true && !isUnreachable)
 			{
 				cellDetails[i + 1][j].parent_i = i;
 				cellDetails[i + 1][j].parent_j = j;
-				printf("The destination cell is found\n");
-				direction = 2;
-				tracePath(dest);
+				//printf("The destination cell is found\n");
+				//direction = 2;
+				nextCord = tracePath(dest);
 				foundDest = true;
 				return;
 			}
@@ -298,13 +301,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 
 		if (isValid(i, j + 1) == true)
 		{
-			if (isDestination(i, j + 1, dest) == true)
+			if (isDestination(i, j + 1, dest) == true && !isUnreachable)
 			{
 				cellDetails[i][j + 1].parent_i = i;
 				cellDetails[i][j + 1].parent_j = j;
-				printf("The destination cell is found\n");
-				tracePath(dest);
-				direction = 3;
+				//printf("The destination cell is found\n");
+				nextCord = tracePath(dest);
+				//direction = 3;
 				foundDest = true;
 				return;
 			}
@@ -327,15 +330,15 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				}
 			}
 		}
-		if (isValid(i, j - 1) == true)
+		if (isValid(i, j - 1) == true && !isUnreachable)
 		{
 			if (isDestination(i, j - 1, dest) == true)
 			{
 				cellDetails[i][j - 1].parent_i = i;
 				cellDetails[i][j - 1].parent_j = j;
-				printf("The destination cell is found\n");
-				tracePath(dest);
-				direction = 4;
+				//printf("The destination cell is found\n");
+				nextCord = tracePath(dest);
+				//direction = 4;
 				foundDest = true;
 				return;
 			}
@@ -361,13 +364,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		}
 		if (isValid(i - 1, j + 1) == true)
 		{
-			if (isDestination(i - 1, j + 1, dest) == true)
+			if (isDestination(i - 1, j + 1, dest) == true && !isUnreachable)
 			{
 				cellDetails[i - 1][j + 1].parent_i = i;
 				cellDetails[i - 1][j + 1].parent_j = j;
-				printf("The destination cell is found\n");
-				tracePath(dest);
-				direction = 5;
+				//printf("The destination cell is found\n");
+				nextCord = tracePath(dest);
+				//direction = 5;
 				foundDest = true;
 				return;
 			}
@@ -393,13 +396,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		}
 		if (isValid(i - 1, j - 1) == true)
 		{
-			if (isDestination(i - 1, j - 1, dest) == true)
+			if (isDestination(i - 1, j - 1, dest) == true && !isUnreachable)
 			{
 				cellDetails[i - 1][j - 1].parent_i = i;
 				cellDetails[i - 1][j - 1].parent_j = j;
-				printf("The destination cell is found\n");
-				tracePath(dest);
-				direction = 6;
+				//printf("The destination cell is found\n");
+				nextCord = tracePath(dest);
+				//direction = 6;
 				foundDest = true;
 				return;
 			}
@@ -425,13 +428,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		}
 		if (isValid(i + 1, j + 1) == true)
 		{
-			if (isDestination(i + 1, j + 1, dest) == true)
+			if (isDestination(i + 1, j + 1, dest) == true && !isUnreachable)
 			{
 				cellDetails[i + 1][j + 1].parent_i = i;
 				cellDetails[i + 1][j + 1].parent_j = j;
-				printf("The destination cell is found\n");
-				tracePath(dest);
-				direction = 7;
+				//printf("The destination cell is found\n");
+				nextCord = tracePath(dest);
+				//direction = 7;
 				foundDest = true;
 				return;
 			}
@@ -458,13 +461,13 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 		}
 		if (isValid(i + 1, j - 1) == true)
 		{
-			if (isDestination(i + 1, j - 1, dest) == true)
+			if (isDestination(i + 1, j - 1, dest) == true && !isUnreachable)
 			{
 				cellDetails[i + 1][j - 1].parent_i = i;
 				cellDetails[i + 1][j - 1].parent_j = j;
-				printf("The destination cell is found\n");
-				tracePath(dest);
-				direction = 8;
+				//printf("The destination cell is found\n");
+				nextCord = tracePath(dest);
+				//direction = 8;
 				foundDest = true;
 				return;
 			}
@@ -491,7 +494,8 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 	}
 	if (foundDest == false) {
 		//printf("Failed to find the Destination Cell\n");
-		direction = 0;
+		//direction = 0;
+
 		double minHWalue = FLT_MAX;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -505,12 +509,12 @@ void AStar::aStarSearch(cordScr start, cordScr dest)
 				if (closedList[i][j] == true && cellDetails[i][j].h == minHWalue) {
 					dest.x = i;
 					dest.y = j;
-					tracePath(dest);
+					nextCord = tracePath(dest);
 					return;
 				}
 			}
 		}
-		//cout << minHWalue;
+		//cout << minHWalue;*/
 	}
 	return;
 }

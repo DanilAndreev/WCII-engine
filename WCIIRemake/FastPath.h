@@ -14,10 +14,10 @@ public:
 	FastPath(Field* field, Unit* unit);
 	virtual ~FastPath();
 	int solveDirection(cordScr dest);
+	int determineDirection(cordScr cords);
 private:
 	bool checkCords(cordScr cords);
 	void createSolveQueue();
-	int determineDirection(cordScr cords);
 };
 
 

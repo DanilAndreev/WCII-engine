@@ -92,10 +92,18 @@ void LiveUnit::initMovement() {
 bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 	threadFlag = true;
 
-	FastPath* fastpath = new FastPath(this->field, this);
+	//FastPath* fastpath = new FastPath(this->field, this);
 	int timeoutCounter = 0;
 	if (flag && timeoutCounter <= TimeoutTimes && this->health > 0) {
-		int direction = fastpath->solveDirection(*dest);
+		// configurating ASTAR searcher
+		AStar* astarSearch = new AStar(this->field, this, this->field->getHeigth(), this->field->getWidth(), this->getCords(), *dest);
+		astarSearch->getMap(this->field->getMembers(), this->type, this);
+
+		astarSearch->aStarSearch();
+		int direction = astarSearch->determineDirection(astarSearch->getNextCord());
+
+
+		//int direction = fastpath->solveDirection(*dest);
 		if (direction == -1) {
 //			break;
 			return true;
@@ -111,8 +119,9 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 			srand(time(NULL));
 			Sleep(this->moveSpeed + rand() % 20);
 		}
+		delete astarSearch;
 	}
-	delete fastpath;
+	//delete fastpath;
 	threadFlag = false;
 	return true;
 }

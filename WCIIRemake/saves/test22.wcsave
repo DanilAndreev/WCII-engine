@@ -1,0 +1,28 @@
+save test22
+ unit { x:10; y:10; symbol:'#'; width:1; heigth:1; health:0; damage:40; cooldown:10000; attackRadius:5; speedDelay:10;}
+ unit { x:11; y:10; symbol:'#'; width:1; heigth:1; health:0; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:12; y:10; symbol:'#'; width:1; heigth:1; health:0; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:13; y:10; symbol:'#'; width:1; heigth:1; health:0; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:14; y:10; symbol:'#'; width:1; heigth:1; health:0; damage:40; cooldown:10000; attackRadius:5; speedDelay:1000;}
+ unit { x:11; y:11; symbol:'#'; width:1; heigth:1; health:0; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:12; y:11; symbol:'#'; width:1; heigth:1; health:0; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:13; y:11; symbol:'#'; width:1; heigth:1; health:0; damage:100; cooldown:1000; attackRadius:5; speedDelay:1000;}
+ unit { x:20; y:20; symbol:'w'; width:1; heigth:1; health:60; damage:30; cooldown:10000; attackRadius:30; speedDelay:700;}
+ unit { x:20; y:25; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:20; y:13; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:20; y:23; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:20; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:19; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:18; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:17; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:17; y:19; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:17; y:20; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:17; y:21; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:21; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:22; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:23; y:18; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:23; y:19; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:23; y:20; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:23; y:21; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ unit { x:23; y:22; symbol:'b'; width:1; heigth:1; health:100; damage:30; cooldown:1000; attackRadius:20; speedDelay:1000;}
+ field { width:30; heigth:30;}
