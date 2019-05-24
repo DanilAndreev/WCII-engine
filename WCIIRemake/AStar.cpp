@@ -3,7 +3,7 @@
 using namespace std;
 
 
-void AStar::getMap(DynArr* field, int type, Unit* unt) {
+void AStar::getMap(Field* field, int type, Unit* unt) {
 	/*
 	int count = 0;
 	for (int i = 0; i < rows; i++) {
@@ -19,13 +19,12 @@ void AStar::getMap(DynArr* field, int type, Unit* unt) {
 		cout << endl << endl;
 	}
 	*/
-
-	for (int i = 0; i < field->count(); i++) {
-		Unit* temp = (Unit*)(field->get(i));
+	for (int i = 0; i < field->getMembers()->count(); i++) {
+		Unit* temp = (Unit*)(field->getMembers()->get(i));
 		if (temp->getType() == type && temp != unt) {  //------------------------------------------------------------------------------------------------------------------<<<<<<<<<<<<<<<
 			int x = temp->getCords().x;
 			int y = temp->getCords().y;
-			if (x < rows && x >= 0 && y < columns && y >= 0) {
+			if (y < rows && y >= 0 && x < columns && x >= 0) {
 				grid[y][x] = 0;
 			}
 		}
@@ -33,7 +32,7 @@ void AStar::getMap(DynArr* field, int type, Unit* unt) {
 
 
 
-	for (int i = 0; i < rows; i++) {
+	/*for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
 			cout << grid[i][j];
 		}
@@ -41,7 +40,7 @@ void AStar::getMap(DynArr* field, int type, Unit* unt) {
 	}
 	cout << endl << endl;
 
-	Sleep(3000);
+	Sleep(3000);*/
 }
 
 void AStar::Dijkstra(cordScr start, cordScr dest) {
@@ -51,15 +50,6 @@ void AStar::Dijkstra(cordScr start, cordScr dest) {
 int AStar::getPath() {
 	//aStarSearch(start, finish)
 	return this->direction;
-}
-
-void AStar::getPathMap() {
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			cout << path[i][j];
-		}
-		cout << endl;
-	}
 }
 
 AStar::AStar(Field* world, Unit* unit, int h, int w, cordScr start, cordScr dest) : FastPath(world, unit) {

@@ -155,6 +155,12 @@ Command_c* Controller::throwCommand(Command_c* command) {
 	}
 	cout << endl;
 */
+
+
+
+	//cout << "throwing command" << endl;
+	
+	
 	if (!this) {
 		return command;
 	}

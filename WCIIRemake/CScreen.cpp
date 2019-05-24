@@ -68,6 +68,7 @@ void CScreen::draw() {
 				colors[x] = Buff[y * width + x]->color;
 			}
 
+
 			WriteConsoleOutputAttribute(hStdOut, colors, line_width, cord, &result);
 
 			WriteConsoleOutputCharacterA(hStdOut, line, line_width, cord, &result); // WriteConsoleOutputCharacter

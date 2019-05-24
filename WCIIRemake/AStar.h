@@ -43,12 +43,12 @@ protected:
 public:
 	//AStar(int h, int w);
 	~AStar();
-	void getPathMap(); //show path(debug)
 	AStar(Field* world, Unit* unit, int h, int w, cordScr start, cordScr dest);
 	//AStar(Field * world, Unit * unit, int h, int w);
 	void getMap(DynArr* field, int type, Unit* unt); // for transformation in bool map
 	int rows;
 	int columns;
+	void getMap(Field* field, int type, Unit* unt);
 	void Dijkstra(cordScr start, cordScr dest); // path search of Dijkstra(not developed)
 	int getPath();// returns 1 - up, 2 - down, 3 - right, 4 - left, 5 - north east, 6 - north west, 7 - south east, 8 - south west
 	void aStarSearch(); // main function for astar search, from start to destination

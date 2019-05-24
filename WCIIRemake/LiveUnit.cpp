@@ -97,7 +97,7 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 	if (flag && timeoutCounter <= TimeoutTimes && this->health > 0) {
 		// configurating ASTAR searcher
 		AStar* astarSearch = new AStar(this->field, this, this->field->getHeigth(), this->field->getWidth(), this->getCords(), *dest);
-		astarSearch->getMap(this->field->getMembers(), this->type, this);
+		astarSearch->getMap(this->field, this->type, this);
 
 		astarSearch->aStarSearch();
 		int direction = astarSearch->determineDirection(astarSearch->getNextCord());
