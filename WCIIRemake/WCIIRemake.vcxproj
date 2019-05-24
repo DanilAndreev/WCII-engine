@@ -188,7 +188,6 @@
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="ID.h" />
     <ClInclude Include="LiveUnit.h" />
-    <ClInclude Include="MScreen.h" />
     <ClInclude Include="MultiTeamSelector.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ParserOut.h" />
@@ -198,7 +197,6 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Screenable.h" />
     <ClInclude Include="ScreenDrawindTHREAD.h" />
     <ClInclude Include="SearchTarget.h" />
     <ClInclude Include="Spell.h" />
@@ -243,7 +241,6 @@
     <ClCompile Include="gameMaster.cpp" />
     <ClCompile Include="LiveUnit.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MScreen.cpp" />
     <ClCompile Include="MultiTeamSelector.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ParserOut.cpp" />
@@ -258,7 +255,6 @@
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="Resource.cpp" />
-    <ClCompile Include="Screenable.cpp" />
     <ClCompile Include="backup.cpp" />
     <ClCompile Include="ScreenDrawindTHREAD.cpp" />
     <ClCompile Include="SearchTarget.cpp" />

@@ -1,5 +1,7 @@
 #pragma once
 #include "EV_CScreen.h"
+#include "ScreenDrawindTHREAD.h"
+
 class EV_CScreen_FPS : public EV_CScreen {
 protected:
 	ThreadId ScreenDrawingTHREADDescriptor; // descriptor of Screen drawin thread

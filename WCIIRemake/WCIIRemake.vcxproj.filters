@@ -21,9 +21,6 @@
     <ClInclude Include="Obj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Screenable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -31,9 +28,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Queue.h">
@@ -191,9 +185,6 @@
     <ClCompile Include="Obj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Screenable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -201,9 +192,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Field.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Queue.cpp">

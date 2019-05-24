@@ -26,11 +26,9 @@
 #include <tchar.h>
 #include <stdio.h>
 #include "Obj.h"
-#include "Screenable.h"
 #include "DynArr.h"
 #include "Field.h"
 #include "Unit.h"
-#include "MScreen.h"
 #include "AStar.h"
 #include "Queue.h"
 #include <iostream>
