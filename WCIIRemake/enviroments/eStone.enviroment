@@ -1,0 +1,1 @@
+enviroment eStone{    beatyName: "Stone";     symbol: 'S';    width: 1;    heigth: 1;    type: 1;}

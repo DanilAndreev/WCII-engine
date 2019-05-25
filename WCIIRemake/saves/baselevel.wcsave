@@ -1,350 +1,198 @@
-save test
-
-field{
-    width: 12;
-    heigth: 22;
-}
-
-player{
-    team: 1;
-    friends: ["3"];
-    gold: 100;
-    wood: 100;
-    type: player;
-    playerName: "Admin";
-}
-
-player{
-    team: 2;
-    friends: [];
-    gold: 100;
-    wood: 100;
-    type: ai;
-}
-
-player{
-    team: 3;
-    friends: ["1"];
-    gold: 10000;
-    wood: 10000;
-    type: ai;
-}
-
-unit{
-    symbol: 'b';
-    x: 1;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 2;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 3;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 4;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 5;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 6;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 7;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 8;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 9;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-unit{
-    symbol: 'b';
-    x: 10;
-    y: 1;
-    health: 100;
-    width: 1;
-    heigth: 1;
-    team: 1;
-    cooldown: 1000;
-    speedDelay: 700;
-    attackRadius: 5;
-    damage: 40;
-}
-
-unit{
-    symbol: 'A';
-    x: 1;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 2;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 3;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 4;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 5;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 6;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 7;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 8;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 9;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-unit{
-    symbol: 'A';
-    x: 10;
-    y: 20;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 2;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-
-unit{
-    symbol: 'T';
-    x: 11;
-    y: 3;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 3;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-
-unit{
-    symbol: 'T';
-    x: 11;
-    y: 4;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 3;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-
-unit{
-    symbol: 'T';
-    x: 0;
-    y: 3;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 3;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-
-unit{
-    symbol: 'T';
-    x: 0;
-    y: 4;
-    health: 50;
-    width: 1;
-    heigth: 1;
-    team: 3;
-    cooldown: 600;
-    speedDelay: 500;
-    attackRadius: 5;
-    damage: 30;
-}
-
+save baselevel
+ enviroment { x:2; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:2; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:2; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:2; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:2; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:2; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:2; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:3; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:4; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:5; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:6; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:9; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:10; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:12; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:10; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:12; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:13; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:13; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:10; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:12; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:13; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:17; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:18; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:20; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:25; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:26; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:31; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:32; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:34; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:33; y:12; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:11; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:10; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:9; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:7; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:34; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:33; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:31; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:32; y:6; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:8; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:47; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:47; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:47; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:47; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:47; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:46; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:45; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:44; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:43; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:42; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:43; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:44; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:45; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:46; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:39; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:38; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:37; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:36; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:35; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:32; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:32; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:31; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:29; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:28; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:32; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:31; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:30; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:29; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:28; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:27; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:24; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:22; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:21; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:20; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:19; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:20; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:21; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:22; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:23; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:16; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:15; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:14; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:13; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:12; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:20; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:19; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:18; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:17; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:16; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:15; symbol:'S'; width:1; heigth:1; type:1;}
+ enviroment { x:11; y:14; symbol:'S'; width:1; heigth:1; type:1;}
+ unit { x:49; y:0; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:49; y:1; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:48; y:1; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:48; y:0; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:47; y:0; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:47; y:1; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:48; y:2; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:49; y:2; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:46; y:0; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:49; y:3; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:47; y:2; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:46; y:1; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:45; y:0; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:44; y:0; symbol:'f'; width:1; heigth:1; health:80; damage:30; cooldown:650; attackRadius:2; speedDelay:900; type:1; team:1;}
+ unit { x:0; y:24; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:0; y:23; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:0; y:22; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:0; y:21; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:1; y:24; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:2; y:24; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:3; y:24; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:4; y:24; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:3; y:23; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:2; y:23; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:1; y:23; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:1; y:22; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ unit { x:5; y:24; symbol:'g'; width:1; heigth:1; health:100; damage:30; cooldown:700; attackRadius:2; speedDelay:900; type:1; team:2;}
+ field { width:50; heigth:25;}

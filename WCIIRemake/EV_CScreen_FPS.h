@@ -11,6 +11,7 @@ protected:
 public:
 	EV_CScreen_FPS(cordScr icords, int iwidth, int iheigth, CScreenPixel dafaultFill, int ilayer, int* iteam);
 	~EV_CScreen_FPS();
+	void startDrawingThread();
 	int* getTeam();
 	void setTeam(int* newTeam);
 	void setFrameRate(int newFrameRate); // setts current frame rate with input

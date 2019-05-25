@@ -730,6 +730,7 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 	delete this->field;
 	this->field = new Field(field.preset);
 	delete this->scr;
+	this->scr = NULL;
 
 	this->scr = new EV_CScreen_FPS(cordScr(40, 2), 60, 30, CScreenPixel(' ', COLOR_RED), 2, &defaultConComCon->team);
 
@@ -745,6 +746,7 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 
 	this->scr->addMember(SCR_Field);
 
+
 	EV_CScreen* top_bar = new EV_CScreen(cordScr(0, 0), 60, 2, CScreenPixel('+', COLOR_WHITE), 3);
 	this->scr->addMember(top_bar);
 
@@ -757,7 +759,15 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 		LiveUnit* tempUnit = new LiveUnit(units[i].preset, this->field, units[i].team);
 		this->field->setCell(cordScr(units[i].x, units[i].y), tempUnit);
 	}
+
+
+
 	gameController->setup(defaultConsole, this->scr, this->field, this);
+
+
+
+
+
 
 	defaultConComCon->setConsole(defaultConsole);
 	defaultConComCon->setController(gameController);
@@ -766,6 +776,8 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 	gameController->unpauseEventHandler();
 	tempEvent = Command_c("unpause -command_input");
 	gameController->throwCommand(&tempEvent);
+
+	this->scr->startDrawingThread();
 
 	if (showInfo) {
 		defaultConsole->message(string("Succesfully loaded: ") + savename);

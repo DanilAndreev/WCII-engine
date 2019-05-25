@@ -57,6 +57,9 @@ void Unit::render(int layer, int team) {
 		if (this->isSelected(team)) {
 			pixel.color = COLOR_YELLOW;
 		}
+		if (this->health <= 0) {
+			pixel.symbol = '#';
+		}
 		parentScreen->putToBuff(this->cords + shift, pixel);
 	}
 }

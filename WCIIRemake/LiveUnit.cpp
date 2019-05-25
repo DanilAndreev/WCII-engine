@@ -387,6 +387,7 @@ void LiveUnit::writeToCommand(Command_c* command, Eventable* oParent) {
 	writer << " attackRadius:" << parent->attackLength << ";";
 	writer << " speedDelay:" << parent->moveSpeed << ";";
 	writer << " type:" << parent->type << ";";
+	writer << " team:" << parent->team << ";";
 	//writer << "mana:" << parent->mana << ";";
 	writer << "}" << endl;
 }
