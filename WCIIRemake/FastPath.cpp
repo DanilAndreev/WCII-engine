@@ -32,7 +32,7 @@ int FastPath::solveDirection(cordScr dest) {
 	float firstLen = minCords.lineLength(dest, minCords);
 	float minLen = firstLen;
 	for (int i = 1; i < solveQueue.size(); i++) {
-		int curLen = minCords.lineLength(dest, solveQueue[i]);
+		float curLen = minCords.lineLength(dest, solveQueue[i]);
 		if (curLen < minLen) {
 			minLen = curLen;
 			minCords = solveQueue[i];

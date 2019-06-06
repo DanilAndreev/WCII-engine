@@ -173,7 +173,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			hdc = BeginPaint(hWnd, &ps);
 			TextOut(hdc,
 				5, pos,
-				greeting, _tcslen(greeting));
+				greeting, (int)_tcslen(greeting));
 			EndPaint(hWnd, &ps);
 			break;
 

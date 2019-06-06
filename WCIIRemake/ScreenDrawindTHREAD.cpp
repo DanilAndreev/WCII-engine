@@ -27,7 +27,7 @@ void ScreenDrawindTHREAD::threadFunction() {
 		if (targetSleep < 0) {
 			targetSleep = 0;
 		}
-		Sleep(targetSleep);
+		Sleep((DWORD)targetSleep);
 	}
 	isRunning = false;
 }

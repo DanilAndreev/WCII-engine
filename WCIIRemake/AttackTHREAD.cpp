@@ -16,11 +16,11 @@ void AttackTHREAD::threadFunction() {
 	time_t temp = clock() - LUParent->getLastAttackTime();
 	if (isRunning && temp < LUParent->getCooldown()) { // checking if after recreating thread cooldown weren't finished
 		time_t deleteMe = clock();
-		Sleep(temp);
+		Sleep((DWORD)temp);
 	}
 	while (isRunning) {
 		if (isRunning && !(LUParent->moveNoAttack) && LUParent->attack(isRunning)) {
-			Sleep(LUParent->getCooldown());
+			Sleep((DWORD)LUParent->getCooldown());
 		}
 		else {
 			if (isRunning && LUParent->getCords() != *(LUParent->getMoveDest())) {

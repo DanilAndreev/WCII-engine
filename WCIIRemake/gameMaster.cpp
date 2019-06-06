@@ -671,7 +671,7 @@ Exitcode GameMaster::loadGame(string savename, bool showInfo) {
 	}
 
 	int dataStart = 2;
-	int dataEnd = input.args.size()-1;
+	int dataEnd = (int)(input.args.size()-1);
 
 	int step = 1;
 	for (int i = dataStart; i <= dataEnd; i+= step) {

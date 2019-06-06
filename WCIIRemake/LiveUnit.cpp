@@ -111,8 +111,8 @@ bool LiveUnit::goTo(cordScr* dest, bool & flag) {
 		else {
 			timeoutCounter = 0;
 			move(direction);
-			srand(time(NULL));
-			Sleep(this->moveSpeed + rand() % 20);
+			srand((int)time(NULL));
+			Sleep((DWORD)(this->moveSpeed + rand() % 20));
 		}
 		delete astarSearch;
 	}
@@ -130,7 +130,7 @@ bool LiveUnit::attack(bool & flag) {
 				cordScr tarCords = ((Unit*)(members->get(i)))->getCords();
 				if (this->cords.lineLength(this->cords, tarCords) <= this->attackLength && this->team != unt->getTeam() && unt->getHealth() > 0 && unt->getTeam() > 0) {
 					string value = "";
-					int id = ((Unit*)(members->get(i)))->getId();
+					ID id = ((Unit*)(members->get(i)))->getId();
 					Command_c tempEvent = Command_c(0, "damage id", to_string(id).data(), "power", to_string(this->attackPower).data(), 0);
 					gameController->addEventToQueue(tempEvent);
 					this->lastAttackTime = clock();

@@ -10,7 +10,7 @@ Command_c::Command_c() {
 }
 
 Command_c::Command_c(string arg) {
-	this-parseCommand(arg);
+	this->parseCommand(arg);
 }
 
 Command_c::Command_c(int notUsed, const char* s1, ...) {
@@ -84,7 +84,7 @@ bool operator^=(const Command_c& left, const Command_c& right) {
 		}
 	}
 	if (right.args.size() > left.args.size()) {
-		for (int i = left.args.size(); i < right.args.size(); i++) {
+		for (int i = (int)left.args.size(); i < (int)right.args.size(); i++) {
 			if (right.args[i].second != "flag") {
 				return false;
 			}

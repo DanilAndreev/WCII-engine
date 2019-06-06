@@ -20,15 +20,12 @@ int main() {
 	defaultConComCon = new ConsoleCommandController(defaultConsole, gameController, 0);
 	gameMaster = new GameMaster();
 
-//	EventHndlrTHREAD* evHdlrThread = (EventHndlrTHREAD*)(gameThreads->getThread(gameController->getEventHandlerDescriptor()));
 	GameAlifeTHREAD* HgameAlifeThread = (GameAlifeTHREAD*)(gameThreads->getThread(gameMaster->getGameAlifeTHREADDescriptor()));
 
-//	gameMaster->scr->render();
 	if (HgameAlifeThread) {
 		HANDLE gameAlifeHandle = HgameAlifeThread->getThreadHandle();
 		if (gameAlifeHandle) {
 			WaitForSingleObject(gameAlifeHandle, INFINITE);
 		}
 	}
-
 }

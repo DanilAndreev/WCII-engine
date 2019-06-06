@@ -59,5 +59,5 @@ ThreadId ThreadDescriptor::getFreeId() {
 }
 
 Threadable * ThreadDescriptor::getT(ThreadId index) {
-	return (Threadable*)(get(index));
+	return (Threadable*)(get((int)index));
 }
