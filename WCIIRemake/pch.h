@@ -15,22 +15,33 @@
 #include <set>
 #include <list>
 #include <algorithm>
-#include <windows.h>
+
+
+#include <Windows.h>
+#include <process.h>
+
+
 #include <stdlib.h>
 #include <cstring>
 #include <tchar.h>
 #include <stdio.h>
 #include "Obj.h"
-#include "Screenable.h"
 #include "DynArr.h"
 #include "Field.h"
 #include "Unit.h"
-#include "MScreen.h"
 #include "AStar.h"
 #include "Queue.h"
 #include <iostream>
 #include "Command_c.h"
 #include "Console.h"
 #include "Controller.h"
-
+#include "ConsoleCommandController.h"
+#include "LiveUnit.h"
+#include "ThreadDescriptor.h"
+#include "gameMaster.h"
+#include "Building.h"
+#include "FileReader.h"
+#include "ParserOut.h"
+#include "FileParser.h"
+#include "UnitInterpretor.h"
 #endif //PCH_H

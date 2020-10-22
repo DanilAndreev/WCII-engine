@@ -1,0 +1,11 @@
+spell demonFury{
+    beautyName: "Demon Fury";
+    type: area;
+    symbol: '*';
+    damage: 70;
+    cooldown: 1000;
+    castCooldown: 100000;
+    attackRadius: 3;
+    cost: 100;
+    productionTime: 10;
+}

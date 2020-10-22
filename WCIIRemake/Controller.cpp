@@ -1,101 +1,203 @@
 #include "pch.h"
 #include "Controller.h"
 
+extern Console* defaultConsole;
+extern ThreadDescriptor* gameThreads;
+extern ConsoleCommandController* defaultConComCon;
 
-Controller::Controller(Field* ifield,/* MScreen* screen,*/ Console* ioconsole) {
-	this->console = ioconsole;
-	this->field = ifield;
+
+Controller::Controller(Field* ifield, EV_CScreen* iscreen, Console* ioconsole, GameMaster* igameMaster) {
+	this->fillEventPatterns();
+	setDescription("Controller");
 	this->members = new DynArr();
+	eventHandlerIsPaused = false;
+	this->eventHandlerDescriptor = 0;
+	setup(ioconsole, iscreen, ifield, igameMaster);
+
+	dataWriting = false;
+
+	EventHndlrTHREAD* eventHandler = new EventHndlrTHREAD(this);
+
+	if (eventHandler) {
+		this->eventHandlerDescriptor = eventHandler->getDescriptor();
+	}
+	else {
+		cout << "Error allocating memory" << endl;
+	}
+	eventHandler->startThread();
 }
 
 
 Controller::~Controller() {
+	delete members;
 }
 
-Command_c Controller::getCommand() {
-	string command;
-	command = console->getLine();
-	return parseCommand(command);
-}
-
-
-bool Controller::readCondition(char character) {
-//	if ((isalnum(character) || character == '-') && character != 0) {
-	if ((character != ' ') && character != 0) {
+bool Controller::setField(Field* field) {
+	if (field) {
+		this->field = field;
+		this->members->add(field);
 		return true;
 	}
 	return false;
 }
 
-string Controller::commandType(char character) {
-	if (character == '-') {
-		return "flag";
+bool Controller::setScreen(EV_CScreen* ascreen) {
+	if (ascreen) {
+		this->screen = ascreen;
+		this->members->add(ascreen);
+		return true;
 	}
-	if (isalpha(character)) {
-		return "command";
-	}
-	if (isdigit(character)) {
-		return "number";
-	}
-	return "unknown";
+	return false;
 }
 
-pair <string, string> Controller::nextToken(string command) {
-	bool readBegin = true;
-	pair <string, string> temp;
-	while (!readCondition(command[ParserPosition])) {
-		if (command[ParserPosition] == 0) {
-			temp.first = "\0";
-			temp.second = "end";
-			return temp;
-		}
-		ParserPosition++;
+bool Controller::setConsole(Console* ioconsole) {
+	if (ioconsole != NULL) {
+		this->console = ioconsole;
+	} 
+	else {
+		this->console = defaultConsole;
 	}
+	if (!console) throw new exception("error");
+	this->members->add(console);
+	return true;
+}
 
-	while (readCondition(command[ParserPosition])) {
-		temp.first += command[ParserPosition];
-		if (readBegin) {
-			temp.second = commandType(temp.first[0]); // add better classification for commands
-		}
-		readBegin = false;
-		ParserPosition++;
-	}
-	return temp;
+bool Controller::setup(Console* console, EV_CScreen* screen, Field* field, GameMaster* gameMaster) {
+	this->clearMembers();
+	this->setConsole(console);
+	this->setScreen(screen);
+	this->members->add(gameMaster);
+	return true;
 }
 
 
-void Controller::initParser() {
-	ParserPosition = 0;
-}
-
-Command_c Controller::parseCommand(string command)
-{
-	initParser();
-	pair <string, string> temp;
-	Command_c command_c;
-	temp = nextToken(command);
-	for (int i = 0; temp.second != "end"; i++) {
-		command_c.args.push_back(temp);
-		temp = nextToken(command);
+Command_c Controller::getEventFromQueue() {
+	while (dataWriting) {
+		Sleep(10);
 	}
-	return command_c;
+	Command_c command;
+	dataWriting = true;
+	command = eventQueue.front();
+	eventQueue.pop();
+	dataWriting = false;
+	return command;
 }
 
-void Controller::throwCommand(Command_c command) {
 
-	command.printCommand();
 
+void Controller::addEventToQueue(Command_c command) {
+	while (dataWriting) {
+		Sleep(10);
+	}
+	dataWriting = true;
+	eventQueue.push(command);
+	dataWriting = false;
+}
+
+bool Controller::EventQueueIsEmpty() {
+	if (eventQueue.empty()) {
+		return true;
+	}
+	return false;
+}
+
+void Controller::pauseEventHandler() {
+	this->eventHandlerIsPaused = true;
+}
+
+void Controller::unpauseEventHandler() {
+	this->eventHandlerIsPaused = false;
+}
+
+void Controller::clearMembers() {
+	this->members->clear();
+	field = NULL;
+	screen = NULL;
+	console = NULL;
+}
+
+DynArr * Controller::getMembers() {
+	return this->members;
+}
+
+bool Controller::addEventableMember(Obj* target, string description) {
+	return members->add(target);
+}
+
+bool Controller::addEventableMember(Obj* target) {
+	return addEventableMember(target, "no description");
+}
+
+
+
+ThreadId Controller::getEventHandlerDescriptor() {
+	return eventHandlerDescriptor;
+}
+
+
+Command_c* Controller::throwCommand(Command_c* command) {
+	if (!this) {
+		return command;
+	}
+	if (!this->eventHandlerIsPaused) {
+		this->catchEvent(command, false);
+	}
+	return command;
+}
+
+void Controller::catchEvent(Command_c* command, bool showHelp) {
+	defaultConComCon->operateEvent(command, showHelp);
 	for (int i = 0; i < members->count(); i++) {
-		members->get(i)->operateEvent(command);
+		members->get(i)->catchEvent(command, showHelp);
 	}
+	this->operateEvent(command, showHelp);
 }
 
 
+void Controller::fillEventPatterns() {
+	const EventPattern exitGamePattern(
+		"exitgame",
+		"exitGamePattern",
+		"exitgame",
+		Controller::exitGameCommand);
+	const EventPattern stopThreadsPattern(
+		"stop threads",
+		"stopThreadsPattern",
+		"stop threads {flags}",
+		Controller::stopThreadsCommand);
 
-void Controller::EventHandler() {
-	cout << "HandleEvent" << endl;
-	while (true) {
-		throwCommand(getCommand());
+	this->eventPatterns.push_back(exitGamePattern);
+	this->eventPatterns.push_back(stopThreadsPattern);
+}
+
+
+//CONTROLLER EVENTS
+
+// exitgame
+void Controller::exitGameCommand(Command_c* command, Eventable* oParent) {
+	Controller* parent = dynamic_cast<Controller*>(oParent);
+	if (!parent) {
+		return;
+	}
+	gameThreads->stopThread(parent->eventHandlerDescriptor);
+}
+
+// stop threads {flags}
+void Controller::stopThreadsCommand(Command_c* command, Eventable* oParent) {
+	Controller* parent = dynamic_cast<Controller*>(oParent);
+	if (!parent) {
+		return;
+	}
+	if (!command->checkFlag("-eh")) {
+		gameThreads->stopThread(parent->eventHandlerDescriptor);
+	}
+	if (command->checkFlag("-wait")) {
+		for (int i = 0; i < command->data.size(); i++) {
+			eventReturnDataHandle* temp = dynamic_cast<eventReturnDataHandle*>(command->data[i]);
+			if (temp) {
+				WaitForSingleObject(temp->handle, INFINITE);
+			}
+		}
 	}
 }
 

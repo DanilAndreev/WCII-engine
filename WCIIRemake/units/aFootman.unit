@@ -1,0 +1,1 @@
+unit aFootman{    beatyName: "Footman";    fraction: "Alliance";    symbol: 'f';    width: 1;    heigth: 1;    health: 80;    damage: 30;    cooldown: 650;    attackRadius: 2;    speedDelay: 900;    mana: 0;    spells: [];    cost: 100;    productionTime: 6000; type: 1;}

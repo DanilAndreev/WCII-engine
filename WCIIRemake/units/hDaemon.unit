@@ -1,0 +1,1 @@
+unit hDaemon{    beatyName: "Daemon";    fraction: "Horde";    symbol: 'd';    width: 1;    heigth: 1;    health: 400;    damage: 110;    cooldown: 1000;    attackRadius: 4;    speedDelay: 1000;    mana: 0;    spells: [];    cost: 1200;    productionTime: 22000; type: 1;}

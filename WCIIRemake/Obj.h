@@ -1,17 +1,32 @@
 #pragma once
 #include "Command_c.h"
+#include "ID.h"
+#include "Eventable.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
 
-class Obj {
-	private:
+
+class Obj : public Eventable {
+	protected:
 		const char *className;
+		static ID freeID;
+		string description;
+	protected:
+		bool selected;
+		ID id;
 	public:
 		Obj();
 		Obj(const char* className);
 		virtual ~Obj();
-		const char* getClassName(); // возвращает имя класса
-		virtual void operateEvent(Command_c command);
+		void setDescription(string description);
+		string getDescription();
+		ID getId();
+		const char* getClassName(); // return the class name
 	protected:
-		void setClassName(const char* className); // записать имя класса(для наследования)
+		void setClassName(const char* className); // write down the class name
+	private:
+		ID getFreeId();
 };
 

@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -154,37 +154,117 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
-    <ClInclude Include="backup.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="DynArr.h" />
-    <ClInclude Include="Field.h" />
+    <ClInclude Include="AttackTHREAD.h" />
+    <ClInclude Include="Buffer2D.h" />
+    <ClInclude Include="Building.h" />
+    <ClInclude Include="CommandPatterns.h" />
     <ClInclude Include="Command_c.h" />
-    <ClInclude Include="MScreen.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleCommandController.h" />
+    <ClInclude Include="ConsoleCommandControllerTHREAD.h" />
+    <ClInclude Include="ConsoleCommandHandlerTHREAD.h" />
+    <ClInclude Include="ConsoleCommandPattern.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="cordScr.h" />
+    <ClInclude Include="CScreen.h" />
+    <ClInclude Include="CScreenPixel.h" />
+    <ClInclude Include="CS_Selector.h" />
+    <ClInclude Include="DynArr.h" />
+    <ClInclude Include="Enviroment.h" />
+    <ClInclude Include="EventHndlrTHREAD.h" />
+    <ClInclude Include="EventPattern.h" />
+    <ClInclude Include="Eventable.h" />
+    <ClInclude Include="eventReturnData.h" />
+    <ClInclude Include="EV_CScreen.h" />
+    <ClInclude Include="EV_CScreen_Controlled.h" />
+    <ClInclude Include="EV_CScreen_FPS.h" />
+    <ClInclude Include="FastPath.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="FileParser.h" />
+    <ClInclude Include="FileReader.h" />
+    <ClInclude Include="FileWriter.h" />
+    <ClInclude Include="GameAlifeTHREAD.h" />
+    <ClInclude Include="gameMaster.h" />
+    <ClInclude Include="Exitcode.h" />
+    <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="ID.h" />
+    <ClInclude Include="LiveUnit.h" />
+    <ClInclude Include="MultiTeamSelector.h" />
     <ClInclude Include="Obj.h" />
+    <ClInclude Include="ParserOut.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Placable.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Queue.h" />
-    <ClInclude Include="Screenable.h" />
+    <ClInclude Include="Renderable.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ScreenDrawindTHREAD.h" />
+    <ClInclude Include="SearchTarget.h" />
+    <ClInclude Include="Spell.h" />
+    <ClInclude Include="Threadable.h" />
+    <ClInclude Include="ThreadDescriptor.h" />
+    <ClInclude Include="UnInSearchTargets.h" />
     <ClInclude Include="Unit.h" />
+    <ClInclude Include="UnitInterpretor.h" />
+    <ClInclude Include="WColors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="AttackTHREAD.cpp" />
+    <ClCompile Include="Buffer2D.cpp" />
+    <ClCompile Include="Building.cpp" />
+    <ClCompile Include="CommandPatterns.cpp" />
+    <ClCompile Include="Command_c.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="ConsoleCommandController.cpp" />
+    <ClCompile Include="ConsoleCommandControllerTHREAD.cpp" />
+    <ClCompile Include="ConsoleCommandHandlerTHREAD.cpp" />
+    <ClCompile Include="ConsoleCommandPattern.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="cordScr.cpp" />
+    <ClCompile Include="CScreen.cpp" />
+    <ClCompile Include="CScreenPixel.cpp" />
+    <ClCompile Include="CS_Selector.cpp" />
     <ClCompile Include="DynArr.cpp" />
+    <ClCompile Include="Enviroment.cpp" />
+    <ClCompile Include="EventHndlrTHREAD.cpp" />
+    <ClCompile Include="EventPattern.cpp" />
+    <ClCompile Include="Eventable.cpp" />
+    <ClCompile Include="eventReturnData.cpp" />
+    <ClCompile Include="EV_CScreen.cpp" />
+    <ClCompile Include="EV_CScreen_Controlled.cpp" />
+    <ClCompile Include="EV_CScreen_FPS.cpp" />
+    <ClCompile Include="FastPath.cpp" />
     <ClCompile Include="Field.cpp" />
-    <ClCompile Include="MScreen.cpp" />
+    <ClCompile Include="FileParser.cpp" />
+    <ClCompile Include="FileReader.cpp" />
+    <ClCompile Include="FileWriter.cpp" />
+    <ClCompile Include="GameAlifeTHREAD.cpp" />
+    <ClCompile Include="gameMaster.cpp" />
+    <ClCompile Include="LiveUnit.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MultiTeamSelector.cpp" />
     <ClCompile Include="Obj.cpp" />
+    <ClCompile Include="ParserOut.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Placable.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Queue.cpp" />
-    <ClCompile Include="Screenable.cpp" />
-    <ClCompile Include="backup.cpp" />
+    <ClCompile Include="Renderable.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ScreenDrawindTHREAD.cpp" />
+    <ClCompile Include="SearchTarget.cpp" />
+    <ClCompile Include="Spell.cpp" />
+    <ClCompile Include="Threadable.cpp" />
+    <ClCompile Include="ThreadDescriptor.cpp" />
+    <ClCompile Include="UnInSearchTargets.cpp" />
     <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="UnitInterpretor.cpp" />
     <ClCompile Include="WCIIRemake.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

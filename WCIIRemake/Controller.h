@@ -1,25 +1,52 @@
 #pragma once
 #include "pch.h"
-//#include "Command_c.h"
+#include "Obj.h"
+#include "Threadable.h"
+#include "Command_c.h"
+#include <queue>
+#include "EventHndlrTHREAD.h"
+#include "GameMaster.h"
+#include "CommandPatterns.h"
+#include "Eventable.h"
 
-
-class Controller {
+class Controller :public Obj {
 private:
-	Console *console;
+	Console* console;
 	Field* field;
+	EV_CScreen* screen;
 	DynArr* members;
-	int ParserPosition;
+	queue <Command_c> eventQueue;
+//	bool EventHandlerRunning;
+	bool dataWriting;
+	ThreadId eventHandlerDescriptor;
 public:
-	Controller(Field* ifield,/* MScreen* screen,*/ Console* ioconsole);
+	bool eventHandlerIsPaused;
+public:	
+	Controller(Field* ifield, EV_CScreen* screen, Console* ioconsole, GameMaster* gameMaster);
 	~Controller();
-public: // change to private!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	bool readCondition(char character);
-	string commandType(char character);
-	pair <string, string> nextToken(string command);
-	void initParser();
-	Command_c getCommand();
-	Command_c parseCommand(string command);
-	void throwCommand(Command_c command);
-	void EventHandler();
+	bool setField(Field* field);
+	bool setScreen(EV_CScreen* screen);
+	bool setConsole(Console* console);
+	bool setup(Console* console, EV_CScreen* screen, Field* field, GameMaster* gameMaster);
+	Command_c getEventFromQueue(); // Pop the event from processing queue
+	void addEventToQueue(Command_c command); // Add the event to processing queue
+	bool EventQueueIsEmpty();
+	void pauseEventHandler();
+	void unpauseEventHandler();
+	void clearMembers();
+	DynArr* getMembers();
+	bool addEventableMember(Obj * target, string description);
+	bool addEventableMember(Obj* target);
+	ThreadId getEventHandlerDescriptor();
+	Command_c* throwCommand(Command_c* command);
+	virtual void catchEvent(Command_c* command, bool showHelp);
+protected:
+	virtual void fillEventPatterns();
+public: //CONTROLLER EVENTS
+	static void exitGameCommand(Command_c* command, Eventable* oParent);
+	static void stopThreadsCommand(Command_c* command, Eventable* oParent);
 };
+
+// exitgame
+// stop threads {flags}
 

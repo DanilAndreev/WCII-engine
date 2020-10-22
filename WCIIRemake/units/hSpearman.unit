@@ -1,0 +1,1 @@
+unit hSpearman{    beatyName: "Spearman";    fraction: "Horde";    symbol: 's';    width: 1;    heigth: 1;    health: 90;    damage: 40;    cooldown: 1500;    attackRadius: 6;    speedDelay: 800;    mana: 0;    spells: [];    cost: 160;    productionTime: 10000; type: 1;}

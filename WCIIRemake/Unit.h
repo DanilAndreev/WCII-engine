@@ -1,30 +1,64 @@
 #pragma once
 
 #include "pch.h"
-#include "Screenable.h"
+#include "Threadable.h"
+#include "FastPath.h"
+#include "CommandPatterns.h"
+#include "MultiTeamSelector.h"
+#include <ctime>
+#include <stdlib.h>
+#include "Eventable.h"
+#include "Renderable.h"
+#include "Placable.h"
+#include "Obj.h"
 
-
-
-class Unit : public Screenable {
+class Unit : public Renderable, public Placable, public Obj, public MultiTeamSelector {
 protected:
 	Field* field;
-	char value;//for debug
+	char value; //for debug
 	int type;
-public:
+	bool threadFlag;
+	int health;
+	int attackLength;
+	int team; 
+	string typeName;
 
-//	Unit(Unit** field);
-	Unit(cordScr cords, char value,int type, Field* field);
-	Unit(cordScr cords, Field* field) : Unit(cords, 'd', 1, field) {}
-	Unit(cordScr cords, int type, Field* field) : Unit(cords, 'd', type, field) {}
-	Unit(char value, int type, Field* field) : Unit(cordScr(0, 0), value, type, field) {}
-	Unit(char value, Field* field) : Unit(cordScr(0, 0), value, 1, field) {}
-	Unit() : Unit(cordScr(0, 0), NULL) {}
+	int width;
+	int heigth;
+	//TODO: add friend teams list
+public:
+	Unit(char value, int type, Field* field, int health, int team);
+	Unit() : Unit('d', 1, NULL, 100, 0) {}
 	virtual ~Unit();
+	int getTeam();
+	int getHealth();
 	char getValue(); // возвращает символьное значение этого юнита(дл€ проверки пока нет картинок и графики) 
 	int getType(); // возвращает условный тип юнита(потом будет классификаци€ на сухопутных, воздушных и морских юнитов)
-	int move(int direction); //подвинутьс€ на поле, direction: 1-up,2-down,3-rigth,4-left (нужно дописать еще 4 движени€)
-	virtual void render(); // отрисоватьс€(просчитатьс€)
-private:
-	int findPath(cordScr destC); // запустить поиск пути(в процессе)
+	virtual void render(int layer, int team); // отрисоватьс€(просчитатьс€)
+	virtual void render(int team);
+	virtual void catchEvent(Command_c* command, bool showHelp);
+protected:
+	bool getDamage(int damage);
+	virtual void stopAllThreads();
+protected:
+	virtual void fillEventPatterns();
+public:	//UNIT EVENTS
+	static void selectIdCommand(Command_c* command, Eventable* oParent);
+	static void unselectIdCommand(Command_c* command, Eventable* oParent);
+	static void damageIdCommand(Command_c* command, Eventable* oParent);
+	static void getInfoIdCommand(Command_c* command, Eventable* oParent);
+	static void echoIdCommand(Command_c* command, Eventable* oParent);
+	static void getInfoUnitsCommand(Command_c* command, Eventable* oParent);
+	static void getInfoTeamUnitsCommand(Command_c* command, Eventable* oParent);
+	static void selectTeamCommand(Command_c* command, Eventable* oParent);
+	static void renderLayerCommand(Command_c* command, Eventable* oParent);
 };
 
+// select team [int:team] id [int:id]
+// unselect team [int:team] id [int::id]
+// damage id [int:id] power [int:power]
+// get info id [int::id]
+// echo id [int:id] [quotes string:message]
+// get info units
+// get team [int:team] info units
+// select team [int:team] {flags}
